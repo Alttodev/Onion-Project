@@ -78,7 +78,10 @@ function Sidebar({ className = "" }) {
         <Link to="/home" className="flex items-center gap-2 font-semibold">
           <ShoppingCart className="h-8 w-8 text-color" />
           <div className="text-sm text-gray-700 font-semibold  md:text-[16px] ">
-            <span className="tracking-[1px]">SMA </span> Traders
+             <span className="tracking-[1px] text-[16px] font-bold text-[#037F69]">
+                SMA <span className="text-gray-800">Traders</span>
+              </span>
+           
           </div>
         </Link>
       </div>
@@ -139,13 +142,15 @@ export function DashboardLayout() {
   }, [location]);
 
   return (
-    <div className="grid min-h-screen w-full ">
+    <div className="grid min-h-screen w-full">
+      {/* Sidebar */}
       <div className="hidden border-r bg-muted/40 md:block">
         <Sidebar />
       </div>
+
       <div className="flex flex-col">
         {/* Header */}
-        <header className="flex h-14 items-center gap-4  bg-white px-4 lg:h-[60px] lg:px-6">
+        <header className="flex h-14 items-center gap-4 bg-white px-4 lg:h-[60px] lg:px-6">
           <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
             <SheetTrigger asChild>
               <Button
@@ -165,17 +170,19 @@ export function DashboardLayout() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex items-center justify-between">
-            <h1 className="text-md text-gray-700 font-semibold  md:text-[22px]">
+            <h1 className="text-md text-gray-700 font-semibold md:text-[22px]">
               {getPageTitle()}
             </h1>
-            <div className="flex items-center gap-2 text-md text-gray-700 font-semibold  md:text-[22px]">
-              <span className="tracking-[2px]"> SMA</span> Traders
+            <div className="flex items-center gap-3 text-gray-700 font-semibold md:text-[22px]">
+              <span className="tracking-[1.5px] text-lg md:text-[22px] font-bold text-[#037F69]">
+                SMA <span className="text-gray-800">Traders</span>
+              </span>
             </div>
 
             <div className="flex items-center gap-4">
               <Badge
                 variant="secondary"
-                className=" text-black px-3 py-1 rounded-full  text-sm  tracking-wide"
+                className=" text-black px-3 py-1 rounded-full text-sm tracking-wide"
               >
                 📅 {today}
               </Badge>
@@ -219,10 +226,17 @@ export function DashboardLayout() {
           </div>
         </header>
 
+        {/* Main Content */}
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           <Outlet />
         </main>
+
+        {/* ✅ Footer Section */}
+        <footer className="bg-white text-center text-sm text-gray-600 py-4">
+          © {new Date().getFullYear()} SMA Traders. All rights reserved.
+        </footer>
       </div>
+
       <ScrollToTop />
     </div>
   );
