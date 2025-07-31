@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* .nav-background-color {
+  @apply bg-[#D7B3A1];
+} */
+
+.text-color{
+   color: #037F69!important
+}
