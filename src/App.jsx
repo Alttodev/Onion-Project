@@ -6,7 +6,6 @@ import DashboardHome from "./pages/DashboardHome";
 import Login from "./components/auth/Login";
 import Signin from "./components/auth/Signin";
 import Reset from "./components/auth/Reset";
-import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -22,12 +21,7 @@ function App() {
         </Route>
       </Routes>
       </Router>
-       <Toaster 
-        position="top"
-        richColors
-        expand={true}
-        visibleToasts={3}
-      />
+      
       </div>
   );
 }

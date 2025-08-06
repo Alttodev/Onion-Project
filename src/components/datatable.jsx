@@ -24,10 +24,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { SquarePen, Trash } from "lucide-react";
+import { useCustomerList } from "@/hooks/customerhook";
 
 const columnHelper = createColumnHelper();
 
@@ -207,6 +208,11 @@ export function DataTable({ data = defaultData }) {
     pageIndex: 0,
     pageSize: 5,
   });
+
+  const { data: userData } = useCustomerList();
+  const users = useMemo(() => userData?.data, [userData]);
+
+  console.log(users,"userData")
 
   const columns = [
     columnHelper.accessor("no", {
