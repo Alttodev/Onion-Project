@@ -10,27 +10,31 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 
-import { toastSuccess } from "@/lib/toast";
+import { toastError, toastSuccess } from "@/lib/toast";
+import { useCustomerDelete } from "@/hooks/customerhook";
 
 export function AlertDialogModal() {
-  const { closeAlert, isOpen } = useZustandAlertModal();
+  const { closeAlert, isOpen, modalData } = useZustandAlertModal();
 
-  const handleDelete = () => {
+  const id = typeof modalData === "string" ? modalData : null;
+  const { mutateAsync: deleteData } = useCustomerDelete();
+
+  const handleDelete = async () => {
     try {
-      toastSuccess("Customer Deleted Successfully!");
+      const res = await deleteData(id);
+      toastSuccess(res?.message);
     } catch (error) {
-      console.error("Error during delete action:", error);
+      toastError(error?.response?.data?.message);
     }
   };
 
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => !open && closeAlert()}>
-      <AlertDialogContent className="max-w-[425px]">
+      <AlertDialogContent className="max-w-[325px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            This will permanently delete your data.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-row justify-end">

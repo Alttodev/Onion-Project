@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:4000";
+const API_URL = "http://localhost:3000";
 
 export const createCustomer = async (formData) => {
     const { data } = await axios.post(`${API_URL}/customers/create`, formData);
@@ -13,7 +13,7 @@ export const updateCustomer = async (id, formData) => {
 };
 
 export function getCustomerList(query) {
-    return axios.get(`${API_URL}/customers/get?name=${query || ""}`).then((d) => {
+    return axios.get(`${API_URL}/customers/get?username=${query || ""}`).then((d) => {
         return d.data;
     });
 }
@@ -27,7 +27,7 @@ export function getCustomerInfo(id) {
 }
 
 export function deleteCustomer(id) {
-    return axios.delete(`${API_URL}/users/delete/${id}`).then((d) => {
+    return axios.delete(`${API_URL}/customers/delete/${id}`).then((d) => {
         return d.data;
     });
 }

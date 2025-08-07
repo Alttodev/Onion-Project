@@ -52,21 +52,20 @@ const CustomerForm = () => {
       closeModal();
       toastSuccess(res?.message);
     } catch (error) {
-      console.log(error);
       toastError(error?.response?.data?.message || "Something went wrong");
     }
   };
- 
+
 
 useEffect(() => {
   if (data) {
-    setValue("username", data.username);
-    setValue("unit", data.unit);
-    setValue("amount", data.amount);
-    setValue("received", data.received);
-    setValue("balance", data.balance);
-    setValue("status", data.status); 
-    setValue("date", data.date);
+    setValue("username", data?.username);
+    setValue("unit", data?.unit);
+    setValue("amount", data?.amount);
+    setValue("received", data?.received);
+    setValue("balance", data?.balance);
+    setValue("status", data?.status); 
+    setValue("date", data?.date);
   }
 }, [data, setValue]);
 
@@ -104,7 +103,7 @@ useEffect(() => {
           )}
         </div>
         <div className="flex flex-col gap-1 mt-2">
-          <label className="text-[15px]">Amount</label>
+          <label className="text-[15px]">Total Amount</label>
           <NumberInput
             name="amount"
             control={control}

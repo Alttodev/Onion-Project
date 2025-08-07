@@ -59,15 +59,15 @@ export function DataTable() {
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("amount", {
-      header: "Amount (₹)",
+      header: "Total Amount (₹)",
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("received", {
-      header: "Received (₹)",
+      header: "Received Amount (₹)",
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("balance", {
-      header: "Balance (₹)",
+      header: "Balance Amount (₹)",
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("status", {
@@ -90,12 +90,12 @@ export function DataTable() {
       cell: (info) => (
         <div className="flex flex-row gap-2">
           <SquarePen
-            onClick={()=>openModal(info.row.original._id)}
+            onClick={() => openModal(info.row.original._id)}
             className="text-color w-4 h-4 cursor-pointer"
           />
           <Trash
             className="text-red-400 w-4 h-4 cursor-pointer"
-            onClick={openAlert}
+            onClick={()=>openAlert(info.row.original._id)}
           />
         </div>
       ),

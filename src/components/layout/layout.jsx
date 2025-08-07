@@ -174,9 +174,9 @@ export function DashboardLayout() {
               {getPageTitle()}
             </h1>
             <div className="flex items-center gap-3 text-gray-700 font-semibold md:text-[22px]">
-              <span className="tracking-[1.5px] text-lg md:text-[22px] font-bold text-[#037F69]">
-                SMA <span className="text-gray-800">Traders</span>
-              </span>
+              <div className="tracking-[1.5px] text-lg md:text-[22px] font-bold text-[#037F69]">
+                SMA <span className="text-[#037F69]">Traders</span>
+              </div>
             </div>
 
             <div className="flex items-center gap-4">
