@@ -1,10 +1,11 @@
 import { create } from "zustand";
 
 export const useZustandPopup = create((set) => ({
-  isOpen:false,
-  openModal: () => set({ isOpen: true }),
-  closeModal: () => set({ isOpen: false }),
-}))
+  isOpen: false,
+  modalData: null, 
+  openModal: (data) => set({ isOpen: true, modalData: data }),
+  closeModal: () => set({ isOpen: false, modalData: null }),
+}));
 
 
 export const useZustandAlertModal = create((set) => ({

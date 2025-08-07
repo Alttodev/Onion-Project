@@ -90,7 +90,7 @@ export function DataTable() {
       cell: (info) => (
         <div className="flex flex-row gap-2">
           <SquarePen
-            onClick={openModal}
+            onClick={()=>openModal(info.row.original._id)}
             className="text-color w-4 h-4 cursor-pointer"
           />
           <Trash

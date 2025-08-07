@@ -8,7 +8,7 @@ export const createCustomer = async (formData) => {
 };
 
 export const updateCustomer = async (id, formData) => {
-    const { data } = await axios.put(`${API_URL}/users/update/${id}`, formData);
+    const { data } = await axios.put(`${API_URL}/customers/update/${id}`, formData);
     return data;    
 };
 
@@ -21,7 +21,7 @@ export function getCustomerList(query) {
 
 
 export function getCustomerInfo(id) {
-    return axios.get(`${API_URL}/users/info/${id}`).then((d) => {
+    return axios.get(`${API_URL}/customers/info/${id}`).then((d) => {
         return d.data;
     });
 }
