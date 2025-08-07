@@ -29,9 +29,9 @@ import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { SquarePen, Trash } from "lucide-react";
 import { useCustomerList } from "@/hooks/customerhook";
+import moment from "moment";
 
 const columnHelper = createColumnHelper();
-
 
 export function DataTable() {
   const { openModal } = useZustandPopup();
@@ -46,17 +46,13 @@ export function DataTable() {
   const users = useMemo(() => userData?.data, [userData]);
 
   const columns = [
-    columnHelper.accessor("no", {
-      header: "No",
-      cell: (info) => info.getValue(),
-    }),
     columnHelper.accessor("username", {
       header: "Name",
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("date", {
       header: "Date",
-      cell: (info) => info.getValue(),
+      cell: (info) => moment(info.getValue()).format("MMM D, YYYY"),
     }),
     columnHelper.accessor("unit", {
       header: "Kg",
@@ -92,19 +88,16 @@ export function DataTable() {
     columnHelper.accessor("actions", {
       header: "Actions",
       cell: (info) => (
-        console.log(info),
-        (
-          <div className="flex flex-row gap-2">
-            <SquarePen
-              onClick={openModal}
-              className="text-color w-4 h-4 cursor-pointer"
-            />
-            <Trash
-              className="text-red-400 w-4 h-4 cursor-pointer"
-              onClick={openAlert}
-            />
-          </div>
-        )
+        <div className="flex flex-row gap-2">
+          <SquarePen
+            onClick={openModal}
+            className="text-color w-4 h-4 cursor-pointer"
+          />
+          <Trash
+            className="text-red-400 w-4 h-4 cursor-pointer"
+            onClick={openAlert}
+          />
+        </div>
       ),
     }),
   ];
