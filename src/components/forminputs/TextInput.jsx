@@ -12,6 +12,7 @@ function TextInput({ name, control, placeholder, type, disabled }) {
           <Input
             {...field}
             placeholder={placeholder}
+            className="text-gray-700"
             type={type}
             disabled={disabled}
           />

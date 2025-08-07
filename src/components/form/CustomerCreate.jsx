@@ -10,6 +10,7 @@ import DatePicker from "../forminputs/DatePicker";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useZustandPopup } from "@/hooks/zustand";
 import { useCustomerCreate, useCustomerInfo } from "@/hooks/customerhook";
+import { FormSkeleton } from "../skeleton/Formskeleton";
 
 const options = [
   { label: "Pending", value: "pending" },
@@ -19,7 +20,7 @@ const options = [
 const CustomerForm = () => {
   const { closeModal, modalData } = useZustandPopup();
   const id = typeof modalData === "string" ? modalData : null;
-  console.log(modalData, "modalData");
+ 
   const {
     control,
     handleSubmit,
@@ -41,7 +42,8 @@ const CustomerForm = () => {
   const { mutateAsync: customerCreate, isLoading: LoadingCreate } =
     useCustomerCreate();
   const { data: customerInfo, isLoading: Loading } = useCustomerInfo(id);
-  const data = useMemo(() => customerInfo, [customerInfo]);
+  const data = useMemo(() => customerInfo?.data, [customerInfo]);
+  console.log(data, "data");
 
   const onSubmit = async (data) => {
     try {
@@ -54,24 +56,31 @@ const CustomerForm = () => {
       toastError(error?.response?.data?.message || "Something went wrong");
     }
   };
+ 
 
-  useEffect(() => {
-    if (customerInfo && data) {
-      setValue("username", data?.data?.username);
-      setValue("unit", data?.data?.unit);
-      setValue("amount", data?.data?.amount);
-      setValue("received", data?.data?.received);
-      setValue("balance", data?.data?.balance);
-      setValue("status", data?.data?.status);
-      setValue("date", data?.data?.date);
-    }
-  }, [customerInfo, data, setValue]);
+useEffect(() => {
+  if (data) {
+    setValue("username", data.username);
+    setValue("unit", data.unit);
+    setValue("amount", data.amount);
+    setValue("received", data.received);
+    setValue("balance", data.balance);
+    setValue("status", data.status); 
+    setValue("date", data.date);
+  }
+}, [data, setValue]);
+
+
+
+  if (Loading) {
+    return <FormSkeleton />;
+  }
 
   return (
     <Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-1">
-          <label>Name</label>
+          <label className="text-[15px]">Name</label>
           <TextInput
             name="username"
             control={control}
@@ -83,7 +92,7 @@ const CustomerForm = () => {
           )}
         </div>
         <div className="flex flex-col gap-1 mt-2">
-          <label>Unit (kg)</label>
+          <label className="text-[15px]">Unit (kg)</label>
           <NumberInput
             name="unit"
             control={control}
@@ -95,7 +104,7 @@ const CustomerForm = () => {
           )}
         </div>
         <div className="flex flex-col gap-1 mt-2">
-          <label>Amount</label>
+          <label className="text-[15px]">Amount</label>
           <NumberInput
             name="amount"
             control={control}
@@ -107,7 +116,7 @@ const CustomerForm = () => {
           )}
         </div>
         <div className="flex flex-col gap-1 mt-2">
-          <label>Received Amount</label>
+          <label className="text-[15px]">Received Amount</label>
           <NumberInput
             name="received"
             control={control}
@@ -116,7 +125,7 @@ const CustomerForm = () => {
           />
         </div>
         <div className="flex flex-col gap-1 mt-2">
-          <label>Balance Amount</label>
+          <label className="text-[15px]">Balance Amount</label>
           <NumberInput
             name="balance"
             control={control}
@@ -126,7 +135,7 @@ const CustomerForm = () => {
         </div>
 
         <div className="flex flex-col gap-1 mt-2">
-          <label>Date</label>
+          <label className="text-[15px]">Date</label>
           <DatePicker
             name="date"
             label="Date"
@@ -136,7 +145,7 @@ const CustomerForm = () => {
         </div>
 
         <div className="flex flex-col gap-1 mt-2">
-          <label>Status</label>
+          <label className="text-[15px]">Status</label>
           <SelectInput
             name="status"
             control={control}

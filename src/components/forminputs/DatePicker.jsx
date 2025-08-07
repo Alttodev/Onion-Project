@@ -26,7 +26,7 @@ function DatePicker({ name, control, placeholder = "Select date", disabled }) {
                   type="button"
                   variant="outline"
                   disabled={disabled}
-                  className="w-full justify-between   font-normal border border-input hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full justify-between text-gray-700  font-normal border border-input"
                 >
                   <span className={date ? "" : "text-muted-foreground"}>
                     {date ? format(new Date(date), "PPP") : placeholder}

@@ -35,7 +35,7 @@ const SigninForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-1">
-        <label>Email</label>
+        <label className="text-[15px]">Email</label>
         <TextInput
           name="email"
           control={control}
@@ -47,7 +47,7 @@ const SigninForm = () => {
         )}
       </div>
       <div className="flex flex-col gap-1 mt-4">
-        <label>Password</label>
+        <label className="text-[15px]">Password</label>
         <PasswordInput
           name="password"
           control={control}

@@ -33,7 +33,7 @@ const ResetForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-1">
-        <label>Email</label>
+        <label className="text-[15px]">Email</label>
         <TextInput
           name="email"
           control={control}

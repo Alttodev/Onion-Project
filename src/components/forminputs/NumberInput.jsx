@@ -13,6 +13,7 @@ function NumberInput({ name, control, placeholder, disabled }) {
             {...field}
             placeholder={placeholder}
             type="number"
+              className="text-gray-700"
             disabled={disabled}
           />
         )}
