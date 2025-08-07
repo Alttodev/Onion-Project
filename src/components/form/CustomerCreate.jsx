@@ -7,8 +7,9 @@ import { Button } from "../ui/button";
 import NumberInput from "../forminputs/NumberInput";
 import SelectInput from "../forminputs/SelectInput";
 import DatePicker from "../forminputs/DatePicker";
-import { toastSuccess } from "@/lib/toast";
+import { toastError, toastSuccess } from "@/lib/toast";
 import { useZustandPopup } from "@/hooks/zustand";
+import { useCustomerCreate } from "@/hooks/customerhook";
 
 const options = [
   { label: "Pending", value: "pending" },
@@ -34,13 +35,17 @@ const CustomerForm = () => {
     },
   });
 
+  const { mutateAsync:customerCreate, isLoading:LoadingCreate } =useCustomerCreate()
+  
   const onSubmit = async (data) => {
     try {
+    const res = await customerCreate(data)
       console.log(data, "data");
       closeModal();
-      toastSuccess("Customer Created Successfully!");
+      toastSuccess(res?.message);
     } catch (error) {
       console.log(error);
+       toastError(error?.response?.data?.message || "Something went wrong");
     }
   };
 

@@ -32,175 +32,8 @@ import { useCustomerList } from "@/hooks/customerhook";
 
 const columnHelper = createColumnHelper();
 
-const defaultData = [
-  {
-    id: 1,
-    no: "1",
-    name: "Alice",
-    status: "Pending",
-    kg: "1",
-    amount: "500",
-    date: "2023-10-01",
-    received: "250",
-    pending: "250",
-  },
-  {
-    id: 2,
-    no: "2",
-    name: "Bob",
-    status: "Pending",
-    kg: "5",
-    amount: "300",
-    date: "2023-07-01",
-    received: "150",
-    pending: "150",
-  },
-  {
-    id: 3,
-    no: "3",
-    name: "Charlie",
-    status: "Pending",
-    kg: "3",
-    amount: "200",
-    date: "2023-10-01",
-    received: "100",
-    pending: "100",
-  },
-  {
-    id: 4,
-    no: "4",
-    name: "David",
-    status: "Completed",
-    kg: "7",
-    amount: "100",
-    date: "2023-05-01",
-    received: "50",
-    pending: "50",
-  },
-  {
-    id: 5,
-    no: "5",
-    name: "Eve",
-    status: "Pending",
-    kg: "10",
-    amount: "500",
-    date: "2023-10-01",
-    received: "50",
-    pending: "250",
-  },
-  {
-    id: 6,
-    no: "6",
-    name: "Frank",
-    status: "Completed",
-    kg: "2",
-    amount: "700",
-    date: "2023-10-01",
-    received: "600",
-    pending: "100",
-  },
-  {
-    id: 7,
-    no: "7",
-    name: "Grace",
-    status: "Pending",
-    kg: "20",
-    amount: "800",
-    date: "2023-02-01",
-    received: "700",
-    pending: "100",
-  },
-  {
-    id: 8,
-    no: "8",
-    name: "Heidi",
-    status: "Completed",
-    kg: "30",
-    amount: "1000",
-    date: "2023-10-06",
-    received: "500",
-    pending: "500",
-  },
-  {
-    id: 9,
-    no: "9",
-    name: "Ivan",
-    status: "Completed",
-    kg: "2",
-    amount: "10000",
-    date: "2023-10-08",
-    received: "5000",
-    pending: "5000",
-  },
-  {
-    id: 10,
-    no: "10",
-    name: "Judy",
-    status: "Pending",
-    kg: "4",
-    amount: "10000",
-    date: "2023-10-01",
-    received: "5000",
-    pending: "5000",
-  },
-  {
-    id: 11,
-    no: "11",
-    name: "Kevin",
-    status: "Completed",
-    kg: "2",
-    amount: "20000",
-    date: "2023-10-01",
-    received: "10000",
-    pending: "10000",
-  },
-  {
-    id: 12,
-    no: "12",
-    name: "Liam",
-    status: "Completed",
-    kg: "3",
-    amount: "10000",
-    date: "2023-10-01",
-    received: "5000",
-    pending: "5000",
-  },
-  {
-    id: 13,
-    no: "13",
-    name: "Mia",
-    status: "Completed",
-    kg: "2",
-    amount: "10000",
-    date: "2023-10-01",
-    received: "5000",
-    pending: "5000",
-  },
-  {
-    id: 14,
-    no: "14",
-    name: "Noah",
-    status: "Completed",
-    kg: "4",
-    amount: "20000",
-    date: "2023-10-01",
-    received: "10000",
-    pending: "10000",
-  },
-  {
-    id: 15,
-    no: "15",
-    name: "Olivia",
-    status: "Completed",
-    role: "2",
-    amount: "500",
-    date: "2023-10-01",
-    received: "250",
-    pending: "250",
-  },
-];
 
-export function DataTable({ data = defaultData }) {
+export function DataTable() {
   const { openModal } = useZustandPopup();
   const { openAlert } = useZustandAlertModal();
   const [globalFilter, setGlobalFilter] = useState("");
@@ -212,14 +45,12 @@ export function DataTable({ data = defaultData }) {
   const { data: userData } = useCustomerList();
   const users = useMemo(() => userData?.data, [userData]);
 
-  console.log(users,"userData")
-
   const columns = [
     columnHelper.accessor("no", {
       header: "No",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("name", {
+    columnHelper.accessor("username", {
       header: "Name",
       cell: (info) => info.getValue(),
     }),
@@ -227,7 +58,7 @@ export function DataTable({ data = defaultData }) {
       header: "Date",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("kg", {
+    columnHelper.accessor("unit", {
       header: "Kg",
       cell: (info) => info.getValue(),
     }),
@@ -239,7 +70,7 @@ export function DataTable({ data = defaultData }) {
       header: "Received (₹)",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("pending", {
+    columnHelper.accessor("balance", {
       header: "Balance (₹)",
       cell: (info) => info.getValue(),
     }),
@@ -279,7 +110,7 @@ export function DataTable({ data = defaultData }) {
   ];
 
   const table = useReactTable({
-    data,
+    data: users || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

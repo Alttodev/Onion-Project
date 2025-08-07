@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000";
+const API_URL = "http://localhost:4000";
 
 export const createCustomer = async (formData) => {
-    const { data } = await axios.post(`${API_URL}/users/create`, formData);
+    const { data } = await axios.post(`${API_URL}/customers/create`, formData);
     return data;
 };
 
@@ -13,7 +13,7 @@ export const updateCustomer = async (id, formData) => {
 };
 
 export function getCustomerList(query) {
-    return axios.get(`${API_URL}/users/get?name=${query || ""}`).then((d) => {
+    return axios.get(`${API_URL}/customers/get?name=${query || ""}`).then((d) => {
         return d.data;
     });
 }
