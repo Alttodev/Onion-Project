@@ -20,11 +20,12 @@ const options = [
 const CustomerForm = () => {
   const { closeModal, modalData } = useZustandPopup();
   const id = typeof modalData === "string" ? modalData : null;
- 
+
   const {
     control,
     handleSubmit,
     setValue,
+    form,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
@@ -34,7 +35,6 @@ const CustomerForm = () => {
       amount: "",
       received: "",
       balance: "",
-      status: "",
       date: "",
     },
   });
@@ -43,12 +43,10 @@ const CustomerForm = () => {
     useCustomerCreate();
   const { data: customerInfo, isLoading: Loading } = useCustomerInfo(id);
   const data = useMemo(() => customerInfo?.data, [customerInfo]);
-  console.log(data, "data");
 
   const onSubmit = async (data) => {
     try {
       const res = await customerCreate(data);
-      console.log(data, "data");
       closeModal();
       toastSuccess(res?.message);
     } catch (error) {
@@ -56,20 +54,17 @@ const CustomerForm = () => {
     }
   };
 
-
-useEffect(() => {
-  if (data) {
-    setValue("username", data?.username);
-    setValue("unit", data?.unit);
-    setValue("amount", data?.amount);
-    setValue("received", data?.received);
-    setValue("balance", data?.balance);
-    setValue("status", data?.status); 
-    setValue("date", data?.date);
-  }
-}, [data, setValue]);
-
-
+  useEffect(() => {
+    if (data) {
+      setValue("username", data?.username);
+      setValue("unit", data?.unit);
+      setValue("amount", data?.amount);
+      setValue("received", data?.received);
+      setValue("balance", data?.balance);
+      setValue("status", data?.status);
+      setValue("date", data?.date);
+    }
+  }, [data, setValue]);
 
   if (Loading) {
     return <FormSkeleton />;
@@ -119,7 +114,7 @@ useEffect(() => {
           <NumberInput
             name="received"
             control={control}
-            placeholder="Received Amount"
+            placeholder="Received"
             disabled={isSubmitting}
           />
         </div>
@@ -128,7 +123,7 @@ useEffect(() => {
           <NumberInput
             name="balance"
             control={control}
-            placeholder="Balance Amount"
+            placeholder="Balance"
             disabled={isSubmitting}
           />
         </div>
@@ -159,7 +154,7 @@ useEffect(() => {
             disabled={isSubmitting}
             className="bg-[#037F69] hover:bg-[#037F69] text-white cursor-pointer"
           >
-            Create
+            {id ? "Update" : "Create"}
           </Button>
         </div>
       </form>
