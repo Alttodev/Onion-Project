@@ -4,13 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import TextInput from "../forminputs/TextInput";
 import { schema } from "@/lib/validation";
 import { Button } from "../ui/button";
-import NumberInput from "../forminputs/NumberInput";
 import SelectInput from "../forminputs/SelectInput";
 import DatePicker from "../forminputs/DatePicker";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useZustandPopup } from "@/hooks/zustand";
 import { useCustomerCreate, useCustomerInfo } from "@/hooks/customerhook";
 import { FormSkeleton } from "../skeleton/Formskeleton";
+import AmountInput from "../forminputs/AmountInput";
+import NumberInput from "../forminputs/NumberInput";
 
 const options = [
   { label: "Pending", value: "pending" },
@@ -25,7 +26,7 @@ const CustomerForm = () => {
     control,
     handleSubmit,
     setValue,
-    form,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
@@ -36,6 +37,7 @@ const CustomerForm = () => {
       received: "",
       balance: "",
       date: "",
+      status: "",
     },
   });
 
@@ -53,6 +55,8 @@ const CustomerForm = () => {
       toastError(error?.response?.data?.message || "Something went wrong");
     }
   };
+
+
 
   useEffect(() => {
     if (data) {
@@ -99,10 +103,9 @@ const CustomerForm = () => {
         </div>
         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Total Amount</label>
-          <NumberInput
+          <AmountInput
             name="amount"
             control={control}
-            placeholder="Amount"
             disabled={isSubmitting}
           />
           {errors.amount?.message && (
@@ -111,19 +114,17 @@ const CustomerForm = () => {
         </div>
         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Received Amount</label>
-          <NumberInput
+          <AmountInput
             name="received"
             control={control}
-            placeholder="Received"
             disabled={isSubmitting}
           />
         </div>
         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Balance Amount</label>
-          <NumberInput
+          <AmountInput
             name="balance"
             control={control}
-            placeholder="Balance"
             disabled={isSubmitting}
           />
         </div>

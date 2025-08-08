@@ -59,15 +59,15 @@ export function DataTable() {
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("amount", {
-      header: "Total Amount (₹)",
+      header: "Total (₹)",
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("received", {
-      header: "Received Amount (₹)",
+      header: "Received (₹)",
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("balance", {
-      header: "Balance Amount (₹)",
+      header: "Balance (₹)",
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("status", {

@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 import { Controller } from "react-hook-form";
 
-function NumberInput({ name, control, placeholder, disabled }) {
+function AmountInput({ name, control, placeholder, disabled }) {
   return (
     <div className="relative">
       <Controller
@@ -10,11 +10,14 @@ function NumberInput({ name, control, placeholder, disabled }) {
         control={control}
         render={({ field }) => (
           <>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm pointer-events-none">
+              ₹
+            </span>
             <Input
               {...field}
               placeholder={placeholder}
               type="number"
-              className=" text-gray-700" 
+              className="pl-6 text-gray-700" 
               disabled={disabled}
             />
           </>
@@ -24,4 +27,4 @@ function NumberInput({ name, control, placeholder, disabled }) {
   );
 }
 
-export default NumberInput;
+export default AmountInput;
