@@ -62,7 +62,13 @@ export function DataTable() {
     }),
     columnHelper.accessor("date", {
       header: "Date",
-      cell: (info) => moment(info.getValue()).format("MMM D, YYYY"),
+      cell: (info) => {
+        const dateValue = info.getValue();
+        if (!dateValue || !moment(dateValue).isValid()) {
+          return "-"; 
+        }
+        return moment(dateValue).format("MMM D, YYYY");
+      },
     }) || "-",
     columnHelper.accessor("unit", {
       header: "Kg",

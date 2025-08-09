@@ -13,7 +13,10 @@ export const schema = z.object({
 
   status: z.string().min(1, { message: "Status is required" }),
 
-  date: z.union([z.date(), z.string().length(0)]).optional(),
+  date: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.coerce.date({ message: "Date is required" })
+  ),
 });
 
 export const loginSchema = z.object({

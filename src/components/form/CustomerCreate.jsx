@@ -79,7 +79,7 @@ const CustomerForm = () => {
       setValue("received", data?.received != null ? String(data.received) : "");
       setValue("balance", data?.balance != null ? String(data.balance) : "");
       setValue("status", data?.status || "");
-      setValue("date", data?.date ? new Date(data.date) : undefined);
+      setValue("date", data?.date || undefined);
     }
   }, [id, data, setValue]);
 
@@ -99,7 +99,7 @@ const CustomerForm = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-1 mt-2">
+        <div className="flex flex-col gap-1 mt-1">
           <label className="text-[15px]">Unit (kg)</label>
           <NumberInput
             name="unit"
@@ -112,7 +112,7 @@ const CustomerForm = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-1 mt-2">
+        <div className="flex flex-col gap-1 mt-1">
           <label className="text-[15px]">Total Amount</label>
           <AmountInput
             name="amount"
@@ -124,7 +124,7 @@ const CustomerForm = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-1 mt-2">
+        <div className="flex flex-col gap-1 mt-1">
           <label className="text-[15px]">Received Amount</label>
           <AmountInput
             name="received"
@@ -133,7 +133,7 @@ const CustomerForm = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-1 mt-2">
+        <div className="flex flex-col gap-1 mt-1">
           <label className="text-[15px]">Balance Amount</label>
           <AmountInput
             name="balance"
@@ -142,7 +142,7 @@ const CustomerForm = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-1 mt-2">
+        <div className="flex flex-col gap-1 mt-1">
           <label className="text-[15px]">Date</label>
           <DatePicker
             name="date"
@@ -150,9 +150,12 @@ const CustomerForm = () => {
             control={control}
             disabled={isSubmitting}
           />
+          {errors.date?.message && (
+            <p className="text-red-500 text-sm">{errors.date?.message}</p>
+          )}
         </div>
 
-        <div className="flex flex-col gap-1 mt-2">
+        <div className="flex flex-col gap-1 mt-1">
           <label className="text-[15px]">Status</label>
           <SelectInput
             name="status"
@@ -162,12 +165,12 @@ const CustomerForm = () => {
             placeholder="Status"
             disabled={isSubmitting}
           />
-           {errors.status?.message && (
+          {errors.status?.message && (
             <p className="text-red-500 text-sm">{errors.status?.message}</p>
           )}
         </div>
 
-        <div className="flex justify-end mt-3">
+        <div className="flex justify-end mt-2">
           <Button
             type="submit"
             disabled={isSubmitting}
