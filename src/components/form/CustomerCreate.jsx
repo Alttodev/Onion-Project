@@ -8,10 +8,14 @@ import SelectInput from "../forminputs/SelectInput";
 import DatePicker from "../forminputs/DatePicker";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useZustandPopup } from "@/hooks/zustand";
-import { useCustomerCreate, useCustomerInfo } from "@/hooks/customerhook";
-import { FormSkeleton } from "../skeleton/Formskeleton";
+import {
+  useCustomerCreate,
+  useCustomerInfo,
+  useCustomerUpdate,
+} from "@/hooks/customerhook";
 import AmountInput from "../forminputs/AmountInput";
 import NumberInput from "../forminputs/NumberInput";
+import { Loader2Icon } from "lucide-react";
 
 const options = [
   { label: "Pending", value: "pending" },
@@ -26,7 +30,7 @@ const CustomerForm = () => {
     control,
     handleSubmit,
     setValue,
-    watch,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
@@ -43,36 +47,41 @@ const CustomerForm = () => {
 
   const { mutateAsync: customerCreate, isLoading: LoadingCreate } =
     useCustomerCreate();
-  const { data: customerInfo, isLoading: Loading } = useCustomerInfo(id);
+  const { mutateAsync: customerUpdate, isLoading: LoadingUpdate } =
+    useCustomerUpdate();
+
+  const { data: customerInfo } = useCustomerInfo(id);
   const data = useMemo(() => customerInfo?.data, [customerInfo]);
 
-  const onSubmit = async (data) => {
+  const loading = id ? LoadingUpdate : LoadingCreate;
+
+  const onSubmit = async (formData) => {
     try {
-      const res = await customerCreate(data);
-      closeModal();
+      let res;
+      if (id) {
+        res = await customerUpdate({ id, formData });
+      } else {
+        res = await customerCreate(formData);
+      }
       toastSuccess(res?.message);
+      reset();
+      closeModal();
     } catch (error) {
       toastError(error?.response?.data?.message || "Something went wrong");
     }
   };
 
-
-
   useEffect(() => {
     if (data) {
-      setValue("username", data?.username);
-      setValue("unit", data?.unit);
-      setValue("amount", data?.amount);
-      setValue("received", data?.received);
-      setValue("balance", data?.balance);
-      setValue("status", data?.status);
-      setValue("date", data?.date);
+      setValue("username", data?.username || "");
+      setValue("unit", data?.unit != null ? String(data.unit) : "");
+      setValue("amount", data?.amount != null ? String(data.amount) : "");
+      setValue("received", data?.received != null ? String(data.received) : "");
+      setValue("balance", data?.balance != null ? String(data.balance) : "");
+      setValue("status", data?.status || "");
+      setValue("date", data?.date ? new Date(data.date) : undefined);
     }
-  }, [data, setValue]);
-
-  if (Loading) {
-    return <FormSkeleton />;
-  }
+  }, [id, data, setValue]);
 
   return (
     <Fragment>
@@ -89,6 +98,7 @@ const CustomerForm = () => {
             <p className="text-red-500 text-sm">{errors.username?.message}</p>
           )}
         </div>
+
         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Unit (kg)</label>
           <NumberInput
@@ -101,6 +111,7 @@ const CustomerForm = () => {
             <p className="text-red-500 text-sm">{errors.unit?.message}</p>
           )}
         </div>
+
         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Total Amount</label>
           <AmountInput
@@ -112,6 +123,7 @@ const CustomerForm = () => {
             <p className="text-red-500 text-sm">{errors.amount?.message}</p>
           )}
         </div>
+
         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Received Amount</label>
           <AmountInput
@@ -120,6 +132,7 @@ const CustomerForm = () => {
             disabled={isSubmitting}
           />
         </div>
+
         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Balance Amount</label>
           <AmountInput
@@ -145,10 +158,12 @@ const CustomerForm = () => {
             name="status"
             control={control}
             options={options}
+            defaultValue={data?.status}
             placeholder="Status"
             disabled={isSubmitting}
           />
         </div>
+
         <div className="flex justify-end mt-3">
           <Button
             type="submit"
@@ -156,6 +171,7 @@ const CustomerForm = () => {
             className="bg-[#037F69] hover:bg-[#037F69] text-white cursor-pointer"
           >
             {id ? "Update" : "Create"}
+            {loading && <Loader2Icon className="animate-spin" />}
           </Button>
         </div>
       </form>

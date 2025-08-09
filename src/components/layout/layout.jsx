@@ -78,10 +78,9 @@ function Sidebar({ className = "" }) {
         <Link to="/home" className="flex items-center gap-2 font-semibold">
           <ShoppingCart className="h-8 w-8 text-color" />
           <div className="text-sm text-gray-700 font-semibold  md:text-[16px] ">
-             <span className="tracking-[1px] text-[16px] font-bold text-[#037F69]">
-                SMA <span className="text-gray-800">Traders</span>
-              </span>
-           
+            <span className="tracking-[1px] text-[16px] font-bold text-[#037F69]">
+              SMA <span className="text-gray-800">Traders</span>
+            </span>
           </div>
         </Link>
       </div>
@@ -174,7 +173,7 @@ export function DashboardLayout() {
               {getPageTitle()}
             </h1>
             <div className="flex items-center gap-3 text-gray-700 font-semibold md:text-[22px]">
-              <div className="tracking-[1.5px] text-lg md:text-[22px] font-bold text-[#037F69]">
+              <div className="tracking-[1.3px] text-lg md:text-[22px] font-bold text-[#037F69]">
                 SMA <span className="text-[#037F69]">Traders</span>
               </div>
             </div>
@@ -212,11 +211,11 @@ export function DashboardLayout() {
                   </DropdownMenuItem>
 
                   <DropdownMenuItem className="group hover:text-[#037F69] cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4 group-hover:text-[#037F69]" />
                     <span
-                      className="group-hover:text-[#037F69]"
+                      className="flex  group-hover:text-[#037F69]"
                       onClick={handleLogout}
                     >
+                      <LogOut className="mr-2 h-4 w-4 group-hover:text-[#037F69]" />
                       Logout
                     </span>
                   </DropdownMenuItem>
