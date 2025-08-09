@@ -31,6 +31,7 @@ const CustomerForm = () => {
     handleSubmit,
     setValue,
     reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
@@ -70,6 +71,24 @@ const CustomerForm = () => {
       toastError(error?.response?.data?.message || "Something went wrong");
     }
   };
+
+const amount = watch("amount");
+const received = watch("received");
+
+useEffect(() => {
+  if (received && received !== "0") {
+    const amt = parseFloat(amount) || 0;
+    const rec = parseFloat(received) || 0;
+    const bal = amt - rec;
+    setValue("balance", bal.toString());
+  } else {
+    setValue("balance", ""); 
+  }
+}, [amount, received, setValue]);
+
+
+
+  
 
   useEffect(() => {
     if (data) {

@@ -17,8 +17,10 @@ function AmountInput({ name, control, placeholder, disabled }) {
               {...field}
               placeholder={placeholder}
               type="number"
-              className="pl-6 text-gray-700" 
+              min={0}
+              className="pl-6 text-gray-700"
               disabled={disabled}
+              readOnly={name === "balance"}
             />
           </>
         )}

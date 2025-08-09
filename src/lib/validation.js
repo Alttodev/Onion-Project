@@ -3,13 +3,39 @@ import { z } from "zod";
 export const schema = z.object({
   username: z.string().min(1, { message: "UserName is required" }),
 
-  unit: z.string().min(1, { message: "Unit is required" }),
+unit: z
+    .string()
+    .min(1, { message: "Unit is required" })
+    .refine((val) => {
+      const num = parseFloat(val);
+      return !isNaN(num) && num >= 0;
+    }, { message: "Unit cannot be negative" }),
 
-  amount: z.string().min(1, { message: "Amount is required" }),
+  amount: z
+    .string()
+    .min(1, { message: "Amount is required" })
+    .refine((val) => {
+      const num = parseFloat(val);
+      return !isNaN(num) && num >= 0;
+    }, { message: "Amount cannot be negative" }),
 
-  received: z.string().optional(),
+  received: z
+    .string()
+    .optional()
+    .refine((val) => {
+      if (val === undefined || val === "") return true; 
+      const num = parseFloat(val);
+      return !isNaN(num) && num >= 0;
+    }, { message: "Received Amount cannot be negative" }),
 
-  balance: z.string().optional(),
+  balance: z
+    .string()
+    .optional()
+    .refine((val) => {
+      if (val === undefined || val === "") return true; 
+      const num = parseFloat(val);
+      return !isNaN(num) && num >= 0;
+    }, { message: "Balance Amount cannot be negative" }),
 
   status: z.string().min(1, { message: "Status is required" }),
 
