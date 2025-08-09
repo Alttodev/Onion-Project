@@ -72,23 +72,21 @@ const CustomerForm = () => {
     }
   };
 
-const amount = watch("amount");
-const received = watch("received");
-
-useEffect(() => {
-  if (received && received !== "0") {
-    const amt = parseFloat(amount) || 0;
-    const rec = parseFloat(received) || 0;
-    const bal = amt - rec;
-    setValue("balance", bal.toString());
-  } else {
-    setValue("balance", ""); 
-  }
-}, [amount, received, setValue]);
-
-
+  const amount = watch("amount");
+  const received = watch("received");
 
   
+
+  useEffect(() => {
+    if (received && received !== "0") {
+      const amt = parseFloat(amount) || 0;
+      const rec = parseFloat(received) || 0;
+      const bal = amt - rec;
+      setValue("balance", bal.toString());
+    } else {
+      setValue("balance", "");
+    }
+  }, [amount, received, setValue]);
 
   useEffect(() => {
     if (data) {

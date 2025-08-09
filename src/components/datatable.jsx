@@ -65,7 +65,7 @@ export function DataTable() {
       cell: (info) => {
         const dateValue = info.getValue();
         if (!dateValue || !moment(dateValue).isValid()) {
-          return "-"; 
+          return "-";
         }
         return moment(dateValue).format("MMM D, YYYY");
       },
@@ -212,7 +212,7 @@ export function DataTable() {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No results.
+                    No data found.
                   </TableCell>
                 </TableRow>
               )}
