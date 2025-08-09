@@ -5,6 +5,7 @@ import {
   getPaginationRowModel,
   useReactTable,
   createColumnHelper,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 
 import { Button } from "../components/ui/button";
@@ -30,10 +31,13 @@ import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { SquarePen, Trash } from "lucide-react";
 import { useCustomerList } from "@/hooks/customerhook";
 import moment from "moment";
+import TableDatePicker from "./forminputs/TableDatePicker";
+import LoadingSpinner from "./spinnerloading";
 
 const columnHelper = createColumnHelper();
 
 export function DataTable() {
+  const [selectedDate, setSelectedDate] = useState(null);
   const { openModal } = useZustandPopup();
   const { openAlert } = useZustandAlertModal();
   const [globalFilter, setGlobalFilter] = useState("");
@@ -42,7 +46,13 @@ export function DataTable() {
     pageSize: 5,
   });
 
-  const { data: userData } = useCustomerList();
+  const { data: userData, isLoading: Loading } = useCustomerList({
+    search: globalFilter,
+    date: selectedDate ? selectedDate.toISOString() : undefined,
+    page: pagination.pageIndex + 1,
+    limit: pagination.pageSize,
+  });
+
   const users = useMemo(() => userData?.data, [userData]);
 
   const columns = [
@@ -59,7 +69,7 @@ export function DataTable() {
       cell: (info) => info.getValue() || "-",
     }),
     columnHelper.accessor("amount", {
-      header: "Total (₹)",
+      header: "Amount (₹)",
       cell: (info) => info.getValue() || "-",
     }),
     columnHelper.accessor("received", {
@@ -112,26 +122,36 @@ export function DataTable() {
   const table = useReactTable({
     data: users || [],
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPagination,
+    manualPagination: true,
+    pageCount: userData?.totalPages ?? -1,
     state: {
       globalFilter,
       pagination,
     },
+    onPaginationChange: setPagination,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   return (
     <div className="w-full">
       <div className="flex justify-between items-center py-4">
-        <Input
-          placeholder="Search..."
-          value={globalFilter ?? ""}
-          onChange={(event) => setGlobalFilter(event.target.value)}
-          className="max-w-xs h-10 bg-white"
-        />
+        <div className="flex gap-5">
+          <Input
+            placeholder="Search..."
+            value={globalFilter ?? ""}
+            onChange={(event) => setGlobalFilter(event.target.value)}
+            className="max-w-xs h-10 bg-white"
+          />
+          <TableDatePicker
+            placeholder="Select Date"
+            value={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            className="max-w-xs h-10 bg-white"
+          />
+        </div>
         <Button
           className="cursor-pointer bg-[#037F69] hover:bg-[#037F69]"
           onClick={openModal}
@@ -140,63 +160,63 @@ export function DataTable() {
         </Button>
       </div>
       <div className="rounded-md border-2  border-solid border-gray-200 bg-white shadow-sm w-full overflow-x-auto">
-        <Table className="w-full">
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
+        {Loading ? (
+          <LoadingSpinner />
+        ) : (
+          <Table className="w-full">
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
                       className="border-b border-gray-300 font-semibold h-12"
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                      {!header.isPlaceholder &&
+                        flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className="border-b border-gray-300 h-12"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className="border-b border-gray-300 h-12"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        )}
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+          Page{pagination.pageIndex + 1} of {userData?.totalPages || 1}
         </div>
         <div className="flex items-center space-x-2">
           <Select
