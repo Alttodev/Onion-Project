@@ -162,6 +162,9 @@ const CustomerForm = () => {
             placeholder="Status"
             disabled={isSubmitting}
           />
+           {errors.status?.message && (
+            <p className="text-red-500 text-sm">{errors.status?.message}</p>
+          )}
         </div>
 
         <div className="flex justify-end mt-3">

@@ -48,43 +48,50 @@ export function DataTable() {
   const columns = [
     columnHelper.accessor("username", {
       header: "Name",
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue() || "-",
     }),
     columnHelper.accessor("date", {
       header: "Date",
       cell: (info) => moment(info.getValue()).format("MMM D, YYYY"),
-    }),
+    }) || "-",
     columnHelper.accessor("unit", {
       header: "Kg",
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue() || "-",
     }),
     columnHelper.accessor("amount", {
       header: "Total (₹)",
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue() || "-",
     }),
     columnHelper.accessor("received", {
       header: "Received (₹)",
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue() || "-",
     }),
     columnHelper.accessor("balance", {
       header: "Balance (₹)",
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue() || "-",
     }),
     columnHelper.accessor("status", {
       header: "Status",
-      cell: (info) => (
-        <Badge
-          data-slot="badge"
-          className={`rounded-full ${
-            info.getValue().toLowerCase() === "completed"
-              ? "bg-green-500 "
-              : "bg-amber-500"
-          }`}
-        >
-          {info.getValue()}
-        </Badge>
-      ),
+      cell: (info) => {
+        const value = info.getValue();
+
+        if (!value) {
+          return "-";
+        }
+
+        return (
+          <Badge
+            data-slot="badge"
+            className={`rounded-full ${
+              value === "completed" ? "bg-green-500" : "bg-amber-500"
+            }`}
+          >
+            {value}
+          </Badge>
+        );
+      },
     }),
+
     columnHelper.accessor("actions", {
       header: "Actions",
       cell: (info) => (
@@ -95,7 +102,7 @@ export function DataTable() {
           />
           <Trash
             className="text-red-400 w-4 h-4 cursor-pointer"
-            onClick={()=>openAlert(info.row.original._id)}
+            onClick={() => openAlert(info.row.original._id)}
           />
         </div>
       ),

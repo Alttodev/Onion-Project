@@ -11,9 +11,9 @@ export const schema = z.object({
 
   balance: z.string().optional(),
 
-  status: z.string().optional(),
+  status: z.string().min(1, { message: "Status is required" }),
 
-  date: z.date().optional(),
+  date: z.union([z.date(), z.string().length(0)]).optional(),
 });
 
 export const loginSchema = z.object({
