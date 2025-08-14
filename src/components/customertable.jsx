@@ -127,6 +127,7 @@ export function CustomerTable() {
 
   return (
     <div className="w-full">
+      <div className="flex justify-center text-[18px] text-[#037F69] font-bold">Customers List</div>
       <div className="flex justify-between items-center py-4">
         <div className="flex gap-5">
           <Input

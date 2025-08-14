@@ -164,6 +164,9 @@ export function DataTable() {
 
   return (
     <div className="w-full">
+      <div className="flex justify-center text-[18px] text-[#037F69] font-bold">
+        Customer Info
+      </div>
       <div className="bg-white p-6 mb-6">
         <div className="flex items-center gap-4">
           <Avatar className="h-16 w-16 border-2 border-[#037F69]">
