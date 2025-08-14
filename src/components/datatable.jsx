@@ -25,7 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { SquarePen, Trash } from "lucide-react";
@@ -53,7 +53,20 @@ export function DataTable() {
     limit: pagination.pageSize,
   });
 
-  const users = useMemo(() => userData?.data, [userData]);
+  // const users = useMemo(() => userData?.data, [userData]);
+
+  const users = [
+    {
+      createdDate: "28-05-2025",
+      updatedDate: "28-05-2025",
+      unit: "2",
+      amount: "1000",
+      received: "500",
+      balance: "500",
+      status:"pending",
+      id: "62323432",
+    },
+  ];
 
   const columns = [
     columnHelper.accessor("unit", {

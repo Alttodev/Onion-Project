@@ -9,7 +9,6 @@ function CustomerList() {
       <DataTable />
       <CustomerDialog />
       <AlertDialogModal />
-      customerList
     </div>
   );
 }

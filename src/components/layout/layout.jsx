@@ -1,21 +1,6 @@
-import { useState, useEffect } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import {
-  BarChart3,
-  Home,
-  Menu,
-  Package2,
-  Search,
-  Settings,
-  ShoppingCart,
-  Users,
-  User,
-  LogOut,
-  CreditCard,
-  Handshake,
-} from "lucide-react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { User, LogOut, ShoppingCart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Badge } from "../ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,108 +9,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { ScrollToTop } from "../ScrollTop";
-import { Button } from "../ui/button";
 import { toastSuccess } from "@/lib/toast";
-
-const navigationItems = [
-  {
-    title: "Home",
-    icon: Home,
-    href: "/home",
-    badge: 2,
-  },
-  // {
-  //   title: "Customer List",
-  //   icon: ShoppingCart,
-  //   href: "/list",
-  //   badge: null,
-  // },
-  // {
-  //   title: "Products",
-  //   icon: Package2,
-  //   href: "/products",
-  //   badge: null,
-  // },
-  // {
-  //   title: "Customers",
-  //   icon: Users,
-  //   href: "/customers",
-  //   badge: null,
-  // },
-  // {
-  //   title: "Analytics",
-  //   icon: BarChart3,
-  //   href: "/analytics",
-  //   badge: null,
-  // },
-  // {
-  //   title: "Settings",
-  //   icon: Settings,
-  //   href: "/settings",
-  //   badge: null,
-  // },
-];
-
-function Sidebar({ className = "" }) {
-  const location = useLocation();
-
-  return (
-    <div className={`flex h-full w-full flex-col bg-muted/40 ${className}`}>
-      {/* Logo Section */}
-      <div className="flex h-14 items-center px-4 lg:h-[60px] lg:px-6">
-        <Link to="/home" className="flex items-center gap-2 font-semibold">
-          <ShoppingCart className="h-8 w-8 text-color" />
-          <div className="text-sm text-gray-700 font-semibold  md:text-[16px] ">
-            <span className="tracking-[1px] text-[16px] font-bold text-[#037F69]">
-              SMA <span className="text-gray-800">Traders</span>
-            </span>
-          </div>
-        </Link>
-      </div>
-
-      {/* Navigation */}
-      <div className="flex-1">
-        <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-          {navigationItems.map((item) => {
-            const isActive = location.pathname === item.href;
-            return (
-              <Link
-                key={item.title}
-                to={item.href}
-                className={`flex items-center text-base gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-[#037F69] ${
-                  isActive ? "bg-muted text-primary" : ""
-                }`}
-              >
-                <item.icon className="h-5 w-5" />
-                {item.title}
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
-    </div>
-  );
-}
 
 export function DashboardLayout() {
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const location = useLocation();
-
-  const today = new Date().toLocaleDateString("en-US", {
-    weekday: "short",
-    day: "2-digit",
-    year: "numeric",
-  });
-
-  const getPageTitle = () => {
-    const item = navigationItems.find(
-      (item) => item.href === location.pathname
-    );
-    return item?.title || "Customer List";
-  };
 
   const handleLogout = () => {
     try {
@@ -136,103 +24,107 @@ export function DashboardLayout() {
     }
   };
 
-  useEffect(() => {
-    setSidebarOpen(false);
-  }, [location]);
-
   return (
-    <div className="grid min-h-screen w-full">
-      {/* Sidebar */}
-      <div className="hidden border-r bg-muted/40 md:block">
-        <Sidebar />
-      </div>
-
-      <div className="flex flex-col">
-        {/* Header */}
-        <header className="flex h-14 items-center gap-4 bg-white px-4 lg:h-[60px] lg:px-6">
-          <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="shrink-0 md:hidden bg-transparent cursor-pointer text-color hover:text-color "
-              >
-                <Menu className="h-3 w-3" />
-                <span className="sr-only">Toggle navigation menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent
-              side="left"
-              className="flex flex-col p-0 [&_button]:cursor-pointer"
-            >
-              <Sidebar />
-            </SheetContent>
-          </Sheet>
-          <div className="w-full flex items-center justify-between">
-            <h1 className="text-md text-gray-700 font-semibold md:text-[18px]">
-              {getPageTitle()}
-            </h1>
-            {/* <div className="flex items-center gap-3 text-gray-700 font-semibold md:text-[22px]">
-              <div className="tracking-[1.3px] text-lg md:text-[22px] font-bold text-[#037F69]">
-                SMA <span className="text-[#037F69]">Traders</span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="flex flex-col min-h-screen">
+        <header className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/80 backdrop-blur-xl">
+          <div className="container mx-auto px-4 lg:px-6">
+            <div className="flex h-16 lg:h-18 items-center justify-between">
+              <div className="w-30 h-30 ">
+                <img
+                  src="/src/assets/logo.png"
+                  className="w-full h-full object-contain"
+                />
               </div>
-            </div> */}
 
-            <div className="flex items-center gap-4">
-              <Badge
-                variant="secondary"
-                className=" text-black px-3 py-1 rounded-full text-sm tracking-wide"
-              >
-                📅 {today}
-              </Badge>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="rounded-full cursor-pointer"
+              <div className="flex items-center gap-3">
+                <div className="text-center">
+                  <div className="text-[26px] lg:text-3xl font-bold tracking-tight">
+                    <span className="text-emerald-600">SMA</span>{" "}
+                    <span className="text-slate-700">Traders</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-6">
+                <nav className="md:flex">
+                  <ul className="flex items-center gap-6">
+                    <li>
+                      <Link
+                        to="/home"
+                        className="text-emerald-600  font-medium transition-colors duration-200 relative group"
+                      >
+                        Home
+                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-600 transition-all duration-200 group-hover:w-full"></span>
+                      </Link>
+                    </li>
+                  </ul>
+                </nav>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <span className="relative cursor-pointer border-0 rounded-full p-1 hover:bg-slate-100 transition-colors duration-200">
+                      <Avatar className="h-9 w-9 ring-2 ring-emerald-100">
+                        <AvatarImage src="/" alt="User Avatar" />
+                        <AvatarFallback className="bg-emerald-100 text-emerald-700 font-semibold">
+                          A
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="sr-only">Toggle user menu</span>
+                    </span>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-45 mt-2 border-slate-200 shadow-lg"
+                    sideOffset={8}
                   >
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage
-                        src="/placeholder.svg?height=32&width=32"
-                        alt="User"
-                      />
-                      <AvatarFallback className="text-color">A</AvatarFallback>
-                    </Avatar>
-                    <span className="sr-only">Toggle user menu</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-5">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="group hover:text-[#037F69]">
-                    <User className="mr-2 h-4 w-4 group-hover:text-[#037F69]" />
-                    <span className="group-hover:text-[#037F69]">Anish</span>
-                  </DropdownMenuItem>
+                    <DropdownMenuLabel className="text-slate-700 font-semibold">
+                      My Account
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator className="bg-slate-200" />
 
-                  <DropdownMenuItem className="group hover:text-[#037F69] cursor-pointer">
-                    <span
-                      className="flex  group-hover:text-[#037F69]"
+                    <DropdownMenuItem className="group hover:bg-emerald-50 focus:bg-emerald-50 transition-colors duration-200">
+                      <User className="mr-3 h-4 w-4 text-slate-500 group-hover:text-emerald-600 transition-colors duration-200" />
+                      <span className="text-slate-700 group-hover:text-emerald-700 font-medium">
+                        Anish
+                      </span>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator className="bg-slate-200" />
+
+                    <DropdownMenuItem
+                      className="group cursor-pointer hover:bg-red-50 focus:bg-red-50 transition-colors duration-200"
                       onClick={handleLogout}
                     >
-                      <LogOut className="mr-2 h-4 w-4 group-hover:text-[#037F69]" />
-                      Logout
-                    </span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                      <LogOut className="mr-3 h-4 w-4 text-slate-500 group-hover:text-red-600 transition-colors duration-200" />
+                      <span className="text-slate-700 group-hover:text-red-700 font-medium">
+                        Logout
+                      </span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
           </div>
         </header>
 
-        {/* Main Content */}
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          <Outlet />
+        <main className="flex-1 container mx-auto px-4 lg:px-6 py-8">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200/60 min-h-[calc(100vh-12rem)]">
+            <div className="p-6 lg:p-8">
+              <Outlet />
+            </div>
+          </div>
         </main>
 
-        {/* ✅ Footer Section */}
-        <footer className="bg-white text-center text-sm text-gray-600 py-4">
-          © {new Date().getFullYear()} SMA Traders. All rights reserved.
+        {/* Footer */}
+        <footer className="border-t border-slate-200/60 bg-white/50 backdrop-blur-sm">
+          <div className="container mx-auto px-4 lg:px-6 py-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="text-sm text-slate-600">
+                © {new Date().getFullYear()} SMA Traders. All rights reserved.
+              </div>
+            </div>
+          </div>
         </footer>
       </div>
 

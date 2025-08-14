@@ -25,7 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { useMemo, useState } from "react";
+import {useState } from "react";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { Eye, SquarePen, Trash } from "lucide-react";
 import { useCustomerList } from "@/hooks/customerhook";
@@ -69,6 +69,7 @@ export function CustomerTable() {
     columnHelper.accessor("username", {
       header: "Customer Name",
       cell: (info) => info.getValue() || "-",
+      // rounded-full bg-emerald-500
     }),
     columnHelper.accessor("date", {
       header: "Date",

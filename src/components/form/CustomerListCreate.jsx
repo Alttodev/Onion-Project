@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import TextInput from "../forminputs/TextInput";
 import { schema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import SelectInput from "../forminputs/SelectInput";
@@ -24,7 +23,7 @@ const options = [
 
 const CustomerListForm = () => {
   const { closeModal, modalData } = useZustandPopup();
-  const id = typeof modalData === "string" ? modalData : null;
+  const id = typeof modalData === "string" ? modalData : "67567";
 
   const {
     control,
@@ -40,7 +39,8 @@ const CustomerListForm = () => {
       amount: "",
       received: "",
       balance: "",
-      date: "",
+      createdDate: "",
+      updatedDate: "",
       status: "",
     },
   });
@@ -144,15 +144,17 @@ const CustomerListForm = () => {
         </div>
 
         <div className="flex flex-col gap-1 mt-1">
-          <label className="text-[15px]">Date</label>
+          <label className="text-[15px]">Created Date</label>
           <DatePicker
-            name="date"
+            name={`${id}?:"updatedDate":"createdDate"`}
             label="Date"
             control={control}
             disabled={isSubmitting}
           />
-          {errors.date?.message && (
-            <p className="text-red-500 text-sm">{errors.date?.message}</p>
+          {errors[id ? "updatedDate" : "createdDate"]?.message && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors[id ? "updatedDate" : "createdDate"]?.message}
+            </p>
           )}
         </div>
 

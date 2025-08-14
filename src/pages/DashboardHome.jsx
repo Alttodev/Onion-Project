@@ -8,7 +8,8 @@ function DashboardHome() {
   return (
     <>
       <CustomerTable />
-      <CustomerCreateDialog/>
+      <CustomerCreateDialog />
+       <AlertDialogModal />
       <ScrollToTop />
     </>
   );

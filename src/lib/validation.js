@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-
-
 export const loginSchema = z.object({
   email: z
     .string()
@@ -29,7 +27,6 @@ export const resetSchema = z.object({
     .email("Please enter a valid email."),
 });
 
-
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
 );
@@ -43,7 +40,7 @@ export const customerSchema = z.object({
   address: z.string().min(1, { message: "Address is required" }),
   phone: z
     .string()
-    .min(1, { message: "Phone number is required" }) 
+    .min(1, { message: "Phone number is required" })
     .regex(phoneRegex, { message: "Invalid phone number format" }),
 });
 
@@ -96,10 +93,12 @@ export const schema = z.object({
 
   status: z.string().min(1, { message: "Status is required" }),
 
-  date: z.preprocess(
+  createdDate: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.coerce.date({ message: "Date is required" })
+  ),
+  updatedDate: z.preprocess(
     (val) => (val === "" ? undefined : val),
     z.coerce.date({ message: "Date is required" })
   ),
 });
-
-
