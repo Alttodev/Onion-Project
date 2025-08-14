@@ -167,7 +167,7 @@ export function DataTable() {
       <div className="flex justify-center text-[18px] text-[#037F69] font-bold">
         Customer Info
       </div>
-      <div className="bg-white p-6 mb-6">
+      <div className="bg-white  mb-6 mt-6">
         <div className="flex items-center gap-4">
           <Avatar className="h-16 w-16 border-2 border-[#037F69]">
             <AvatarImage src="/placeholder-user.png" alt="User Avatar" />
@@ -187,10 +187,12 @@ export function DataTable() {
                   123 Business Street, City, State 12345
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-gray-600">
-                <Phone className="h-4 w-4 text-[#037F69]" />
-                <span className="text-sm">+1 (555) 123-4567</span>
-              </div>
+              <a href="tel:+442071234567">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <Phone className="h-4 w-4 text-[#037F69]" />
+                  <span className="text-sm">+1 (555) 123-4567</span>
+                </div>
+              </a>
             </div>
           </div>
 

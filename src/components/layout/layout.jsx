@@ -42,8 +42,10 @@ export function DashboardLayout() {
               <div className="flex items-center gap-3">
                 <div className="text-center">
                   <div className="text-[26px] lg:text-3xl font-bold tracking-tight">
-                    <span className="text-emerald-600">SMA</span>{" "}
-                    <span className="text-slate-700">Traders</span>
+                    <Link to="/home">
+                      <span className="text-emerald-600">SMA</span>{" "}
+                      <span className="text-slate-700">Traders</span>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -129,7 +131,6 @@ export function DashboardLayout() {
           </div>
         </footer>
       </div>
-
       <ScrollToTop />
     </div>
   );
