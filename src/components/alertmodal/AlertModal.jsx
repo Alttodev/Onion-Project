@@ -42,7 +42,7 @@ export function AlertDialogModal() {
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className="cursor-pointer text-white bg-[#037F69] hover:bg-[#037F69]"
+            className="cursor-pointer text-white bg-emerald-600 hover:bg-emerald-600"
             onClick={handleDelete}
           >
             Delete

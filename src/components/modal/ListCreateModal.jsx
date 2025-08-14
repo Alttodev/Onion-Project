@@ -10,7 +10,7 @@ export function CustomerDialog() {
     <Dialog open={isOpen} onOpenChange={(open) => !open && closeModal()}>
       <DialogContent className="max-w-[525px] [&_button]:cursor-pointer">
         <DialogHeader>
-          <DialogTitle className="text-[#037F69]">
+          <DialogTitle className="text-emerald-600">
             {id ? "Update" : "Create"}
           </DialogTitle>
         </DialogHeader>

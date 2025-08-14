@@ -11,7 +11,7 @@ export function CustomerCreateDialog() {
     <Dialog open={isOpen} onOpenChange={(open) => !open && closeModal()}>
       <DialogContent  className="max-w-[525px] [&_button]:cursor-pointer">
         <DialogHeader>
-          <DialogTitle className="text-[#037F69]">{id?"Customer Update":"Customer Create"}</DialogTitle>
+          <DialogTitle className="text-emerald-600">{id?"Customer Update":"Customer Create"}</DialogTitle>
         </DialogHeader>
         <CustomerCreateForm />
       </DialogContent>

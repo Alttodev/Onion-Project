@@ -125,7 +125,7 @@ const CustomerCreateForm = () => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="bg-[#037F69] hover:bg-[#037F69] text-white cursor-pointer"
+            className="bg-emerald-600 hover:bg-emerald-600 text-white cursor-pointer"
           >
             {id ? "Update" : "Create"}
             {loading && <Loader2Icon className="animate-spin" />}

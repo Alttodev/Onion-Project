@@ -127,8 +127,12 @@ export function CustomerTable() {
 
   return (
     <div className="w-full">
-      <div className="flex justify-center text-[18px] text-[#037F69] font-bold">Customers List</div>
-      <div className="flex justify-between items-center py-4">
+      <div className="flex items-center gap-2 text-[20px] text-emerald-600 font-bold">
+        <span>Hi, welcome back</span>
+        <span className="animate-wave">👋</span>
+      </div>
+
+      <div className="flex justify-between items-center py-4 mt-5">
         <div className="flex gap-5">
           <Input
             placeholder="Search..."
@@ -144,7 +148,7 @@ export function CustomerTable() {
           />
         </div>
         <Button
-          className="cursor-pointer bg-[#037F69] hover:bg-[#037F69]"
+          className="cursor-pointer bg-emerald-600 hover:bg-emerald-600"
           onClick={openModal}
         >
           Create

@@ -164,14 +164,11 @@ export function DataTable() {
 
   return (
     <div className="w-full">
-      <div className="flex justify-center text-[18px] text-[#037F69] font-bold">
-        Customer Info
-      </div>
-      <div className="bg-white  mb-6 mt-6">
-        <div className="flex items-center gap-4">
+      <div className="bg-white mb-6">
+        <div className="flex flex-row  sm:flex-row items-start sm:items-center gap-4">
           <Avatar className="h-16 w-16 border-2 border-[#037F69]">
             <AvatarImage src="/placeholder-user.png" alt="User Avatar" />
-            <AvatarFallback className="bg-[#037F69] text-white text-lg font-semibold">
+            <AvatarFallback className="bg-emerald-600 text-white text-lg font-semibold">
               JD
             </AvatarFallback>
           </Avatar>
@@ -180,31 +177,37 @@ export function DataTable() {
             <h2 className="text-xl font-semibold text-gray-900 mb-1">
               John Doe
             </h2>
+
             <div className="flex flex-col gap-2">
+              {/* Address */}
               <div className="flex items-center gap-2 text-gray-600">
                 <MapPin className="h-4 w-4 text-[#037F69]" />
                 <span className="text-sm">
                   123 Business Street, City, State 12345
                 </span>
               </div>
-              <a href="tel:+442071234567">
-                <div className="flex items-center gap-2 text-gray-600">
+
+              <div className="text-gray-600">
+                <a
+                  href="tel:+442071234567"
+                  className="inline-flex items-center gap-2"
+                >
                   <Phone className="h-4 w-4 text-[#037F69]" />
                   <span className="text-sm">+1 (555) 123-4567</span>
-                </div>
-              </a>
+                </a>
+              </div>
             </div>
           </div>
 
-          <div className="text-right">
-            <Badge className="bg-[#037F69] hover:bg-[#037F69] text-white">
+          <div className="flex items-center justify-center">
+            <Badge className="bg-emerald-600  text-white">
               Active Customer
             </Badge>
           </div>
         </div>
       </div>
 
-      <div className="flex justify-between items-center py-4">
+      <div className="flex justify-between items-center mt-10 py-4">
         <div className="flex gap-5">
           <Input
             placeholder="Search..."
@@ -220,7 +223,7 @@ export function DataTable() {
           />
         </div>
         <Button
-          className="cursor-pointer bg-[#037F69] hover:bg-[#037F69]"
+          className="cursor-pointer bg-emerald-600 hover:bg-emerald-600"
           onClick={openModal}
         >
           Create
