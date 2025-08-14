@@ -28,11 +28,12 @@ import {
 import { useState } from "react";
 import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
-import { SquarePen, Trash } from "lucide-react";
+import { SquarePen, Trash, MapPin, Phone } from "lucide-react";
 import { useCustomerList } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./spinnerloading";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const columnHelper = createColumnHelper();
 
@@ -63,7 +64,7 @@ export function DataTable() {
       amount: "1000",
       received: "500",
       balance: "500",
-      status:"pending",
+      status: "pending",
       id: "62323432",
     },
   ];
@@ -163,6 +164,41 @@ export function DataTable() {
 
   return (
     <div className="w-full">
+      <div className="bg-white p-6 mb-6">
+        <div className="flex items-center gap-4">
+          <Avatar className="h-16 w-16 border-2 border-[#037F69]">
+            <AvatarImage src="/placeholder-user.png" alt="User Avatar" />
+            <AvatarFallback className="bg-[#037F69] text-white text-lg font-semibold">
+              JD
+            </AvatarFallback>
+          </Avatar>
+
+          <div className="flex-1">
+            <h2 className="text-xl font-semibold text-gray-900 mb-1">
+              John Doe
+            </h2>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2 text-gray-600">
+                <MapPin className="h-4 w-4 text-[#037F69]" />
+                <span className="text-sm">
+                  123 Business Street, City, State 12345
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-600">
+                <Phone className="h-4 w-4 text-[#037F69]" />
+                <span className="text-sm">+1 (555) 123-4567</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-right">
+            <Badge className="bg-[#037F69] hover:bg-[#037F69] text-white">
+              Active Customer
+            </Badge>
+          </div>
+        </div>
+      </div>
+
       <div className="flex justify-between items-center py-4">
         <div className="flex gap-5">
           <Input
@@ -269,7 +305,7 @@ export function DataTable() {
           <Button
             variant="outline"
             size="sm"
-            className="cursor-pointer text-color"
+            className="cursor-pointer text-color bg-transparent"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
@@ -278,7 +314,7 @@ export function DataTable() {
           <Button
             variant="outline"
             size="sm"
-            className="cursor-pointer text-color"
+            className="cursor-pointer text-color bg-transparent"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >

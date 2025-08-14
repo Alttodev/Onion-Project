@@ -11,7 +11,7 @@ export function CustomerDialog() {
       <DialogContent className="max-w-[525px] [&_button]:cursor-pointer">
         <DialogHeader>
           <DialogTitle className="text-[#037F69]">
-            {id ? "Product Update" : "Product Create"}
+            {id ? "Update" : "Create"}
           </DialogTitle>
         </DialogHeader>
         <CustomerListForm />

@@ -31,10 +31,12 @@ export function DashboardLayout() {
           <div className="container mx-auto px-4 lg:px-6">
             <div className="flex h-16 lg:h-18 items-center justify-between">
               <div className="w-30 h-30 ">
-                <img
-                  src="/src/assets/logo.png"
-                  className="w-full h-full object-contain"
-                />
+                <Link to="/home">
+                  <img
+                    src="/src/assets/logo.png"
+                    className="w-full h-full object-contain"
+                  />
+                </Link>
               </div>
 
               <div className="flex items-center gap-3">
