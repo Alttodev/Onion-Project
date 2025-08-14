@@ -2,9 +2,8 @@ import React, { Fragment, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TextInput from "../forminputs/TextInput";
-import { schema } from "@/lib/validation";
+import { customerSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
-import SelectInput from "../forminputs/SelectInput";
 import DatePicker from "../forminputs/DatePicker";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useZustandPopup } from "@/hooks/zustand";
@@ -13,16 +12,10 @@ import {
   useCustomerInfo,
   useCustomerUpdate,
 } from "@/hooks/customerhook";
-import AmountInput from "../forminputs/AmountInput";
-import NumberInput from "../forminputs/NumberInput";
 import { Loader2Icon } from "lucide-react";
+import PhoneNumberInput from "../forminputs/PhoneInput";
 
-const options = [
-  { label: "Pending", value: "pending" },
-  { label: "Completed", value: "completed" },
-];
-
-const CustomerForm = () => {
+const CustomerCreateForm = () => {
   const { closeModal, modalData } = useZustandPopup();
   const id = typeof modalData === "string" ? modalData : null;
 
@@ -31,18 +24,14 @@ const CustomerForm = () => {
     handleSubmit,
     setValue,
     reset,
-    watch,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(customerSchema),
     defaultValues: {
       username: "",
-      unit: "",
-      amount: "",
-      received: "",
-      balance: "",
       date: "",
-      status: "",
+      address: "",
+      phone: "",
     },
   });
 
@@ -57,6 +46,7 @@ const CustomerForm = () => {
   const loading = id ? LoadingUpdate : LoadingCreate;
 
   const onSubmit = async (formData) => {
+    console.log(formData, "formData");
     try {
       let res;
       if (id) {
@@ -72,30 +62,9 @@ const CustomerForm = () => {
     }
   };
 
-  const amount = watch("amount");
-  const received = watch("received");
-
-  
-
-  useEffect(() => {
-    if (received && received !== "0") {
-      const amt = parseFloat(amount) || 0;
-      const rec = parseFloat(received) || 0;
-      const bal = amt - rec;
-      setValue("balance", bal.toString());
-    } else {
-      setValue("balance", "");
-    }
-  }, [amount, received, setValue]);
-
   useEffect(() => {
     if (data) {
       setValue("username", data?.username || "");
-      setValue("unit", data?.unit != null ? String(data.unit) : "");
-      setValue("amount", data?.amount != null ? String(data.amount) : "");
-      setValue("received", data?.received != null ? String(data.received) : "");
-      setValue("balance", data?.balance != null ? String(data.balance) : "");
-      setValue("status", data?.status || "");
       setValue("date", data?.date || undefined);
     }
   }, [id, data, setValue]);
@@ -115,51 +84,7 @@ const CustomerForm = () => {
             <p className="text-red-500 text-sm">{errors.username?.message}</p>
           )}
         </div>
-
-        <div className="flex flex-col gap-1 mt-1">
-          <label className="text-[15px]">Unit (kg)</label>
-          <NumberInput
-            name="unit"
-            control={control}
-            placeholder="Unit"
-            disabled={isSubmitting}
-          />
-          {errors.unit?.message && (
-            <p className="text-red-500 text-sm">{errors.unit?.message}</p>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-1 mt-1">
-          <label className="text-[15px]">Total Amount</label>
-          <AmountInput
-            name="amount"
-            control={control}
-            disabled={isSubmitting}
-          />
-          {errors.amount?.message && (
-            <p className="text-red-500 text-sm">{errors.amount?.message}</p>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-1 mt-1">
-          <label className="text-[15px]">Received Amount</label>
-          <AmountInput
-            name="received"
-            control={control}
-            disabled={isSubmitting}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1 mt-1">
-          <label className="text-[15px]">Balance Amount</label>
-          <AmountInput
-            name="balance"
-            control={control}
-            disabled={isSubmitting}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1 mt-1">
+        <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Date</label>
           <DatePicker
             name="date"
@@ -171,19 +96,28 @@ const CustomerForm = () => {
             <p className="text-red-500 text-sm">{errors.date?.message}</p>
           )}
         </div>
-
-        <div className="flex flex-col gap-1 mt-1">
-          <label className="text-[15px]">Status</label>
-          <SelectInput
-            name="status"
+        <div className="flex flex-col gap-1 mt-2">
+          <label className="text-[15px]">Address</label>
+          <TextInput
+            name="address"
             control={control}
-            options={options}
-            defaultValue={data?.status}
-            placeholder="Status"
+            placeholder="Address"
             disabled={isSubmitting}
           />
-          {errors.status?.message && (
-            <p className="text-red-500 text-sm">{errors.status?.message}</p>
+          {errors.address?.message && (
+            <p className="text-red-500 text-sm">{errors.address?.message}</p>
+          )}
+        </div>
+        <div className="flex flex-col gap-1 mt-2">
+          <label className="text-[15px]">Phone</label>
+          <PhoneNumberInput
+            name="phone"
+            control={control}
+            placeholder="Phone"
+            disabled={isSubmitting}
+          />
+          {errors.phone?.message && (
+            <p className="text-red-500 text-sm">{errors.phone?.message}</p>
           )}
         </div>
 
@@ -202,4 +136,4 @@ const CustomerForm = () => {
   );
 };
 
-export default CustomerForm;
+export default CustomerCreateForm;

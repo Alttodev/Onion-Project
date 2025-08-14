@@ -26,17 +26,17 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import { useMemo, useState } from "react";
-import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
-import { SquarePen, Trash } from "lucide-react";
+import { Eye, SquarePen, Trash } from "lucide-react";
 import { useCustomerList } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./spinnerloading";
+import { Link } from "react-router-dom";
 
 const columnHelper = createColumnHelper();
 
-export function DataTable() {
+export function CustomerTable() {
   const [selectedDate, setSelectedDate] = useState(null);
   const { openModal } = useZustandPopup();
   const { openAlert } = useZustandAlertModal();
@@ -53,27 +53,25 @@ export function DataTable() {
     limit: pagination.pageSize,
   });
 
-  const users = useMemo(() => userData?.data, [userData]);
+  // const users = useMemo(() => userData?.data, [userData]);
+
+  const users = [
+    {
+      username: "Anish",
+      Date: "28-05-2025",
+      address: "Nagercoil",
+      phone: "912231234123",
+      id: "62323432",
+    },
+  ];
 
   const columns = [
-    columnHelper.accessor("unit", {
-      header: "Kg",
+    columnHelper.accessor("username", {
+      header: "Customer Name",
       cell: (info) => info.getValue() || "-",
     }),
-    columnHelper.accessor("amount", {
-      header: "Amount (₹)",
-      cell: (info) => info.getValue() || "-",
-    }),
-    columnHelper.accessor("received", {
-      header: "Received (₹)",
-      cell: (info) => info.getValue() || "-",
-    }),
-    columnHelper.accessor("balance", {
-      header: "Balance (₹)",
-      cell: (info) => info.getValue() || "-",
-    }),
-    columnHelper.accessor("createdDate", {
-      header: "Created Date",
+    columnHelper.accessor("date", {
+      header: "Date",
       cell: (info) => {
         const dateValue = info.getValue();
         if (!dateValue || !moment(dateValue).isValid()) {
@@ -82,43 +80,21 @@ export function DataTable() {
         return moment(dateValue).format("MMM D, YYYY");
       },
     }) || "-",
-    columnHelper.accessor("updatedDate", {
-      header: "Updated Date",
-      cell: (info) => {
-        const dateValue = info.getValue();
-        if (!dateValue || !moment(dateValue).isValid()) {
-          return "-";
-        }
-        return moment(dateValue).format("MMM D, YYYY");
-      },
-    }) || "-",
-
-    columnHelper.accessor("status", {
-      header: "Status",
-      cell: (info) => {
-        const value = info.getValue();
-
-        if (!value) {
-          return "-";
-        }
-
-        return (
-          <Badge
-            data-slot="badge"
-            className={`rounded-full ${
-              value === "completed" ? "bg-green-500" : "bg-amber-500"
-            }`}
-          >
-            {value}
-          </Badge>
-        );
-      },
+    columnHelper.accessor("address", {
+      header: "Address",
+      cell: (info) => info.getValue() || "-",
     }),
-
+    columnHelper.accessor("phone", {
+      header: "Phone",
+      cell: (info) => info.getValue() || "-",
+    }),
     columnHelper.accessor("actions", {
       header: "Actions",
       cell: (info) => (
         <div className="flex flex-row gap-2">
+          <Link to={`/list/${"23412412"}`}>
+            <Eye className="text-color w-5 h-5 cursor-pointer" />
+          </Link>
           <SquarePen
             onClick={() => openModal(info.row.original._id)}
             className="text-color w-4 h-4 cursor-pointer"

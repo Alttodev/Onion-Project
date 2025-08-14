@@ -63,7 +63,7 @@ const LoginForm = () => {
           <div className="text-sm text-gray-600">
             Don't have an account ? &nbsp;
             <Link to="/signin" className="text-blue-500">
-              Signin
+              Sign up
             </Link>
           </div>
           <div className="text-sm text-gray-600 mt-1">

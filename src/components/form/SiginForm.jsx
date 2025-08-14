@@ -26,7 +26,7 @@ const SigninForm = () => {
     try {
       console.log(data, "data");
       navigate("/");
-      toastSuccess("Signin successful!");
+      toastSuccess("Sign up successful!");
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +70,7 @@ const SigninForm = () => {
           type="submit"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Sigining in..." : "Sigin"}
+          {isSubmitting ? "Sigining up..." : "Sign up"}
         </Button>
       </div>
     </form>

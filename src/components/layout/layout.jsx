@@ -37,9 +37,9 @@ const navigationItems = [
     badge: 2,
   },
   // {
-  //   title: "Orders",
+  //   title: "Customer List",
   //   icon: ShoppingCart,
-  //   href: "/orders",
+  //   href: "/list",
   //   badge: null,
   // },
   // {
@@ -124,7 +124,7 @@ export function DashboardLayout() {
     const item = navigationItems.find(
       (item) => item.href === location.pathname
     );
-    return item?.title || "Dashboard";
+    return item?.title || "Customer List";
   };
 
   const handleLogout = () => {
@@ -169,14 +169,14 @@ export function DashboardLayout() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex items-center justify-between">
-            <h1 className="text-md text-gray-700 font-semibold md:text-[22px]">
+            <h1 className="text-md text-gray-700 font-semibold md:text-[18px]">
               {getPageTitle()}
             </h1>
-            <div className="flex items-center gap-3 text-gray-700 font-semibold md:text-[22px]">
+            {/* <div className="flex items-center gap-3 text-gray-700 font-semibold md:text-[22px]">
               <div className="tracking-[1.3px] text-lg md:text-[22px] font-bold text-[#037F69]">
                 SMA <span className="text-[#037F69]">Traders</span>
               </div>
-            </div>
+            </div> */}
 
             <div className="flex items-center gap-4">
               <Badge

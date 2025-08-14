@@ -8,3 +8,10 @@
    color: #037F69!important
 }
 
+.PhoneInput .PhoneInputInput {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 4px;
+}
+
