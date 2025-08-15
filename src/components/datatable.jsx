@@ -29,7 +29,7 @@ import { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { SquarePen, Trash, MapPin, Phone } from "lucide-react";
-import { useCustomerInfo, useCustomerList } from "@/hooks/customerhook";
+import { useCustomerInfo, useCustomerListData } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./spinnerloading";
@@ -48,33 +48,23 @@ export function DataTable() {
     pageSize: 5,
   });
 
-  const { data: userData, isLoading: Loading } = useCustomerList({
-    search: globalFilter,
-    date: selectedDate ? selectedDate.toISOString() : undefined,
-    page: pagination.pageIndex + 1,
-    limit: pagination.pageSize,
-  });
-
   const params = useParams();
   const customerId = params?.id;
+
+  const { data: userData, isLoading: Loading } = useCustomerListData(
+    {
+      search: globalFilter,
+      date: selectedDate ? selectedDate.toISOString() : undefined,
+      page: pagination.pageIndex + 1,
+      limit: pagination.pageSize,
+    },
+    customerId
+  );
 
   const { data: customerInfo } = useCustomerInfo(customerId);
   const customerInfoData = useMemo(() => customerInfo?.data, [customerInfo]);
 
-  // const users = useMemo(() => userData?.data, [userData]);
-
-  const users = [
-    {
-      createdDate: "28-05-2025",
-      updatedDate: "28-05-2025",
-      unit: "2",
-      amount: "1000",
-      received: "500",
-      balance: "500",
-      status: "pending",
-      id: "62323432",
-    },
-  ];
+  const customerListData = useMemo(() => userData?.data, [userData]);
 
   const columns = [
     columnHelper.accessor("unit", {
@@ -146,7 +136,7 @@ export function DataTable() {
           />
           <Trash
             className="text-red-400 w-4 h-4 cursor-pointer"
-            onClick={() => openAlert(info.row.original._id)}
+            onClick={() => openAlert(info.row.original._id, "list")}
           />
         </div>
       ),
@@ -154,7 +144,7 @@ export function DataTable() {
   ];
 
   const table = useReactTable({
-    data: users || [],
+    data: customerListData || [],
     columns,
     manualPagination: true,
     pageCount: userData?.totalPages ?? -1,

@@ -8,13 +8,14 @@ import DatePicker from "../forminputs/DatePicker";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useZustandPopup } from "@/hooks/zustand";
 import {
-  useCustomerCreate,
-  useCustomerInfo,
-  useCustomerUpdate,
+  useCustomerListCreate,
+  useCustomerListInfo,
+  useCustomerListUpdate,
 } from "@/hooks/customerhook";
 import AmountInput from "../forminputs/AmountInput";
 import NumberInput from "../forminputs/NumberInput";
 import { Loader2Icon } from "lucide-react";
+import { useParams } from "react-router-dom";
 
 const options = [
   { label: "Pending", value: "pending" },
@@ -23,7 +24,7 @@ const options = [
 
 const CustomerListForm = () => {
   const { closeModal, modalData } = useZustandPopup();
-  const id = typeof modalData === "string" ? modalData : "67567";
+  const id = typeof modalData === "string" ? modalData : null;
 
   const {
     control,
@@ -45,17 +46,24 @@ const CustomerListForm = () => {
     },
   });
 
-  const { mutateAsync: customerCreate, isLoading: LoadingCreate } =
-    useCustomerCreate();
-  const { mutateAsync: customerUpdate, isLoading: LoadingUpdate } =
-    useCustomerUpdate();
+  const params = useParams();
+  const customerId = params?.id;
 
-  const { data: customerInfo } = useCustomerInfo(id);
+  const { mutateAsync: customerCreate, isLoading: LoadingCreate } =
+    useCustomerListCreate();
+  const { mutateAsync: customerUpdate, isLoading: LoadingUpdate } =
+    useCustomerListUpdate();
+
+  const { data: customerInfo } = useCustomerListInfo(id);
   const data = useMemo(() => customerInfo?.data, [customerInfo]);
 
   const loading = id ? LoadingUpdate : LoadingCreate;
 
-  const onSubmit = async (formData) => {
+  const onSubmit = async (value) => {
+    const formData = {
+      ...value,
+      customerId: customerId,
+    };
     try {
       let res;
       if (id) {
@@ -87,13 +95,13 @@ const CustomerListForm = () => {
 
   useEffect(() => {
     if (data) {
-      setValue("username", data?.username || "");
       setValue("unit", data?.unit != null ? String(data.unit) : "");
       setValue("amount", data?.amount != null ? String(data.amount) : "");
       setValue("received", data?.received != null ? String(data.received) : "");
       setValue("balance", data?.balance != null ? String(data.balance) : "");
       setValue("status", data?.status || "");
-      setValue("date", data?.date || undefined);
+      setValue("createdDate", data?.createdDate || undefined);
+      setValue("updatedDate", data?.updatedDate || undefined);
     }
   }, [id, data, setValue]);
 
@@ -143,20 +151,37 @@ const CustomerListForm = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-1 mt-1">
-          <label className="text-[15px]">Created Date</label>
-          <DatePicker
-            name={`${id}?:"updatedDate":"createdDate"`}
-            label="Date"
-            control={control}
-            disabled={isSubmitting}
-          />
-          {errors[id ? "updatedDate" : "createdDate"]?.message && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors[id ? "updatedDate" : "createdDate"]?.message}
-            </p>
-          )}
-        </div>
+        {id ? (
+          <div className="flex flex-col gap-1 mt-1">
+            <label className="text-[15px]">Updated Date</label>
+            <DatePicker
+              name="updatedDate"
+              label="Date"
+              control={control}
+              disabled={isSubmitting}
+            />
+            {errors?.updatedDate?.message && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors?.updatedDate?.message}
+              </p>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col gap-1 mt-1">
+            <label className="text-[15px]">Purchased Date</label>
+            <DatePicker
+              name="createdDate"
+              label="Date"
+              control={control}
+              disabled={isSubmitting}
+            />
+            {errors?.createdDate?.message && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors?.createdDate?.message}
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="flex flex-col gap-1 mt-1">
           <label className="text-[15px]">Status</label>

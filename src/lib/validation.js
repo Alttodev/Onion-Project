@@ -92,8 +92,10 @@ export const schema = z.object({
     (val) => (val === "" ? undefined : val),
     z.coerce.date({ message: "Date is required" })
   ),
-  updatedDate: z.preprocess(
+ updatedDate: z
+  .preprocess(
     (val) => (val === "" ? undefined : val),
-    z.coerce.date({ message: "Date is required" })
-  ),
+    z.coerce.date().optional()
+  )
+
 });
