@@ -55,15 +55,6 @@ export function CustomerTable() {
 
   const users = useMemo(() => userData?.data, [userData]);
 
-  // const users = [
-  //   {
-  //     username: "Anish",
-  //     Date: "28-05-2025",
-  //     address: "Nagercoil",
-  //     phone: "912231234123",
-  //     id: "62323432",
-  //   },
-  // ];
 
   const columns = [
     columnHelper.accessor("username", {
@@ -93,7 +84,7 @@ export function CustomerTable() {
       header: "Actions",
       cell: (info) => (
         <div className="flex flex-row gap-2">
-          <Link to={`/list/${"23412412"}`}>
+          <Link to={`/list/${info.row.original._id}`}>
             <Eye className="text-color w-5 h-5 cursor-pointer" />
           </Link>
           <SquarePen

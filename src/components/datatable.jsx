@@ -25,15 +25,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { SquarePen, Trash, MapPin, Phone } from "lucide-react";
-import { useCustomerList } from "@/hooks/customerhook";
+import { useCustomerInfo, useCustomerList } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./spinnerloading";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useParams } from "react-router-dom";
 
 const columnHelper = createColumnHelper();
 
@@ -53,6 +54,12 @@ export function DataTable() {
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
   });
+
+  const params = useParams();
+  const customerId = params?.id;
+
+  const { data: customerInfo } = useCustomerInfo(customerId);
+  const customerInfoData = useMemo(() => customerInfo?.data, [customerInfo]);
 
   // const users = useMemo(() => userData?.data, [userData]);
 
@@ -87,7 +94,7 @@ export function DataTable() {
       cell: (info) => info.getValue() || "-",
     }),
     columnHelper.accessor("createdDate", {
-      header: "Created Date",
+      header: "Purchased Date",
       cell: (info) => {
         const dateValue = info.getValue();
         if (!dateValue || !moment(dateValue).isValid()) {
@@ -169,13 +176,13 @@ export function DataTable() {
           <Avatar className="h-16 w-16 border-2 border-[#037F69]">
             <AvatarImage src="/placeholder-user.png" alt="User Avatar" />
             <AvatarFallback className="bg-emerald-600 text-white text-lg font-semibold">
-              JD
+              {customerInfoData?.username?.charAt(0).toUpperCase() || "-"}
             </AvatarFallback>
           </Avatar>
 
           <div className="flex-1">
             <h2 className="text-xl font-semibold text-gray-900 mb-1">
-              John Doe
+              {customerInfoData?.username || "-"}
             </h2>
 
             <div className="flex flex-col gap-2">
@@ -183,17 +190,23 @@ export function DataTable() {
               <div className="flex items-center gap-2 text-gray-600">
                 <MapPin className="h-4 w-4 text-[#037F69]" />
                 <span className="text-sm">
-                  123 Business Street, City, State 12345
+                  {customerInfoData?.address || "-"}
                 </span>
               </div>
 
               <div className="text-gray-600">
                 <a
-                  href="tel:+442071234567"
+                  href={
+                    customerInfoData?.phone
+                      ? `tel:${customerInfoData.phone}`
+                      : "#"
+                  }
                   className="inline-flex items-center gap-2"
                 >
                   <Phone className="h-4 w-4 text-[#037F69]" />
-                  <span className="text-sm">+1 (555) 123-4567</span>
+                  <span className="text-sm">
+                    {customerInfoData?.phone || "-"}
+                  </span>
                 </a>
               </div>
             </div>
