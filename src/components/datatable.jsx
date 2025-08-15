@@ -175,7 +175,7 @@ export function DataTable() {
         <div className="flex flex-row  sm:flex-row items-start sm:items-center gap-4">
           <Avatar className="h-16 w-16 border-2 border-[#037F69]">
             <AvatarImage src="/placeholder-user.png" alt="User Avatar" />
-            <AvatarFallback className="bg-emerald-600 text-white text-lg font-semibold">
+            <AvatarFallback className="bg-emerald-600 text-white text-[28px] font-semibold">
               {customerInfoData?.username?.charAt(0).toUpperCase() || "-"}
             </AvatarFallback>
           </Avatar>
