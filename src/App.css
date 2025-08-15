@@ -1,8 +1,5 @@
 @import "tailwindcss";
 
-/* .nav-background-color {
-  @apply bg-[#D7B3A1];
-} */
 
 .text-color{
    color: #037F69!important
@@ -15,7 +12,7 @@
   padding: 4px;
 }
 
-@keyframes wave {
+/* @keyframes wave {
   0% { transform: rotate(0deg); }
   10% { transform: rotate(14deg); }
   20% { transform: rotate(-8deg); }
@@ -30,6 +27,6 @@
   display: inline-block;
   animation: wave 3s ;
   transform-origin: 70% 70%;
-}
+} */
 
 

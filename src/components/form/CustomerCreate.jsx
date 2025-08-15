@@ -22,7 +22,6 @@ const CustomerCreateForm = () => {
   const {
     control,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors, isSubmitting },
   } = useForm({
@@ -46,7 +45,6 @@ const CustomerCreateForm = () => {
   const loading = id ? LoadingUpdate : LoadingCreate;
 
   const onSubmit = async (formData) => {
-    console.log(formData, "formData");
     try {
       let res;
       if (id) {
@@ -62,12 +60,19 @@ const CustomerCreateForm = () => {
     }
   };
 
+  
+
   useEffect(() => {
-    if (data) {
-      setValue("username", data?.username || "");
-      setValue("date", data?.date || undefined);
-    }
-  }, [id, data, setValue]);
+  if (data) {
+    reset({
+      username: data.username || "",
+      address: data.address || "",
+      phone: data.phone || "",
+      date: data.date || undefined,
+    });
+  } 
+}, [data, reset]);
+
 
   return (
     <Fragment>

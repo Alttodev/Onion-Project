@@ -25,7 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { Eye, SquarePen, Trash } from "lucide-react";
 import { useCustomerList } from "@/hooks/customerhook";
@@ -53,17 +53,17 @@ export function CustomerTable() {
     limit: pagination.pageSize,
   });
 
-  // const users = useMemo(() => userData?.data, [userData]);
+  const users = useMemo(() => userData?.data, [userData]);
 
-  const users = [
-    {
-      username: "Anish",
-      Date: "28-05-2025",
-      address: "Nagercoil",
-      phone: "912231234123",
-      id: "62323432",
-    },
-  ];
+  // const users = [
+  //   {
+  //     username: "Anish",
+  //     Date: "28-05-2025",
+  //     address: "Nagercoil",
+  //     phone: "912231234123",
+  //     id: "62323432",
+  //   },
+  // ];
 
   const columns = [
     columnHelper.accessor("username", {

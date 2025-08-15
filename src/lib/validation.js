@@ -27,9 +27,6 @@ export const resetSchema = z.object({
     .email("Please enter a valid email."),
 });
 
-const phoneRegex = new RegExp(
-  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
-);
 
 export const customerSchema = z.object({
   username: z.string().min(1, { message: "UserName is required" }),
@@ -38,10 +35,8 @@ export const customerSchema = z.object({
     z.coerce.date({ message: "Date is required" })
   ),
   address: z.string().min(1, { message: "Address is required" }),
-  phone: z
-    .string()
-    .min(1, { message: "Phone number is required" })
-    .regex(phoneRegex, { message: "Invalid phone number format" }),
+  phone: z.string()
+  .optional()
 });
 
 export const schema = z.object({
