@@ -14,6 +14,7 @@ const SelectInput = ({
   placeholder,
   disabled,
   defaultValue,
+  balance, 
 }) => {
   return (
     <Controller
@@ -31,15 +32,25 @@ const SelectInput = ({
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
-            {options.map((option) => (
-              <SelectItem
-                key={option.value}
-                value={option.value}
-                className="cursor-pointer"
-              >
-                {option.label}
-              </SelectItem>
-            ))}
+            {options.map((option) => {
+              const isPending = option.value === "pending";
+              const isCompleted = option.value === "completed";
+
+              const shouldDisable =
+                (Number(balance) === 0 && isPending) || 
+                (Number(balance) > 0 && isCompleted);   
+
+              return (
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  className={`cursor-pointer ${shouldDisable ? "opacity-50 pointer-events-none" : ""}`}
+                  disabled={shouldDisable}
+                >
+                  {option.label}
+                </SelectItem>
+              );
+            })}
           </SelectContent>
         </Select>
       )}

@@ -55,7 +55,6 @@ export function CustomerTable() {
 
   const users = useMemo(() => userData?.data, [userData]);
 
-
   const columns = [
     columnHelper.accessor("username", {
       header: "Customer Name",
@@ -78,8 +77,17 @@ export function CustomerTable() {
     }),
     columnHelper.accessor("phone", {
       header: "Phone",
-      cell: (info) => info.getValue() || "-",
+      cell: (info) => {
+        const value = info.getValue();
+        if (!value) return "-";
+        let digits = value.replace(/\D/g, "");
+        if (digits.startsWith("91")) {
+          digits = digits.slice(2);
+        }
+        return digits;
+      },
     }),
+
     columnHelper.accessor("actions", {
       header: "Actions",
       cell: (info) => (

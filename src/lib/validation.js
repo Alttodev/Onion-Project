@@ -27,7 +27,6 @@ export const resetSchema = z.object({
     .email("Please enter a valid email."),
 });
 
-
 export const customerSchema = z.object({
   username: z.string().min(1, { message: "UserName is required" }),
   date: z.preprocess(
@@ -35,8 +34,22 @@ export const customerSchema = z.object({
     z.coerce.date({ message: "Date is required" })
   ),
   address: z.string().min(1, { message: "Address is required" }),
-  phone: z.string()
-  .optional()
+  phone: z
+    .string()
+    .optional()
+    .refine(
+      (val) => {
+        if (!val) return true;
+        let digits = val.replace(/\D/g, "");
+        if (digits.startsWith("91") && digits.length > 10) {
+          digits = digits.slice(2);
+        }
+        return /^\d{10}$/.test(digits);
+      },
+      {
+        message: "Phone must be exactly 10 digits",
+      }
+    ),
 });
 
 export const schema = z.object({
@@ -92,10 +105,8 @@ export const schema = z.object({
     (val) => (val === "" ? undefined : val),
     z.coerce.date({ message: "Date is required" })
   ),
- updatedDate: z
-  .preprocess(
+  updatedDate: z.preprocess(
     (val) => (val === "" ? undefined : val),
-    z.coerce.date().optional()
-  )
-
+    z.coerce.date({ message: "Date is required" })
+  ),
 });

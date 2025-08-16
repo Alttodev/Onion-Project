@@ -83,15 +83,22 @@ const CustomerListForm = () => {
   const received = watch("received");
 
   useEffect(() => {
-    if (received && received !== "0") {
-      const amt = parseFloat(amount) || 0;
-      const rec = parseFloat(received) || 0;
-      const bal = amt - rec;
-      setValue("balance", bal.toString());
-    } else {
-      setValue("balance", "");
+  if (received && received !== "0") {
+    const amt = parseFloat(amount) || 0;
+    const rec = parseFloat(received) || 0;
+    const bal = amt - rec;
+    setValue("balance", bal.toString());
+
+    if (bal === 0) {
+      setValue("status", "completed");
+    } else if (bal > 0 && watch("status") === "completed") {
+      setValue("status", "pending");
     }
-  }, [amount, received, setValue]);
+  } else {
+    setValue("balance", "");
+  }
+}, [amount, received, setValue, watch]);
+
 
   useEffect(() => {
     if (data) {
@@ -192,6 +199,7 @@ const CustomerListForm = () => {
             defaultValue={data?.status}
             placeholder="Status"
             disabled={isSubmitting}
+            balance={watch("balance")}
           />
           {errors.status?.message && (
             <p className="text-red-500 text-sm">{errors.status?.message}</p>
