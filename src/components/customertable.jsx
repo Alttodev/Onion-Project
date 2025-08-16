@@ -56,6 +56,11 @@ export function CustomerTable() {
   const users = useMemo(() => userData?.data, [userData]);
 
   const columns = [
+    {
+      id: "serial",
+      header: "Sl. No",
+      cell: (info) => info.row.index + 1,
+    },
     columnHelper.accessor("username", {
       header: "Customer Name",
       cell: (info) => info.getValue() || "-",

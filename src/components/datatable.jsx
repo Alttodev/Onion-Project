@@ -67,6 +67,11 @@ export function DataTable() {
   const customerListData = useMemo(() => userData?.data, [userData]);
 
   const columns = [
+     {
+    id: "serial",
+    header: "Sl. No",
+    cell: (info) => info.row.index + 1, 
+  },
     columnHelper.accessor("unit", {
       header: "Kg",
       cell: (info) => info.getValue() || "-",
