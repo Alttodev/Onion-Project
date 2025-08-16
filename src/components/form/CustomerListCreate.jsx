@@ -40,9 +40,9 @@ const CustomerListForm = () => {
       amount: "",
       received: "",
       balance: "",
+      status: "",
       createdDate: "",
       updatedDate: "",
-      status: "",
     },
   });
 
@@ -64,6 +64,7 @@ const CustomerListForm = () => {
       ...value,
       customerId: customerId,
     };
+    console.log(formData);
     try {
       let res;
       if (id) {
@@ -83,22 +84,21 @@ const CustomerListForm = () => {
   const received = watch("received");
 
   useEffect(() => {
-  if (received && received !== "0") {
-    const amt = parseFloat(amount) || 0;
-    const rec = parseFloat(received) || 0;
-    const bal = amt - rec;
-    setValue("balance", bal.toString());
+    if (received && received !== "0") {
+      const amt = parseFloat(amount) || 0;
+      const rec = parseFloat(received) || 0;
+      const bal = amt - rec;
+      setValue("balance", bal.toString());
 
-    if (bal === 0) {
-      setValue("status", "completed");
-    } else if (bal > 0 && watch("status") === "completed") {
-      setValue("status", "pending");
+      if (bal === 0) {
+        setValue("status", "completed");
+      } else if (bal > 0 && watch("status") === "completed") {
+        setValue("status", "pending");
+      }
+    } else {
+      setValue("balance", "");
     }
-  } else {
-    setValue("balance", "");
-  }
-}, [amount, received, setValue, watch]);
-
+  }, [amount, received, setValue, watch]);
 
   useEffect(() => {
     if (data) {
@@ -128,7 +128,7 @@ const CustomerListForm = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-1 mt-1">
+        <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Total Amount</label>
           <AmountInput
             name="amount"
@@ -140,7 +140,7 @@ const CustomerListForm = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-1 mt-1">
+        <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Received Amount</label>
           <AmountInput
             name="received"
@@ -159,8 +159,8 @@ const CustomerListForm = () => {
         </div>
 
         {id ? (
-          <div className="flex flex-col gap-1 mt-1">
-            <label className="text-[15px]">Updated Date</label>
+          <div className="flex flex-col gap-1 mt-2">
+            <label className="text-[15px]">Completed Date</label>
             <DatePicker
               name="updatedDate"
               label="Date"
@@ -174,7 +174,7 @@ const CustomerListForm = () => {
             )}
           </div>
         ) : (
-          <div className="flex flex-col gap-1 mt-1">
+          <div className="flex flex-col gap-1 mt-2">
             <label className="text-[15px]">Purchased Date</label>
             <DatePicker
               name="createdDate"
@@ -190,7 +190,7 @@ const CustomerListForm = () => {
           </div>
         )}
 
-        <div className="flex flex-col gap-1 mt-1">
+        <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Status</label>
           <SelectInput
             name="status"

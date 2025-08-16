@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { ChevronDownIcon } from "lucide-react";
 
-export default function TableDatePicker({ value, onChange, placeholder, className }) {
+export default function TableDatePicker({
+  value,
+  onChange,
+  placeholder = "Select date",
+  className,
+}) {
   const [open, setOpen] = useState(false);
 
   const handleClear = () => {
-    onChange(undefined); 
-    setOpen(false);      
+    onChange(undefined);
+    setOpen(false);
   };
 
   return (
@@ -31,11 +40,22 @@ export default function TableDatePicker({ value, onChange, placeholder, classNam
         <Calendar
           mode="single"
           selected={value}
-          onSelect={onChange}
+          className="[&_.rdp-day]:cursor-pointer"
+          onSelect={(selected) => {
+            if (selected) {
+              onChange(selected); 
+            }
+            setOpen(false); 
+          }}
           captionLayout="dropdown"
         />
         <div className="p-2 flex justify-end">
-          <Button variant="ghost" size="sm" onClick={handleClear} className="cursor-pointer">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleClear}
+            className="cursor-pointer"
+          >
             Clear
           </Button>
         </div>

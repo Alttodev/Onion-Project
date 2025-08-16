@@ -94,7 +94,7 @@ export function DataTable() {
       },
     }) || "-",
     columnHelper.accessor("updatedDate", {
-      header: "Updated Date",
+      header: "Completed Date",
       cell: (info) => {
         const dateValue = info.getValue();
         if (!dateValue || !moment(dateValue).isValid()) {

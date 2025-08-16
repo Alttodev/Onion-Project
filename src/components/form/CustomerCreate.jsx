@@ -60,19 +60,16 @@ const CustomerCreateForm = () => {
     }
   };
 
-  
-
   useEffect(() => {
-  if (data) {
-    reset({
-      username: data.username || "",
-      address: data.address || "",
-      phone: data.phone || "",
-      date: data.date || undefined,
-    });
-  } 
-}, [data, reset]);
-
+    if (data) {
+      reset({
+        username: data.username || "",
+        address: data.address || "",
+        phone: data.phone || "",
+        date: data.date || undefined,
+      });
+    }
+  }, [data, reset]);
 
   return (
     <Fragment>
