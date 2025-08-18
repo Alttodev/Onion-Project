@@ -5,10 +5,12 @@ import { resetSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import TextInput from "../forminputs/TextInput";
 import { Link, useNavigate } from "react-router-dom";
-import { toastSuccess } from "@/lib/toast";
+import { toastError, toastSuccess } from "@/lib/toast";
+import { useUserReset } from "@/hooks/customerhook";
 
 const ResetForm = () => {
   const navigate = useNavigate();
+    const { mutateAsync: userReset, isLoading: LoadingCreate } = useUserReset();
   const {
     handleSubmit,
     control,
@@ -22,11 +24,11 @@ const ResetForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data, "data");
+     const res = await userReset(data);
       navigate("/");
-      toastSuccess("Mail Sent Successfully!");
+      toastSuccess(res?.message);
     } catch (error) {
-      console.log(error);
+     toastError(error?.response?.data?.message || "Something went wrong");
     }
   };
 

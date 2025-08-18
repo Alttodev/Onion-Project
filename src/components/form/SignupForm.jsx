@@ -7,11 +7,11 @@ import TextInput from "../forminputs/TextInput";
 import { PasswordInput } from "../forminputs/PasswordInput";
 import { Link, useNavigate } from "react-router-dom";
 import { toastError, toastSuccess } from "@/lib/toast";
-import { useUserLogin } from "@/hooks/customerhook";
+import { useUserSignup } from "@/hooks/customerhook";
 
-const LoginForm = () => {
+const SigninForm = () => {
   const navigate = useNavigate();
-  const { mutateAsync: userLogin, isLoading: LoadingCreate } = useUserLogin();
+  const { mutateAsync: userCreate, isLoading: LoadingCreate } = useUserSignup();
   const {
     handleSubmit,
     control,
@@ -25,14 +25,14 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (data) => {
-      try {
-        const res = await userLogin(data);
-        toastSuccess(res?.message);
-        navigate("/");
-      } catch (error) {
-        toastError(error?.response?.data?.message || "Something went wrong");
-      }
-    };
+    try {
+      const res = await userCreate(data);
+      toastSuccess(res?.message);
+      navigate("/");
+    } catch (error) {
+      toastError(error?.response?.data?.message || "Something went wrong");
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -61,29 +61,22 @@ const LoginForm = () => {
         )}
       </div>
       <div className="flex justify-between mt-6">
-        <div className="flex flex-col">
-          <div className="text-sm text-gray-600">
-            Don't have an account ? &nbsp;
-            <Link to="/signin" className="text-blue-500">
-              Sign up
-            </Link>
-          </div>
-          <div className="text-sm text-gray-600 mt-1">
-          <Link to="/reset" className="text-blue-500">
-            Forgot Password?
-            </Link>
-            </div>
+        <div className="text-sm text-gray-600">
+          Back to &nbsp;
+          <Link to="/" className="text-blue-500">
+            Login
+          </Link>
         </div>
         <Button
           className="bg-emerald-600 hover:bg-emerald-600 text-white cursor-pointer"
           type="submit"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Logging in..." : "Login"}
+          {isSubmitting ? "Sigining up..." : "Sign up"}
         </Button>
       </div>
     </form>
   );
 };
 
-export default LoginForm;
+export default SigninForm;

@@ -6,23 +6,24 @@ import Login from "./components/auth/Login";
 import Signin from "./components/auth/Signin";
 import Reset from "./components/auth/Reset";
 import CustomerList from "./pages/CustomerList";
+import ResetPasswordForm from "./components/form/ResetPassword";
 
 function App() {
   return (
     <div>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/reset" element={<Reset />} />
-        <Route element={<DashboardLayout />}>
-          <Route path="/home" element={<DashboardHome />} />
-          <Route path="/list/:id" element={<CustomerList />} />
-        </Route>
-      </Routes>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/reset" element={<Reset />} />
+          <Route path="/reset-password" element={<ResetPasswordForm />} />
+          <Route element={<DashboardLayout />}>
+            <Route path="/home" element={<DashboardHome />} />
+            <Route path="/list/:id" element={<CustomerList />} />
+          </Route>
+        </Routes>
       </Router>
-      
-      </div>
+    </div>
   );
 }
 export default App;

@@ -2,6 +2,23 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000";
 
+export const userSignup = async (formData) => {
+  const { data } = await axios.post(`${API_URL}/user/signup`, formData);
+  return data;
+};
+
+export const userLogin = async (formData) => {
+  const { data } = await axios.post(`${API_URL}/user/login`, formData);
+  return data;
+};
+
+export const userReset = async (formData) => {
+  const { data } = await axios.post(`${API_URL}/user/requestPasswordReset`, formData);
+  return data;
+};
+
+
+
 export const createCustomer = async (formData) => {
   const { data } = await axios.post(`${API_URL}/customers/create`, formData);
   return data;

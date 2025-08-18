@@ -1,5 +1,27 @@
-import { createCustomer, customerListCreate, customerListUpdate, deleteCustomer, deleteCustomerList, getCustomerInfo, getCustomerList, getCustomerListData, getCustomerListInfo, updateCustomer } from "../api/axios";
+import { createCustomer, customerListCreate, customerListUpdate, deleteCustomer, deleteCustomerList, getCustomerInfo, getCustomerList, getCustomerListData, getCustomerListInfo, updateCustomer, userLogin, userReset, userSignup } from "../api/axios";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+
+
+//Login
+
+export const useUserSignup = () => {
+  return useMutation({
+    mutationFn: (formData) => userSignup(formData),
+  });
+};
+
+export const useUserLogin = () => {
+  return useMutation({
+    mutationFn: (formData) => userLogin(formData),
+  });
+};
+
+export const useUserReset = () => {
+  return useMutation({
+    mutationFn: (formData) => userReset(formData),
+  });
+};
+
 
 export const useCustomerCreate = () => {
   const queryClient = useQueryClient();
