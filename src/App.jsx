@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import { DashboardLayout } from "./components/layout/layout";
+import { CustomerLayout } from "./components/layout/layout";
 import DashboardHome from "./pages/DashboardHome";
 import Login from "./components/auth/Login";
 import Signin from "./components/auth/Signin";
 import Reset from "./components/auth/Reset";
 import CustomerList from "./pages/CustomerList";
-import ResetPasswordForm from "./components/form/ResetPassword";
+import ResetPassword from "./components/auth/ResetPassword";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   return (
@@ -16,8 +17,14 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/reset" element={<Reset />} />
-          <Route path="/reset-password" element={<ResetPasswordForm />} />
-          <Route element={<DashboardLayout />}>
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route
+            element={
+              <ProtectedRoute>
+                <CustomerLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route path="/home" element={<DashboardHome />} />
             <Route path="/list/:id" element={<CustomerList />} />
           </Route>
@@ -26,4 +33,5 @@ function App() {
     </div>
   );
 }
+
 export default App;

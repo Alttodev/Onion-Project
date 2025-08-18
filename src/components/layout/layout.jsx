@@ -12,11 +12,14 @@ import {
 import { ScrollToTop } from "../ScrollTop";
 import { toastSuccess } from "@/lib/toast";
 
-export function DashboardLayout() {
+export function CustomerLayout() {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
     try {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       navigate("/");
       toastSuccess("Logout successful!");
     } catch (error) {
@@ -71,7 +74,7 @@ export function DashboardLayout() {
                       <Avatar className="h-9 w-9 ring-2 ring-emerald-100">
                         <AvatarImage src="/" alt="User Avatar" />
                         <AvatarFallback className="bg-emerald-100 text-emerald-700 font-semibold">
-                          A
+                          {user?.email?.charAt(0).toUpperCase() || "-"}
                         </AvatarFallback>
                       </Avatar>
                       <span className="sr-only">Toggle user menu</span>
@@ -79,7 +82,7 @@ export function DashboardLayout() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     align="end"
-                    className="w-45 mt-2 border-slate-200 shadow-lg"
+                    className="w-full mt-2 border-slate-200 shadow-lg"
                     sideOffset={8}
                   >
                     <DropdownMenuLabel className="text-slate-700 font-semibold">
@@ -90,7 +93,7 @@ export function DashboardLayout() {
                     <DropdownMenuItem className="group hover:bg-emerald-50 focus:bg-emerald-50 transition-colors duration-200">
                       <User className="mr-3 h-4 w-4 text-slate-500 group-hover:text-emerald-600 transition-colors duration-200" />
                       <span className="text-slate-700 group-hover:text-emerald-700 font-medium">
-                        Anish
+                        {user?.email}
                       </span>
                     </DropdownMenuItem>
 

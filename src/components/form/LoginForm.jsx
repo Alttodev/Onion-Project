@@ -25,14 +25,16 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (data) => {
-      try {
-        const res = await userLogin(data);
-        toastSuccess(res?.message);
-        navigate("/");
-      } catch (error) {
-        toastError(error?.response?.data?.message || "Something went wrong");
-      }
-    };
+    try {
+      const res = await userLogin(data);
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user));
+      toastSuccess(res?.message);
+      navigate("/home");
+    } catch (error) {
+      toastError(error?.response?.data?.message || "Something went wrong");
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -69,10 +71,10 @@ const LoginForm = () => {
             </Link>
           </div>
           <div className="text-sm text-gray-600 mt-1">
-          <Link to="/reset" className="text-blue-500">
-            Forgot Password?
+            <Link to="/reset" className="text-blue-500">
+              Forgot Password?
             </Link>
-            </div>
+          </div>
         </div>
         <Button
           className="bg-emerald-600 hover:bg-emerald-600 text-white cursor-pointer"

@@ -1,32 +1,43 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { resetSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toastError, toastSuccess } from "@/lib/toast";
-import { useUserReset } from "@/hooks/customerhook";
 import { PasswordInput } from "../forminputs/PasswordInput";
+import { resetPasswordSchema } from "@/lib/validation";
+import { useUserResetPassword } from "@/hooks/customerhook";
 
 const ResetPasswordForm = () => {
   const navigate = useNavigate();
-  const { mutateAsync: userReset, isLoading: LoadingCreate } = useUserReset();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
+  const id = searchParams.get("id");
+  const token = searchParams.get("token");
+
+  const { mutateAsync: userReset } = useUserResetPassword();
+
   const {
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(resetSchema),
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      email: "",
+      password: "",
     },
   });
 
   const onSubmit = async (data) => {
     try {
-      const res = await userReset(data);
-      navigate("/");
+      const res = await userReset({
+        id,
+        token,
+        password: data.password,
+      });
       toastSuccess(res?.message);
+      navigate("/");
     } catch (error) {
       toastError(error?.response?.data?.message || "Something went wrong");
     }
@@ -46,12 +57,7 @@ const ResetPasswordForm = () => {
           <p className="text-red-500 text-sm">{errors.password?.message}</p>
         )}
       </div>
-      <div className="flex justify-between mt-6">
-        <div className="text-sm text-gray-600">
-          <Link to="/" className="text-blue-500">
-            Reset Password
-          </Link>
-        </div>
+      <div className="flex justify-end mt-6">
         <Button
           className="bg-emerald-600 hover:bg-emerald-600 text-white cursor-pointer"
           type="submit"

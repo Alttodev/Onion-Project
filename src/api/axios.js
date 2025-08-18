@@ -1,45 +1,49 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:3000";
+import axiosInstance from "./axiosInstance";
 
 export const userSignup = async (formData) => {
-  const { data } = await axios.post(`${API_URL}/user/signup`, formData);
+  const { data } = await axiosInstance.post(`/user/signup`, formData);
   return data;
 };
 
 export const userLogin = async (formData) => {
-  const { data } = await axios.post(`${API_URL}/user/login`, formData);
+  const { data } = await axiosInstance.post(`/user/login`, formData);
   return data;
 };
 
 export const userReset = async (formData) => {
-  const { data } = await axios.post(`${API_URL}/user/requestPasswordReset`, formData);
-  return data;
-};
-
-
-
-export const createCustomer = async (formData) => {
-  const { data } = await axios.post(`${API_URL}/customers/create`, formData);
-  return data;
-};
-
-export const customerListCreate = async (formData) => {
-  const { data } = await axios.post(`${API_URL}/list/create`, formData);
-  return data;
-};
-
-//update
-export const updateCustomer = async (id, formData) => {
-  const { data } = await axios.put(
-    `${API_URL}/customers/update/${id}`,
+  const { data } = await axiosInstance.post(
+    `/user/requestPasswordReset`,
     formData
   );
   return data;
 };
 
+export const userResetPassword = async ({ id, token, password }) => {
+  const { data } = await axiosInstance.post(
+    `/user/resetpassword/${id}/${token}`,
+    { password } // body
+  );
+  return data;
+};
+
+export const createCustomer = async (formData) => {
+  const { data } = await axiosInstance.post(`/customers/create`, formData);
+  return data;
+};
+
+export const customerListCreate = async (formData) => {
+  const { data } = await axiosInstance.post(`/list/create`, formData);
+  return data;
+};
+
+//update
+export const updateCustomer = async (id, formData) => {
+  const { data } = await axiosInstance.put(`/customers/update/${id}`, formData);
+  return data;
+};
+
 export const customerListUpdate = async (id, formData) => {
-  const { data } = await axios.put(`${API_URL}/list/update/${id}`, formData);
+  const { data } = await axiosInstance.put(`/list/update/${id}`, formData);
   return data;
 };
 
@@ -50,9 +54,7 @@ export function getCustomerList({ search, date, page, limit }) {
     page: page || 1,
     limit: limit || 5,
   });
-  return axios
-    .get(`${API_URL}/customers/get?${params}`)
-    .then((res) => res.data);
+  return axiosInstance.get(`/customers/get?${params}`).then((res) => res.data);
 }
 
 export function getCustomerListData({ search, date, page, limit }, id) {
@@ -62,34 +64,32 @@ export function getCustomerListData({ search, date, page, limit }, id) {
     page: page || 1,
     limit: limit || 5,
   });
-  return axios
-    .get(`${API_URL}/list/get/${id}?${params}`)
-    .then((res) => res.data);
+  return axiosInstance.get(`/list/get/${id}?${params}`).then((res) => res.data);
 }
 
 //info
 
 export function getCustomerInfo(id) {
-  return axios.get(`${API_URL}/customers/info/${id}`).then((d) => {
+  return axiosInstance.get(`/customers/info/${id}`).then((d) => {
     return d.data;
   });
 }
 
 export function getCustomerListInfo(id) {
-  return axios.get(`${API_URL}/list/info/${id}`).then((d) => {
+  return axiosInstance.get(`/list/info/${id}`).then((d) => {
     return d.data;
   });
 }
 
 //delete
 export function deleteCustomer(id) {
-  return axios.delete(`${API_URL}/customers/delete/${id}`).then((d) => {
+  return axiosInstance.delete(`/customers/delete/${id}`).then((d) => {
     return d.data;
   });
 }
 
 export function deleteCustomerList(id) {
-  return axios.delete(`${API_URL}/list/delete/${id}`).then((d) => {
+  return axiosInstance.delete(`/list/delete/${id}`).then((d) => {
     return d.data;
   });
 }
