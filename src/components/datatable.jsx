@@ -215,7 +215,7 @@ export function DataTable() {
         </div>
       </div>
 
-      <div className="flex justify-between items-center mt-10 py-4">
+      <div className="flex justify-between items-center mt-10 py-4 ">
         <div className="flex gap-5">
           <Input
             placeholder="Search..."
