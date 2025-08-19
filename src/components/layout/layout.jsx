@@ -1,5 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { User, LogOut, ShoppingCart } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -10,23 +10,20 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { ScrollToTop } from "../ScrollTop";
-import { toastSuccess } from "@/lib/toast";
+import { toastError, toastSuccess } from "@/lib/toast";
 import { useLocalStore } from "@/store/useLocalStore";
 
 export function CustomerLayout() {
   const navigate = useNavigate();
   const { setToken, user } = useLocalStore();
-  // const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
     try {
       setToken(null);
-      // localStorage.removeItem("token");
-      // localStorage.removeItem("user");
       navigate("/");
       toastSuccess("Logout successful!");
     } catch (error) {
-      console.error("Logout failed:", error);
+      toastError(error,"Failed to logout");
     }
   };
 

@@ -31,8 +31,6 @@ const LoginForm = () => {
       const res = await userLogin(data);
       setToken(res.token);
       setUser(res.user);
-      // localStorage.setItem("token", res.token);
-      // localStorage.setItem("user", JSON.stringify(res.user));
       toastSuccess(res?.message);
       navigate("/home");
     } catch (error) {
