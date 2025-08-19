@@ -67,7 +67,7 @@ export function CustomerTable() {
       // rounded-full bg-emerald-500
     }),
     columnHelper.accessor("date", {
-      header: "Date",
+      header: "Created Date",
       cell: (info) => {
         const dateValue = info.getValue();
         if (!dateValue || !moment(dateValue).isValid()) {
