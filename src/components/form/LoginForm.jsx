@@ -8,9 +8,11 @@ import { PasswordInput } from "../forminputs/PasswordInput";
 import { Link, useNavigate } from "react-router-dom";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useUserLogin } from "@/hooks/customerhook";
+import { useLocalStore } from "@/store/useLocalStore";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const { setToken, setUser } = useLocalStore();
   const { mutateAsync: userLogin, isLoading: LoadingCreate } = useUserLogin();
   const {
     handleSubmit,
@@ -27,8 +29,10 @@ const LoginForm = () => {
   const onSubmit = async (data) => {
     try {
       const res = await userLogin(data);
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("user", JSON.stringify(res.user));
+      setToken(res.token);
+      setUser(res.user);
+      // localStorage.setItem("token", res.token);
+      // localStorage.setItem("user", JSON.stringify(res.user));
       toastSuccess(res?.message);
       navigate("/home");
     } catch (error) {

@@ -11,15 +11,18 @@ import {
 } from "../ui/dropdown-menu";
 import { ScrollToTop } from "../ScrollTop";
 import { toastSuccess } from "@/lib/toast";
+import { useLocalStore } from "@/store/useLocalStore";
 
 export function CustomerLayout() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { setToken, user } = useLocalStore();
+  // const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
     try {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      setToken(null);
+      // localStorage.removeItem("token");
+      // localStorage.removeItem("user");
       navigate("/");
       toastSuccess("Logout successful!");
     } catch (error) {

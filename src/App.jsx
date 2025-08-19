@@ -8,6 +8,7 @@ import Reset from "./components/auth/Reset";
 import CustomerList from "./pages/CustomerList";
 import ResetPassword from "./components/auth/ResetPassword";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   return (
@@ -18,15 +19,12 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/reset" element={<Reset />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route
-            element={
-              <ProtectedRoute>
-                <CustomerLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="/home" element={<DashboardHome />} />
-            <Route path="/list/:id" element={<CustomerList />} />
+          <Route path="/error" element={<ErrorPage />}/>
+          <Route element={<ProtectedRoute />}>
+            <Route element={<CustomerLayout />}>
+              <Route path="/home" element={<DashboardHome />} />
+              <Route path="/list/:id" element={<CustomerList />} />
+            </Route>
           </Route>
         </Routes>
       </Router>
