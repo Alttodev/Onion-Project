@@ -19,13 +19,14 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/reset" element={<Reset />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/error" element={<ErrorPage />}/>
+
           <Route element={<ProtectedRoute />}>
             <Route element={<CustomerLayout />}>
               <Route path="/home" element={<DashboardHome />} />
               <Route path="/list/:id" element={<CustomerList />} />
             </Route>
           </Route>
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Router>
     </div>
