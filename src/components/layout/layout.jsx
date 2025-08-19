@@ -91,7 +91,7 @@ export function CustomerLayout() {
                     <DropdownMenuSeparator className="bg-slate-200" />
 
                     <DropdownMenuItem className="group hover:bg-emerald-50 focus:bg-emerald-50 transition-colors duration-200">
-                      <User className="mr-3 h-4 w-4 text-slate-500 group-hover:text-emerald-600 transition-colors duration-200" />
+                      <User className="mr-1 h-4 w-4 text-slate-500 group-hover:text-emerald-600 transition-colors duration-200" />
                       <span className="text-slate-700 group-hover:text-emerald-700 font-medium">
                         {user?.email}
                       </span>
@@ -103,7 +103,7 @@ export function CustomerLayout() {
                       className="group cursor-pointer hover:bg-red-50 focus:bg-red-50 transition-colors duration-200"
                       onClick={handleLogout}
                     >
-                      <LogOut className="mr-3 h-4 w-4 text-slate-500 group-hover:text-red-600 transition-colors duration-200" />
+                      <LogOut className="mr-1 h-4 w-4 text-slate-500 group-hover:text-red-600 transition-colors duration-200" />
                       <span className="text-slate-700 group-hover:text-red-700 font-medium">
                         Logout
                       </span>
