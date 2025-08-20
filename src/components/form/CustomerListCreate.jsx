@@ -16,6 +16,7 @@ import AmountInput from "../forminputs/AmountInput";
 import NumberInput from "../forminputs/NumberInput";
 import { Loader2Icon } from "lucide-react";
 import { useParams } from "react-router-dom";
+import FormSkeleton from "../skeleton/FormSkeleton";
 
 const options = [
   { label: "Pending", value: "pending" },
@@ -54,7 +55,7 @@ const CustomerListForm = () => {
   const { mutateAsync: customerUpdate, isLoading: LoadingUpdate } =
     useCustomerListUpdate();
 
-  const { data: customerInfo } = useCustomerListInfo(id);
+  const { data: customerInfo, isFetching } = useCustomerListInfo(id);
   const data = useMemo(() => customerInfo?.data, [customerInfo]);
 
   const loading = id ? LoadingUpdate : LoadingCreate;
@@ -111,6 +112,10 @@ const CustomerListForm = () => {
       setValue("updatedDate", data?.updatedDate || undefined);
     }
   }, [id, data, setValue]);
+
+  if (isFetching) {
+    return <FormSkeleton />;
+  }
 
   return (
     <Fragment>
@@ -209,11 +214,10 @@ const CustomerListForm = () => {
         <div className="flex justify-end mt-2">
           <Button
             type="submit"
-            disabled={isSubmitting}
             className="bg-emerald-600 hover:bg-emerald-600 text-white cursor-pointer"
           >
             {id ? "Update" : "Create"}
-            {loading && <Loader2Icon className="animate-spin" />}
+            {loading && <Loader2Icon className="ml-2 animate-spin" />}
           </Button>
         </div>
       </form>

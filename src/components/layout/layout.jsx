@@ -126,7 +126,7 @@ export function CustomerLayout() {
         {/* Footer */}
         <footer className="border-t border-slate-200/60 bg-white/50 backdrop-blur-sm">
           <div className="container mx-auto px-4 lg:px-6 py-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
               <div className="text-sm text-slate-600">
                 © {new Date().getFullYear()} SMA Traders. All rights reserved.
               </div>

@@ -35,7 +35,7 @@ import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./spinnerloading";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useParams } from "react-router-dom";
-import { TableSkeleton } from "./skeleton/Tableskeleton";
+import { TableSkeleton } from "./skeleton/TableSkeleton";
 
 const columnHelper = createColumnHelper();
 

@@ -14,6 +14,7 @@ import {
 } from "@/hooks/customerhook";
 import { Loader2Icon } from "lucide-react";
 import PhoneNumberInput from "../forminputs/PhoneInput";
+import FormSkeleton from "../skeleton/FormSkeleton";
 
 const CustomerCreateForm = () => {
   const { closeModal, modalData } = useZustandPopup();
@@ -39,7 +40,7 @@ const CustomerCreateForm = () => {
   const { mutateAsync: customerUpdate, isLoading: LoadingUpdate } =
     useCustomerUpdate();
 
-  const { data: customerInfo } = useCustomerInfo(id);
+  const { data: customerInfo,isFetching } = useCustomerInfo(id);
   const data = useMemo(() => customerInfo?.data, [customerInfo]);
 
   const loading = id ? LoadingUpdate : LoadingCreate;
@@ -70,6 +71,10 @@ const CustomerCreateForm = () => {
       });
     }
   }, [data, reset]);
+
+  if (isFetching) {
+    return <FormSkeleton/>
+  }
 
   return (
     <Fragment>
@@ -126,11 +131,10 @@ const CustomerCreateForm = () => {
         <div className="flex justify-end mt-2">
           <Button
             type="submit"
-            disabled={isSubmitting}
             className="bg-emerald-600 hover:bg-emerald-600 text-white cursor-pointer"
           >
             {id ? "Update" : "Create"}
-            {loading && <Loader2Icon className="animate-spin" />}
+          {loading && <Loader2Icon className="ml-2 animate-spin" />}
           </Button>
         </div>
       </form>
