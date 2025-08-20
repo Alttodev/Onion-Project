@@ -35,6 +35,7 @@ import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./spinnerloading";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useParams } from "react-router-dom";
+import { TableSkeleton } from "./skeleton/Tableskeleton";
 
 const columnHelper = createColumnHelper();
 
@@ -61,7 +62,7 @@ export function DataTable() {
     customerId
   );
 
-  const { data: customerInfo } = useCustomerInfo(customerId);
+  const { data: customerInfo,isFetching:dataFetching } = useCustomerInfo(customerId);
   const customerInfoData = useMemo(() => customerInfo?.data, [customerInfo]);
 
   const customerListData = useMemo(() => userData?.data, [userData]);
@@ -164,6 +165,12 @@ export function DataTable() {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  
+    if (dataFetching) {
+    return <TableSkeleton/>
+  };
+
+
   return (
     <div className="w-full">
       <div className="bg-white mb-6">
@@ -209,7 +216,6 @@ export function DataTable() {
             </div>
           </div>
 
-          {/* Right Section: Status */}
           <div className="flex items-center sm:items-start">
             <Badge className="bg-emerald-600 text-white px-3 py-1 rounded-lg shadow-sm">
               Active Customer
