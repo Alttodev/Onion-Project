@@ -36,7 +36,7 @@ export function AlertDialogModal() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => !open && closeAlert()}>
-      <AlertDialogContent className="max-w-[325px]">
+      <AlertDialogContent className="w-[325px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>

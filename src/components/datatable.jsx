@@ -28,7 +28,7 @@ import {
 import { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
-import { SquarePen, Trash, MapPin, Phone } from "lucide-react";
+import { SquarePen, Trash, MapPin, Phone, Plus, Download } from "lucide-react";
 import { useCustomerInfo, useCustomerListData } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
@@ -62,7 +62,8 @@ export function DataTable() {
     customerId
   );
 
-  const { data: customerInfo,isFetching:dataFetching } = useCustomerInfo(customerId);
+  const { data: customerInfo, isFetching: dataFetching } =
+    useCustomerInfo(customerId);
   const customerInfoData = useMemo(() => customerInfo?.data, [customerInfo]);
 
   const customerListData = useMemo(() => userData?.data, [userData]);
@@ -165,11 +166,9 @@ export function DataTable() {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  
-    if (dataFetching) {
-    return <TableSkeleton/>
-  };
-
+  if (dataFetching) {
+    return <TableSkeleton />;
+  }
 
   return (
     <div className="w-full">
@@ -239,11 +238,20 @@ export function DataTable() {
             className="h-10 bg-white w-full sm:w-64"
           />
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex gap-2 justify-center items-center">
+          <Button
+            className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600"
+            // onClick={openModal}
+          >
+            <Download className="cursor-pointer text-white" />
+            Export
+          </Button>
+
           <Button
             className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600"
             onClick={openModal}
           >
+            <Plus className="cursor-pointer text-white" />
             Create
           </Button>
         </div>

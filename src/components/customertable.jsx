@@ -27,7 +27,7 @@ import {
 } from "../components/ui/select";
 import { useMemo, useState } from "react";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
-import { Eye, SquarePen, Trash } from "lucide-react";
+import { Eye, Plus, SquarePen, Trash } from "lucide-react";
 import { useCustomerList } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
@@ -155,6 +155,7 @@ export function CustomerTable() {
             className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600"
             onClick={openModal}
           >
+            <Plus className="cursor-pointer text-white" />
             Create
           </Button>
         </div>
@@ -226,7 +227,7 @@ export function CustomerTable() {
               table.setPageSize(Number(value));
             }}
           >
-            <SelectTrigger className="h-8 w-[70px] text-color  border-[#037F69] cursor-pointer">
+            <SelectTrigger className="icon-color h-8 w-[70px] text-color  border-[#037F69] cursor-pointer">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top" className="text-color">
