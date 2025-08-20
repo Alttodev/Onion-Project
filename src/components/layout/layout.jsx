@@ -33,7 +33,7 @@ export function CustomerLayout() {
         <header className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/80 backdrop-blur-xl">
           <div className="container mx-auto px-4 lg:px-6">
             <div className="flex h-16 lg:h-18 items-center justify-between">
-              <div className="w-20 md:w-30 h-20  md:h-30 ">
+              <div className="w-22 md:w-30 h-22  md:h-30 ">
                 <Link to="/home">
                   <img
                     src="/src/assets/logo.png"
@@ -44,7 +44,7 @@ export function CustomerLayout() {
 
               <div className="flex items-center gap-3">
                 <div className="text-center">
-                  <div className="text-xl md:text-3xl font-bold tracking-tight">
+                  <div className="text-2xl md:text-3xl font-bold tracking-tight">
                     <Link to="/home">
                       <span className="text-emerald-600">SMA</span>{" "}
                       <span className="text-slate-700">Traders</span>
@@ -54,7 +54,7 @@ export function CustomerLayout() {
               </div>
 
               <div className="flex items-center gap-6">
-                <nav className="md:flex">
+                <nav className="md:flex invisible md:visible">
                   <ul className="flex text-sm md:text-[16px]  items-center gap-6">
                     <li>
                       <Link
@@ -71,7 +71,7 @@ export function CustomerLayout() {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <span className="relative cursor-pointer border-0 rounded-full p-1 hover:bg-slate-100 transition-colors duration-200">
-                      <Avatar className="h-7 md:h-9 w-7 md:w-9 ring-2 ring-emerald-100">
+                      <Avatar className="h-8 md:h-9 w-8 md:w-9 ring-2 ring-emerald-100">
                         <AvatarImage src="/" alt="User Avatar" />
                         <AvatarFallback className="bg-emerald-100 text-emerald-700 font-semibold">
                           {user?.email?.charAt(0).toUpperCase() || "-"}

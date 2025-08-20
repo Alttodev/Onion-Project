@@ -84,7 +84,7 @@ const CustomerCreateForm = () => {
           <TextInput
             name="username"
             control={control}
-            placeholder="UserName"
+            placeholder="Name"
             disabled={isSubmitting}
           />
           {errors.username?.message && (

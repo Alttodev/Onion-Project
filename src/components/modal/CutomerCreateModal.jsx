@@ -8,8 +8,8 @@ export function CustomerCreateDialog() {
 
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && closeModal()}>
-      <DialogContent  className="max-w-[525px] [&_button]:cursor-pointer">
+    <Dialog open={isOpen} onOpenChange={(open) => !open && closeModal()} >
+      <DialogContent  className="w-[calc(100%-2rem)] max-w-[525px] [&_button]:cursor-pointer">
         <DialogHeader>
           <DialogTitle className="text-emerald-600 flex justify-center">{id?"Customer Update":"Customer Create"}</DialogTitle>
         </DialogHeader>
