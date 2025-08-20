@@ -131,33 +131,35 @@ export function CustomerTable() {
 
   return (
     <div className="w-full">
-     <div className="flex items-center gap-2 text-lg md:text-xl text-emerald-600 font-bold">
+      <div className="flex items-center gap-2 text-lg md:text-xl text-emerald-600 font-bold">
         <span>Hi, welcome back</span>
         <span className="animate-wave">👋</span>
       </div>
-
-      <div className="flex justify-between items-center py-4 mt-5">
-        <div className="flex gap-5">
+      <div className="flex flex-col-reverse md:flex-row justify-between items-stretch md:items-center py-4 mt-5 gap-3">
+        <div className="flex flex-col sm:flex-row gap-3 w-full">
           <Input
             placeholder="Search..."
             value={globalFilter ?? ""}
             onChange={(event) => setGlobalFilter(event.target.value)}
-            className="max-w-xs h-10 bg-white"
+            className="h-10 bg-white w-full sm:w-64"
           />
           <TableDatePicker
             placeholder="Select Date"
             value={selectedDate}
             onChange={(date) => setSelectedDate(date)}
-            className="max-w-xs h-10 bg-white"
+            className="h-10 bg-white w-full sm:w-64"
           />
         </div>
-        <Button
-          className="cursor-pointer bg-emerald-600 hover:bg-emerald-600"
-          onClick={openModal}
-        >
-          Create
-        </Button>
+        <div className="flex justify-center items-center">
+          <Button
+            className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600"
+            onClick={openModal}
+          >
+            Create
+          </Button>
+        </div>
       </div>
+
       <div className="rounded-md border-2  border-solid border-gray-200 bg-white shadow-sm w-full overflow-x-auto">
         {Loading ? (
           <LoadingSpinner />

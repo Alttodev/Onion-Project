@@ -67,11 +67,11 @@ export function DataTable() {
   const customerListData = useMemo(() => userData?.data, [userData]);
 
   const columns = [
-     {
-    id: "serial",
-    header: "Sl. No",
-    cell: (info) => info.row.index + 1, 
-  },
+    {
+      id: "serial",
+      header: "Sl. No",
+      cell: (info) => info.row.index + 1,
+    },
     columnHelper.accessor("unit", {
       header: "Kg",
       cell: (info) => info.getValue() || "-",
@@ -167,20 +167,23 @@ export function DataTable() {
   return (
     <div className="w-full">
       <div className="bg-white mb-6">
-        <div className="flex flex-row  sm:flex-row items-start sm:items-center gap-4">
-          <Avatar className="h-16 w-16 border-2 border-[#037F69]">
-            <AvatarImage src="/placeholder-user.png" alt="User Avatar" />
-            <AvatarFallback className="bg-emerald-600 text-white text-[28px] font-semibold">
-              {customerInfoData?.username?.charAt(0).toUpperCase() || "-"}
-            </AvatarFallback>
-          </Avatar>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4">
+          <div className="flex items-start gap-4">
+            {/* Avatar */}
+            <Avatar className="h-16 w-16 border-2 border-[#037F69]">
+              <AvatarImage src="/placeholder-user.png" alt="User Avatar" />
+              <AvatarFallback className="bg-emerald-600 text-white text-[20px] font-semibold">
+                {customerInfoData?.username?.charAt(0).toUpperCase() || "-"}
+              </AvatarFallback>
+            </Avatar>
 
-          <div className="flex-1">
-            <h2 className="text-xl font-semibold text-gray-900 mb-1">
-              {customerInfoData?.username || "-"}
-            </h2>
-
+            {/* User Info */}
             <div className="flex flex-col gap-2">
+              {/* Username */}
+              <h2 className="text-xl font-semibold text-gray-900">
+                {customerInfoData?.username || "-"}
+              </h2>
+
               {/* Address */}
               <div className="flex items-center gap-2 text-gray-600">
                 <MapPin className="h-4 w-4 text-[#037F69]" />
@@ -189,53 +192,55 @@ export function DataTable() {
                 </span>
               </div>
 
-              <div className="text-gray-600">
+              {/* Phone */}
+              <div className="flex items-center gap-2 text-gray-600">
+                <Phone className="h-4 w-4 text-[#037F69]" />
                 <a
                   href={
                     customerInfoData?.phone
                       ? `tel:${customerInfoData.phone}`
                       : "#"
                   }
-                  className="inline-flex items-center gap-2"
+                  className="text-sm hover:text-[#037F69] transition-colors"
                 >
-                  <Phone className="h-4 w-4 text-[#037F69]" />
-                  <span className="text-sm">
-                    {customerInfoData?.phone || "-"}
-                  </span>
+                  {customerInfoData?.phone || "-"}
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-center">
-            <Badge className="bg-emerald-600  text-white">
+          {/* Right Section: Status */}
+          <div className="flex items-center sm:items-start">
+            <Badge className="bg-emerald-600 text-white px-3 py-1 rounded-lg shadow-sm">
               Active Customer
             </Badge>
           </div>
         </div>
       </div>
 
-      <div className="flex justify-between items-center mt-10 py-4 ">
-        <div className="flex gap-5">
+      <div className="flex flex-col-reverse md:flex-row justify-between items-stretch md:items-center py-4 mt-10 gap-3">
+        <div className="flex flex-col sm:flex-row gap-3 w-full">
           <Input
             placeholder="Search..."
             value={globalFilter ?? ""}
             onChange={(event) => setGlobalFilter(event.target.value)}
-            className="max-w-xs h-10 bg-white"
+            className="h-10 bg-white w-full sm:w-64"
           />
           <TableDatePicker
             placeholder="Select Date"
             value={selectedDate}
             onChange={(date) => setSelectedDate(date)}
-            className="max-w-xs h-10 bg-white"
+            className="h-10 bg-white w-full sm:w-64"
           />
         </div>
-        <Button
-          className="cursor-pointer bg-emerald-600 hover:bg-emerald-600"
-          onClick={openModal}
-        >
-          Create
-        </Button>
+        <div className="flex justify-center items-center">
+          <Button
+            className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600"
+            onClick={openModal}
+          >
+            Create
+          </Button>
+        </div>
       </div>
       <div className="rounded-md border-2  border-solid border-gray-200 bg-white shadow-sm w-full overflow-x-auto">
         {Loading ? (
