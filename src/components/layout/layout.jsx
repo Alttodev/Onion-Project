@@ -44,7 +44,7 @@ export function CustomerLayout() {
 
               <div className="flex items-center gap-3">
                 <div className="text-center">
-                  <div className="text-lg md:text-3xl font-bold tracking-tight">
+                  <div className="text-xl md:text-3xl font-bold tracking-tight">
                     <Link to="/home">
                       <span className="text-emerald-600">SMA</span>{" "}
                       <span className="text-slate-700">Traders</span>
