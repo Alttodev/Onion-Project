@@ -58,7 +58,6 @@ export function TableSkeleton() {
 
       {/* Pagination Skeleton */}
       <div className="flex items-center justify-end space-x-2 py-4">
-        <Skeleton className="h-4 w-32" />
         <div className="flex items-center space-x-2">
           <Skeleton className="h-8 w-[70px]" />
           <Skeleton className="h-8 w-20" />
