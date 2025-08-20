@@ -23,7 +23,7 @@ export function CustomerLayout() {
       navigate("/");
       toastSuccess("Logout successful!");
     } catch (error) {
-      toastError(error,"Failed to logout");
+      toastError(error, "Failed to logout");
     }
   };
 
@@ -33,7 +33,7 @@ export function CustomerLayout() {
         <header className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/80 backdrop-blur-xl">
           <div className="container mx-auto px-4 lg:px-6">
             <div className="flex h-16 lg:h-18 items-center justify-between">
-              <div className="w-30 h-30 ">
+              <div className="w-20 md:w-30 h-20  md:h-30 ">
                 <Link to="/home">
                   <img
                     src="/src/assets/logo.png"
@@ -44,7 +44,7 @@ export function CustomerLayout() {
 
               <div className="flex items-center gap-3">
                 <div className="text-center">
-                  <div className="text-[26px] lg:text-3xl font-bold tracking-tight">
+                  <div className="text-lg md:text-3xl font-bold tracking-tight">
                     <Link to="/home">
                       <span className="text-emerald-600">SMA</span>{" "}
                       <span className="text-slate-700">Traders</span>
@@ -55,7 +55,7 @@ export function CustomerLayout() {
 
               <div className="flex items-center gap-6">
                 <nav className="md:flex">
-                  <ul className="flex items-center gap-6">
+                  <ul className="flex text-sm md:text-lg  items-center gap-6">
                     <li>
                       <Link
                         to="/home"
@@ -71,7 +71,7 @@ export function CustomerLayout() {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <span className="relative cursor-pointer border-0 rounded-full p-1 hover:bg-slate-100 transition-colors duration-200">
-                      <Avatar className="h-9 w-9 ring-2 ring-emerald-100">
+                      <Avatar className="h-7 md:h-9 w-7 md:w-9 ring-2 ring-emerald-100">
                         <AvatarImage src="/" alt="User Avatar" />
                         <AvatarFallback className="bg-emerald-100 text-emerald-700 font-semibold">
                           {user?.email?.charAt(0).toUpperCase() || "-"}

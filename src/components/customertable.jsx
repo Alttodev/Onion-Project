@@ -131,7 +131,7 @@ export function CustomerTable() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center gap-2 text-[20px] text-emerald-600 font-bold">
+     <div className="flex items-center gap-2 text-lg md:text-xl text-emerald-600 font-bold">
         <span>Hi, welcome back</span>
         <span className="animate-wave">👋</span>
       </div>

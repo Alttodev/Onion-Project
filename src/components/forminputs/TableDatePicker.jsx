@@ -28,7 +28,7 @@ export default function TableDatePicker({
         <Button
           type="button"
           variant="outline"
-          className={`${className} w-50 justify-between text-gray-700 font-normal border border-input cursor-pointer`}
+          className={`${className}  justify-between text-gray-700 font-normal border border-input cursor-pointer`}
         >
           <span className={value ? "" : "text-muted-foreground"}>
             {value ? format(new Date(value), "PPP") : placeholder}
