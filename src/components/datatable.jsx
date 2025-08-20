@@ -248,7 +248,7 @@ export function DataTable() {
           </Button>
 
           <Button
-            className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600"
+            className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600 gap-1"
             onClick={openModal}
           >
             <Plus className="cursor-pointer text-white" />
