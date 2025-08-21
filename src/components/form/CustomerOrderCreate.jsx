@@ -17,6 +17,7 @@ import NumberInput from "../forminputs/NumberInput";
 import { Loader2Icon } from "lucide-react";
 import { useParams } from "react-router-dom";
 import FormSkeleton from "../skeleton/FormSkeleton";
+import CustomerSelect from "../forminputs/CustomerSelect";
 
 const options = [
   { label: "Pending", value: "pending" },
@@ -55,6 +56,7 @@ const CustomerOrderCreate = () => {
     useCustomerListCreate();
   const { mutateAsync: customerUpdate, isLoading: LoadingUpdate } =
     useCustomerListUpdate();
+  
 
   const { data: customerInfo, isFetching } = useCustomerListInfo(id);
   const data = useMemo(() => customerInfo?.data, [customerInfo]);
@@ -66,7 +68,6 @@ const CustomerOrderCreate = () => {
       ...value,
       customerId: customerId,
     };
-    console.log(formData);
     try {
       let res;
       if (id) {
@@ -123,12 +124,11 @@ const CustomerOrderCreate = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-1 mt-1">
           <label className="text-[15px]">Customer</label>
-          <SelectInput
+          <CustomerSelect
             name="customer"
             control={control}
-            options={options}
             defaultValue={data?.status}
-            placeholder="Status"
+            placeholder="Name"
             disabled={isSubmitting}
           />
           {errors.customer?.message && (

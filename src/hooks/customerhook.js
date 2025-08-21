@@ -1,4 +1,4 @@
-import { createCustomer, customerListCreate, customerListUpdate, deleteCustomer, deleteCustomerList, getCustomerInfo, getCustomerList, getCustomerListData, getCustomerListInfo, updateCustomer, userLogin, userReset, userResetPassword, userSignup } from "../api/axios";
+import { createCustomer, customerListCreate, customerListUpdate, deleteCustomer, deleteCustomerList, getCustomerInfo, getCustomerList, getCustomerListData, getCustomerListInfo, getCustomerName, updateCustomer, userLogin, userReset, userResetPassword, userSignup } from "../api/axios";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 
@@ -115,6 +115,16 @@ export const useCustomerListInfo = (id) => {
   });
 };
 
+//essential
+export const useCustomerName = (query) => {
+  return useQuery({
+    queryKey: ['CUSTOMER_NAME', query],
+    queryFn: () => getCustomerName(query),
+    cacheTime: 0,
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,  
+  });
+};
 
 //delete
 export const useCustomerDelete = () => {

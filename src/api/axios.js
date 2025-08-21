@@ -69,6 +69,12 @@ export function getCustomerListData({ search, date, page, limit }, id) {
   return axiosInstance.get(`/list/get/${id}?${params}`).then((res) => res.data);
 }
 
+export function getCustomerName(query) {
+  return axiosInstance.get(`/essential/get?name=${query}`).then((d) => {
+    return d.data;
+  });
+}
+
 //info
 
 export function getCustomerInfo(id) {

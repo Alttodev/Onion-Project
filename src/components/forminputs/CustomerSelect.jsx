@@ -6,15 +6,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCustomerName } from "@/hooks/customerhook";
 
 const CustomerSelect = ({
   name,
   control,
-  options,
   placeholder,
   disabled,
   defaultValue,
 }) => {
+  const { data, isLoading } = useCustomerName("customer");
+
   return (
     <Controller
       name={name}
@@ -25,23 +27,17 @@ const CustomerSelect = ({
           onValueChange={field.onChange}
           value={field.value || defaultValue}
           defaultValue={field.value || defaultValue}
-          disabled={disabled}
+          disabled={disabled || isLoading}
         >
           <SelectTrigger className="w-full text-gray-700">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
-            {options.map((option) => {
-              return (
-                <SelectItem
-                  key={option.value}
-                  value={option.value}
-                  className={`cursor-pointer`}
-                >
-                  {option.label}
-                </SelectItem>
-              );
-            })}
+            {data?.data?.map((c) => (
+              <SelectItem className="cursor-pointer" key={c._id} value={c._id}>
+                {c.username}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       )}

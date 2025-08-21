@@ -35,11 +35,11 @@ import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./spinnerloading";
 import { useParams } from "react-router-dom";
 
-
 const columnHelper = createColumnHelper();
 
 export function OrdersTable() {
   const [selectedDate, setSelectedDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
   const { openModal } = useZustandPopup();
   const { openAlert } = useZustandAlertModal();
   const [globalFilter, setGlobalFilter] = useState("");
@@ -54,7 +54,8 @@ export function OrdersTable() {
   const { data: userData, isLoading: Loading } = useCustomerListData(
     {
       search: globalFilter,
-      date: selectedDate ? selectedDate.toISOString() : undefined,
+      from: selectedDate ? selectedDate.toISOString() : undefined,
+      to: toDate ? toDate.toISOString() : undefined,
       page: pagination.pageIndex + 1,
       limit: pagination.pageSize,
     },
@@ -176,7 +177,13 @@ export function OrdersTable() {
             className="h-10 bg-white w-full sm:w-64"
           />
           <TableDatePicker
-            placeholder="Select Date"
+            placeholder="From Date"
+            value={toDate}
+            onChange={(date) => setToDate(date)}
+            className="h-10 bg-white w-full sm:w-64"
+          />
+          <TableDatePicker
+            placeholder="To Date"
             value={selectedDate}
             onChange={(date) => setSelectedDate(date)}
             className="h-10 bg-white w-full sm:w-64"
