@@ -9,6 +9,7 @@ import CustomerList from "./pages/CustomerList";
 import ResetPassword from "./components/auth/ResetPassword";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import ErrorPage from "./pages/ErrorPage";
+import CustomerOrders from "./pages/CustomerOrders";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route element={<CustomerLayout />}>
               <Route path="/home" element={<DashboardHome />} />
               <Route path="/list/:id" element={<CustomerList />} />
+              <Route path="/orders" element={<CustomerOrders />} />
             </Route>
           </Route>
           <Route path="*" element={<ErrorPage />} />

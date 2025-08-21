@@ -7,10 +7,12 @@ export const useZustandPopup = create((set) => ({
   closeModal: () => set({ isOpen: false, modalData: null }),
 }));
 
+
 export const useZustandAlertModal = create((set) => ({
   isOpen: false,
   modalData: null,
-  fromData:null,
-  openAlert: (data,from) => set({ isOpen: true, modalData: data ,fromData:from}),
-  closeAlert: () => set({ isOpen: false, modalData: null,fromData:null }),
+  fromData: null,
+  openAlert: (data, from) =>
+    set({ isOpen: true, modalData: data, fromData: from }),
+  closeAlert: () => set({ isOpen: false, modalData: null, fromData: null }),
 }));

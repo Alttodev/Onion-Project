@@ -8,8 +8,8 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import {
   Table,
   TableBody,
@@ -17,26 +17,28 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../components/ui/table";
+} from "./ui/table";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../components/ui/select";
+} from "./ui/select";
 import { useMemo, useState } from "react";
+import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
-import { Eye, Plus, SquarePen, Trash } from "lucide-react";
-import { useCustomerList } from "@/hooks/customerhook";
+import { SquarePen, Trash, Plus, Download } from "lucide-react";
+import { useCustomerListData } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./spinnerloading";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 
 const columnHelper = createColumnHelper();
 
-export function CustomerTable() {
+export function OrdersTable() {
   const [selectedDate, setSelectedDate] = useState(null);
   const { openModal } = useZustandPopup();
   const { openAlert } = useZustandAlertModal();
@@ -46,14 +48,20 @@ export function CustomerTable() {
     pageSize: 5,
   });
 
-  const { data: userData, isLoading: Loading } = useCustomerList({
-    search: globalFilter,
-    date: selectedDate ? selectedDate.toISOString() : undefined,
-    page: pagination.pageIndex + 1,
-    limit: pagination.pageSize,
-  });
+  const params = useParams();
+  const customerId = params?.id;
 
-  const users = useMemo(() => userData?.data, [userData]);
+  const { data: userData, isLoading: Loading } = useCustomerListData(
+    {
+      search: globalFilter,
+      date: selectedDate ? selectedDate.toISOString() : undefined,
+      page: pagination.pageIndex + 1,
+      limit: pagination.pageSize,
+    },
+    customerId
+  );
+
+  const customerListData = useMemo(() => userData?.data, [userData]);
 
   const columns = [
     {
@@ -61,13 +69,28 @@ export function CustomerTable() {
       header: "Sl. No",
       cell: (info) => info.row.index + 1,
     },
-    columnHelper.accessor("username", {
-      header: "Customer Name",
+    columnHelper.accessor("customer", {
+      header: "Customer",
       cell: (info) => info.getValue() || "-",
-      // rounded-full bg-emerald-500
     }),
-    columnHelper.accessor("date", {
-      header: "Created Date",
+    columnHelper.accessor("unit", {
+      header: "Kg",
+      cell: (info) => info.getValue() || "-",
+    }),
+    columnHelper.accessor("amount", {
+      header: "Amount (₹)",
+      cell: (info) => info.getValue() || "-",
+    }),
+    columnHelper.accessor("received", {
+      header: "Received (₹)",
+      cell: (info) => info.getValue() || "-",
+    }),
+    columnHelper.accessor("balance", {
+      header: "Balance (₹)",
+      cell: (info) => info.getValue() || "-",
+    }),
+    columnHelper.accessor("createdDate", {
+      header: "Purchased Date",
       cell: (info) => {
         const dateValue = info.getValue();
         if (!dateValue || !moment(dateValue).isValid()) {
@@ -76,20 +99,36 @@ export function CustomerTable() {
         return moment(dateValue).format("MMM D, YYYY");
       },
     }) || "-",
-    columnHelper.accessor("address", {
-      header: "Address",
-      cell: (info) => info.getValue() || "-",
-    }),
-    columnHelper.accessor("phone", {
-      header: "Phone",
+    columnHelper.accessor("updatedDate", {
+      header: "Completed Date",
+      cell: (info) => {
+        const dateValue = info.getValue();
+        if (!dateValue || !moment(dateValue).isValid()) {
+          return "-";
+        }
+        return moment(dateValue).format("MMM D, YYYY");
+      },
+    }) || "-",
+
+    columnHelper.accessor("status", {
+      header: "Status",
       cell: (info) => {
         const value = info.getValue();
-        if (!value) return "-";
-        let digits = value.replace(/\D/g, "");
-        if (digits.startsWith("91")) {
-          digits = digits.slice(2);
+
+        if (!value) {
+          return "-";
         }
-        return digits;
+
+        return (
+          <Badge
+            data-slot="badge"
+            className={`rounded-full ${
+              value === "completed" ? "bg-green-500" : "bg-amber-500"
+            }`}
+          >
+            {value}
+          </Badge>
+        );
       },
     }),
 
@@ -97,16 +136,13 @@ export function CustomerTable() {
       header: "Actions",
       cell: (info) => (
         <div className="flex flex-row gap-2">
-          <Link to={`/list/${info.row.original._id}`}>
-            <Eye className="text-color w-5 h-5 cursor-pointer" />
-          </Link>
           <SquarePen
             onClick={() => openModal(info.row.original._id)}
             className="text-color w-4 h-4 cursor-pointer"
           />
           <Trash
             className="text-red-400 w-4 h-4 cursor-pointer"
-            onClick={() => openAlert(info.row.original._id)}
+            onClick={() => openAlert(info.row.original._id, "list")}
           />
         </div>
       ),
@@ -114,7 +150,7 @@ export function CustomerTable() {
   ];
 
   const table = useReactTable({
-    data: users || [],
+    data: customerListData || [],
     columns,
     manualPagination: true,
     pageCount: userData?.totalPages ?? -1,
@@ -131,11 +167,7 @@ export function CustomerTable() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center gap-2 text-lg md:text-xl text-emerald-600 font-bold">
-        <span>Hi, welcome back</span>
-        <span className="animate-wave">👋</span>
-      </div>
-      <div className="flex flex-col-reverse md:flex-row justify-between items-stretch md:items-center py-4 mt-5 gap-3">
+      <div className="flex flex-col-reverse md:flex-row justify-between items-stretch md:items-center py-4 mt-10 gap-3">
         <div className="flex flex-col sm:flex-row gap-3 w-full">
           <Input
             placeholder="Search..."
@@ -150,17 +182,24 @@ export function CustomerTable() {
             className="h-10 bg-white w-full sm:w-64"
           />
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex gap-2 justify-center items-center">
+          <Button
+            className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600"
+            // onClick={openModal}
+          >
+            <Download className="cursor-pointer text-white" />
+            Export
+          </Button>
+
           <Button
             className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600 gap-1"
-           onClick={openModal}
+            onClick={openModal}
           >
             <Plus className="cursor-pointer text-white" />
             Create
           </Button>
         </div>
       </div>
-
       <div className="rounded-md border-2  border-solid border-gray-200 bg-white shadow-sm w-full overflow-x-auto">
         {Loading ? (
           <LoadingSpinner />
@@ -227,7 +266,7 @@ export function CustomerTable() {
               table.setPageSize(Number(value));
             }}
           >
-            <SelectTrigger className="icon-color h-8 w-[70px] text-color  border-[#037F69] cursor-pointer">
+            <SelectTrigger className="h-8 w-[70px] text-color  border-[#037F69] cursor-pointer">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top" className="text-color">
@@ -245,7 +284,7 @@ export function CustomerTable() {
           <Button
             variant="outline"
             size="sm"
-            className="cursor-pointer text-color"
+            className="cursor-pointer text-color bg-transparent"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
@@ -254,7 +293,7 @@ export function CustomerTable() {
           <Button
             variant="outline"
             size="sm"
-            className="cursor-pointer text-color"
+            className="cursor-pointer text-color bg-transparent"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >

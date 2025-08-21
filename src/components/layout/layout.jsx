@@ -55,13 +55,22 @@ export function CustomerLayout() {
 
               <div className="flex items-center gap-6">
                 <nav className="md:flex invisible md:visible">
-                  <ul className="flex text-sm md:text-[16px]  items-center gap-6">
+                  <ul className="flex text-sm md:text-[16px]  items-center gap-4">
                     <li>
                       <Link
                         to="/home"
                         className="text-slate-700  font-bold transition-colors duration-200 relative group"
                       >
                         Home
+                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-600 transition-all duration-200 group-hover:w-full"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/orders"
+                        className="text-slate-700  font-bold transition-colors duration-200 relative group"
+                      >
+                        Orders
                         <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-600 transition-all duration-200 group-hover:w-full"></span>
                       </Link>
                     </li>
