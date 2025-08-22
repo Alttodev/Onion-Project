@@ -12,7 +12,6 @@ import {
   useCustomerInfo,
   useCustomerUpdate,
 } from "@/hooks/customerhook";
-import { Loader2Icon } from "lucide-react";
 import PhoneNumberInput from "../forminputs/PhoneInput";
 import FormSkeleton from "../skeleton/FormSkeleton";
 
@@ -35,15 +34,11 @@ const CustomerCreateForm = () => {
     },
   });
 
-  const { mutateAsync: customerCreate, isLoading: LoadingCreate } =
-    useCustomerCreate();
-  const { mutateAsync: customerUpdate, isLoading: LoadingUpdate } =
-    useCustomerUpdate();
+  const { mutateAsync: customerCreate } = useCustomerCreate();
+  const { mutateAsync: customerUpdate } = useCustomerUpdate();
 
-  const { data: customerInfo,isFetching } = useCustomerInfo(id);
+  const { data: customerInfo, isFetching } = useCustomerInfo(id);
   const data = useMemo(() => customerInfo?.data, [customerInfo]);
-
-  const loading = id ? LoadingUpdate : LoadingCreate;
 
   const onSubmit = async (formData) => {
     try {
@@ -73,7 +68,7 @@ const CustomerCreateForm = () => {
   }, [data, reset]);
 
   if (isFetching) {
-    return <FormSkeleton/>
+    return <FormSkeleton />;
   }
 
   return (
@@ -131,10 +126,10 @@ const CustomerCreateForm = () => {
         <div className="flex justify-end mt-2">
           <Button
             type="submit"
+            disabled={isSubmitting}
             className="bg-emerald-600 hover:bg-emerald-600 text-white cursor-pointer"
           >
             {id ? "Update" : "Create"}
-          {loading && <Loader2Icon className="ml-2 animate-spin" />}
           </Button>
         </div>
       </form>

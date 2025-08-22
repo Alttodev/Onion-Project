@@ -15,7 +15,6 @@ import {
 } from "@/hooks/customerhook";
 import AmountInput from "../forminputs/AmountInput";
 import NumberInput from "../forminputs/NumberInput";
-import { Loader2Icon } from "lucide-react";
 import FormSkeleton from "../skeleton/FormSkeleton";
 import CustomerSelect from "../forminputs/CustomerSelect";
 
@@ -60,7 +59,6 @@ const CustomerOrderCreate = () => {
 
   const { data: users } = useCustomerName("username");
 
-  const loading = id ? LoadingUpdate : LoadingCreate;
   const customerId = watch("username");
   const user = users?.data?.find((item) => item._id === customerId);
   console.log(user, "user");
@@ -230,10 +228,10 @@ const CustomerOrderCreate = () => {
         <div className="flex justify-end mt-2">
           <Button
             type="submit"
+              disabled={isSubmitting}
             className="bg-emerald-600 hover:bg-emerald-600 text-white cursor-pointer"
           >
             {id ? "Update" : "Create"}
-            {loading && <Loader2Icon className="ml-2 animate-spin" />}
           </Button>
         </div>
       </form>
