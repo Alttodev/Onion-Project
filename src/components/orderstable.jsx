@@ -27,6 +27,8 @@ import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./spinnerloading";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { toastError } from "@/lib/toast";
 
 const columnHelper = createColumnHelper();
 
@@ -48,6 +50,34 @@ export function OrdersTable() {
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
   });
+
+  const handleExport = async () => {
+    try {
+      if (!selectedDate || !toDate) {
+        toastError("Please select From and To dates before exporting");
+        return;
+      }
+
+      const from = selectedDate.toISOString().split("T")[0];
+      const to = toDate.toISOString().split("T")[0];
+
+      const response = await axios.get(
+        `http://localhost:3000/export/pdf?name=${globalFilter}&from=${from}&to=${to}`,
+        {
+          responseType: "blob",
+        }
+      );
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `orders_${from}_to_${to}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      toastError(error);
+    }
+  };
 
   const customerOrderData = useMemo(() => userData?.data, [userData]);
 
@@ -196,7 +226,7 @@ export function OrdersTable() {
         <div className="flex gap-2 justify-center items-center">
           <Button
             className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600"
-            // onClick={openModal}
+            onClick={handleExport}
           >
             <Download className="cursor-pointer text-white" />
             Export
