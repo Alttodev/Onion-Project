@@ -182,14 +182,14 @@ export function OrdersTable() {
           />
           <TableDatePicker
             placeholder="From Date"
-            value={toDate}
-            onChange={(date) => setToDate(date)}
+            value={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
             className="h-10 bg-white w-full sm:w-64"
           />
           <TableDatePicker
             placeholder="To Date"
-            value={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
+            value={toDate}
+            onChange={(date) => setToDate(date)}
             className="h-10 bg-white w-full sm:w-64"
           />
         </div>
