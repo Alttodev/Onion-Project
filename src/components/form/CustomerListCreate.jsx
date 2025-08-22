@@ -8,6 +8,7 @@ import DatePicker from "../forminputs/DatePicker";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useZustandPopup } from "@/hooks/zustand";
 import {
+  useCustomerInfo,
   useCustomerListCreate,
   useCustomerListInfo,
   useCustomerListUpdate,
@@ -37,6 +38,7 @@ const CustomerListForm = () => {
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
+      username: "",
       unit: "",
       amount: "",
       received: "",
@@ -50,19 +52,20 @@ const CustomerListForm = () => {
   const params = useParams();
   const customerId = params?.id;
 
-  const { mutateAsync: customerCreate, isLoading: LoadingCreate } =
-    useCustomerListCreate();
-  const { mutateAsync: customerUpdate, isLoading: LoadingUpdate } =
-    useCustomerListUpdate();
+  const { mutateAsync: customerCreate } = useCustomerListCreate();
+  const { mutateAsync: customerUpdate } = useCustomerListUpdate();
 
   const { data: customerInfo, isFetching } = useCustomerListInfo(id);
   const data = useMemo(() => customerInfo?.data, [customerInfo]);
 
+  const { data: customer } = useCustomerInfo(customerId);
+  const customerName = useMemo(() => customer?.data, [customer]);
 
   const onSubmit = async (value) => {
     const formData = {
       ...value,
       customerId: customerId,
+      username: customerName?.username,
     };
     console.log(formData);
     try {
@@ -209,7 +212,7 @@ const CustomerListForm = () => {
         <div className="flex justify-end mt-2">
           <Button
             type="submit"
-              disabled={isSubmitting}
+            disabled={isSubmitting}
             className="bg-emerald-600 hover:bg-emerald-600 text-white cursor-pointer"
           >
             {id ? "Update" : "Create"}

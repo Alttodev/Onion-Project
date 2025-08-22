@@ -144,6 +144,7 @@ export const customerSchema = z.object({
 
 export const schema = z
   .object({
+    username: z.string(),
     unit: z
       .string()
       .min(1, { message: "Unit is required" })
