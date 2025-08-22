@@ -1,25 +1,26 @@
 import React, { Fragment, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { orderSchema} from "@/lib/validation";
+import { orderSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import SelectInput from "../forminputs/SelectInput";
 import DatePicker from "../forminputs/DatePicker";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useZustandPopup } from "@/hooks/zustand";
 import {
-  useCustomerListCreate,
-  useCustomerListInfo,
-  useCustomerListUpdate,
+  useCustomerName,
+  useCustomerOrderCreate,
+  useCustomerOrderInfo,
+  useCustomerOrderUpdate,
 } from "@/hooks/customerhook";
 import AmountInput from "../forminputs/AmountInput";
 import NumberInput from "../forminputs/NumberInput";
 import { Loader2Icon } from "lucide-react";
-import { useParams } from "react-router-dom";
 import FormSkeleton from "../skeleton/FormSkeleton";
 import CustomerSelect from "../forminputs/CustomerSelect";
 
 const options = [
+  { label: "Ordered", value: "ordered" },
   { label: "Pending", value: "pending" },
   { label: "Completed", value: "completed" },
 ];
@@ -38,7 +39,7 @@ const CustomerOrderCreate = () => {
   } = useForm({
     resolver: zodResolver(orderSchema),
     defaultValues: {
-      customer: "",
+      username: "",
       unit: "",
       amount: "",
       received: "",
@@ -49,24 +50,26 @@ const CustomerOrderCreate = () => {
     },
   });
 
-  const params = useParams();
-  const customerId = params?.id;
-
   const { mutateAsync: customerCreate, isLoading: LoadingCreate } =
-    useCustomerListCreate();
+    useCustomerOrderCreate();
   const { mutateAsync: customerUpdate, isLoading: LoadingUpdate } =
-    useCustomerListUpdate();
-  
+    useCustomerOrderUpdate();
 
-  const { data: customerInfo, isFetching } = useCustomerListInfo(id);
+  const { data: customerInfo, isFetching } = useCustomerOrderInfo(id);
   const data = useMemo(() => customerInfo?.data, [customerInfo]);
 
+  const { data: users } = useCustomerName("username");
+
   const loading = id ? LoadingUpdate : LoadingCreate;
+  const customerId = watch("username");
+  const user = users?.data?.find((item) => item._id === customerId);
+  console.log(user, "user");
 
   const onSubmit = async (value) => {
     const formData = {
       ...value,
       customerId: customerId,
+      username: user?.username,
     };
     try {
       let res;
@@ -94,17 +97,14 @@ const CustomerOrderCreate = () => {
       setValue("balance", bal.toString());
 
       if (bal === 0) {
-        setValue("status", "completed");
-      } else if (bal > 0 && watch("status") === "completed") {
-        setValue("status", "pending");
+        setValue("balance", "0");
       }
-    } else {
-      setValue("balance", "");
     }
-  }, [amount, received, setValue, watch]);
+  }, [amount, received, setValue]);
 
   useEffect(() => {
     if (data) {
+      setValue("username", data?.customerId || "");
       setValue("unit", data?.unit != null ? String(data.unit) : "");
       setValue("amount", data?.amount != null ? String(data.amount) : "");
       setValue("received", data?.received != null ? String(data.received) : "");
@@ -125,14 +125,15 @@ const CustomerOrderCreate = () => {
         <div className="flex flex-col gap-1 mt-1">
           <label className="text-[15px]">Customer</label>
           <CustomerSelect
-            name="customer"
+            name="username"
             control={control}
-            defaultValue={data?.status}
-            placeholder="Name"
-            disabled={isSubmitting}
+            defaultValue={data?.customerId}
+            options={users}
+            placeholder="Select Customer"
+            disabled={isSubmitting || id}
           />
-          {errors.customer?.message && (
-            <p className="text-red-500 text-sm">{errors.customer?.message}</p>
+          {errors.username?.message && (
+            <p className="text-red-500 text-sm">{errors.username?.message}</p>
           )}
         </div>
         <div className="flex flex-col gap-1 mt-2">

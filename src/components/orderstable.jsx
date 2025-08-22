@@ -18,22 +18,15 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
-import { SquarePen, Trash, Plus, Download } from "lucide-react";
-import { useCustomerListData } from "@/hooks/customerhook";
+import { SquarePen, Trash, Plus, Download, Eye } from "lucide-react";
+import { useCustomerName, useCustomerOrderData } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./spinnerloading";
-import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const columnHelper = createColumnHelper();
 
@@ -45,32 +38,36 @@ export function OrdersTable() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 5,
+    pageSize: 10,
   });
 
-  const params = useParams();
-  const customerId = params?.id;
+  const { data: userData, isLoading: Loading } = useCustomerOrderData({
+    search: globalFilter,
+    from: selectedDate ? selectedDate.toISOString() : undefined,
+    to: toDate ? toDate.toISOString() : undefined,
+    page: pagination.pageIndex + 1,
+    limit: pagination.pageSize,
+  });
 
-  const { data: userData, isLoading: Loading } = useCustomerListData(
-    {
-      search: globalFilter,
-      from: selectedDate ? selectedDate.toISOString() : undefined,
-      to: toDate ? toDate.toISOString() : undefined,
-      page: pagination.pageIndex + 1,
-      limit: pagination.pageSize,
-    },
-    customerId
-  );
+  const customerOrderData = useMemo(() => userData?.data, [userData]);
 
-  const customerListData = useMemo(() => userData?.data, [userData]);
+  const { data } = useCustomerName("username");
 
+  const mergedData = useMemo(() => {
+    if (!data?.data) return customerOrderData;
+
+    return customerOrderData?.map((order) => {
+      const match = data.data.find((c) => c._id === order.customerId);
+      return { ...order, username: match ? match.username : "-" };
+    });
+  }, [customerOrderData, data]);
   const columns = [
     {
       id: "serial",
       header: "Sl. No",
       cell: (info) => info.row.index + 1,
     },
-    columnHelper.accessor("customer", {
+    columnHelper.accessor("username", {
       header: "Customer",
       cell: (info) => info.getValue() || "-",
     }),
@@ -124,7 +121,11 @@ export function OrdersTable() {
           <Badge
             data-slot="badge"
             className={`rounded-full ${
-              value === "completed" ? "bg-green-500" : "bg-amber-500"
+              value === "completed"
+                ? "bg-green-500"
+                : value === "ordered"
+                ? "bg-blue-500"
+                : "bg-amber-500"
             }`}
           >
             {value}
@@ -137,13 +138,16 @@ export function OrdersTable() {
       header: "Actions",
       cell: (info) => (
         <div className="flex flex-row gap-2">
+          <Link to={`/list/${info.row.original.customerId}`}>
+            <Eye className="text-color w-5 h-5 cursor-pointer" />
+          </Link>
           <SquarePen
             onClick={() => openModal(info.row.original._id)}
             className="text-color w-4 h-4 cursor-pointer"
           />
           <Trash
             className="text-red-400 w-4 h-4 cursor-pointer"
-            onClick={() => openAlert(info.row.original._id, "list")}
+            onClick={() => openAlert(info.row.original._id, "order")}
           />
         </div>
       ),
@@ -151,7 +155,7 @@ export function OrdersTable() {
   ];
 
   const table = useReactTable({
-    data: customerListData || [],
+    data: mergedData || [],
     columns,
     manualPagination: true,
     pageCount: userData?.totalPages ?? -1,
@@ -263,31 +267,10 @@ export function OrdersTable() {
         )}
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        {/* <div className="flex-1 text-sm text-muted-foreground">
           Page{pagination.pageIndex + 1} of {userData?.totalPages || 1}
-        </div>
+        </div> */}
         <div className="flex items-center space-x-2">
-          <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
-            }}
-          >
-            <SelectTrigger className="h-8 w-[70px] text-color  border-[#037F69] cursor-pointer">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
-            </SelectTrigger>
-            <SelectContent side="top" className="text-color">
-              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem
-                  key={pageSize}
-                  value={`${pageSize}`}
-                  className="text-color  cursor-pointer"
-                >
-                  {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
           <Button
             variant="outline"
             size="sm"

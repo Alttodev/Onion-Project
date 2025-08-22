@@ -19,6 +19,7 @@ import { useParams } from "react-router-dom";
 import FormSkeleton from "../skeleton/FormSkeleton";
 
 const options = [
+  { label: "Ordered", value: "ordered" },
   { label: "Pending", value: "pending" },
   { label: "Completed", value: "completed" },
 ];
@@ -92,14 +93,10 @@ const CustomerListForm = () => {
       setValue("balance", bal.toString());
 
       if (bal === 0) {
-        setValue("status", "completed");
-      } else if (bal > 0 && watch("status") === "completed") {
-        setValue("status", "pending");
+        setValue("balance", "0");
       }
-    } else {
-      setValue("balance", "");
     }
-  }, [amount, received, setValue, watch]);
+  }, [amount, received, setValue]);
 
   useEffect(() => {
     if (data) {

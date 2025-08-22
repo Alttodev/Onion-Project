@@ -18,13 +18,6 @@ import {
   TableHeader,
   TableRow,
 } from "../components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../components/ui/select";
 import { useMemo, useState } from "react";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { Eye, Plus, SquarePen, Trash } from "lucide-react";
@@ -43,7 +36,7 @@ export function CustomerTable() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 5,
+    pageSize: 10,
   });
 
   const { data: userData, isLoading: Loading } = useCustomerList({
@@ -217,31 +210,10 @@ export function CustomerTable() {
         )}
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        {/* <div className="flex-1 text-sm text-muted-foreground">
           Page{pagination.pageIndex + 1} of {userData?.totalPages || 1}
-        </div>
+        </div> */}
         <div className="flex items-center space-x-2">
-          <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
-            }}
-          >
-            <SelectTrigger className="icon-color h-8 w-[70px] text-color  border-[#037F69] cursor-pointer">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
-            </SelectTrigger>
-            <SelectContent side="top" className="text-color">
-              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem
-                  key={pageSize}
-                  value={`${pageSize}`}
-                  className="text-color  cursor-pointer"
-                >
-                  {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
           <Button
             variant="outline"
             size="sm"

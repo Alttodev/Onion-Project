@@ -1,7 +1,5 @@
 import axiosInstance from "./axiosInstance";
 
-
-
 export const userSignup = async (formData) => {
   const { data } = await axiosInstance.post(`/user/signup`, formData);
   return data;
@@ -38,6 +36,11 @@ export const customerListCreate = async (formData) => {
   return data;
 };
 
+export const customerOrderCreate = async (formData) => {
+  const { data } = await axiosInstance.post(`/order/create`, formData);
+  return data;
+};
+
 //update
 export const updateCustomer = async (id, formData) => {
   const { data } = await axiosInstance.put(`/customers/update/${id}`, formData);
@@ -48,6 +51,13 @@ export const customerListUpdate = async (id, formData) => {
   const { data } = await axiosInstance.put(`/list/update/${id}`, formData);
   return data;
 };
+
+export const customerOrderUpdate = async (id, formData) => {
+  const { data } = await axiosInstance.put(`/order/update/${id}`, formData);
+  return data;
+};
+
+//List
 
 export function getCustomerList({ search, date, page, limit }) {
   const params = new URLSearchParams({
@@ -67,6 +77,17 @@ export function getCustomerListData({ search, date, page, limit }, id) {
     limit: limit || 5,
   });
   return axiosInstance.get(`/list/get/${id}?${params}`).then((res) => res.data);
+}
+
+export function getCustomerOrderData({ search, from, to, page, limit }) {
+  const params = new URLSearchParams({
+    search: search || "",
+    from: from || "",
+    to: to || "",
+    page: page || 1,
+    limit: limit || 5,
+  });
+  return axiosInstance.get(`/order/get?${params}`).then((res) => res.data);
 }
 
 export function getCustomerName(query) {
@@ -89,6 +110,12 @@ export function getCustomerListInfo(id) {
   });
 }
 
+export function getCustomerOrderInfo(id) {
+  return axiosInstance.get(`/order/info/${id}`).then((d) => {
+    return d.data;
+  });
+}
+
 //delete
 export function deleteCustomer(id) {
   return axiosInstance.delete(`/customers/delete/${id}`).then((d) => {
@@ -98,6 +125,12 @@ export function deleteCustomer(id) {
 
 export function deleteCustomerList(id) {
   return axiosInstance.delete(`/list/delete/${id}`).then((d) => {
+    return d.data;
+  });
+}
+
+export function deleteCustomerOrder(id) {
+  return axiosInstance.delete(`/order/delete/${id}`).then((d) => {
     return d.data;
   });
 }

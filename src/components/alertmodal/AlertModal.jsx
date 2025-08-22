@@ -11,7 +11,11 @@ import {
 } from "../ui/alert-dialog";
 
 import { toastError, toastSuccess } from "@/lib/toast";
-import { useCustomerDelete, useCustomerListDelete } from "@/hooks/customerhook";
+import {
+  useCustomerDelete,
+  useCustomerListDelete,
+  useCustomerOrderDelete,
+} from "@/hooks/customerhook";
 
 export function AlertDialogModal() {
   const { closeAlert, isOpen, modalData, fromData } = useZustandAlertModal();
@@ -19,12 +23,15 @@ export function AlertDialogModal() {
   const id = typeof modalData === "string" ? modalData : null;
   const { mutateAsync: deleteData } = useCustomerDelete();
   const { mutateAsync: deleteListData } = useCustomerListDelete();
+  const { mutateAsync: deleteOrderData } = useCustomerOrderDelete();
 
   const handleDelete = async () => {
     try {
       let res;
       if (fromData === "list") {
         res = await deleteListData(id);
+      } else if (fromData === "order") {
+        res = await deleteOrderData(id);
       } else {
         res = await deleteData(id);
       }

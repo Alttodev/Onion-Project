@@ -43,7 +43,7 @@ export const resetPasswordSchema = z.object({
 });
 
 export const orderSchema = z.object({
-  customer: z.string().nonempty("Customer is required"),
+  username: z.string().nonempty("Customer is required"),
 
   unit: z
     .string()

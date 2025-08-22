@@ -18,13 +18,6 @@ import {
   TableHeader,
   TableRow,
 } from "../components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../components/ui/select";
 import { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
@@ -46,7 +39,7 @@ export function DataTable() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 5,
+    pageSize: 10,
   });
 
   const params = useParams();
@@ -124,7 +117,11 @@ export function DataTable() {
           <Badge
             data-slot="badge"
             className={`rounded-full ${
-              value === "completed" ? "bg-green-500" : "bg-amber-500"
+              value === "completed"
+                ? "bg-green-500"
+                : value === "ordered"
+                ? "bg-blue-500"
+                : "bg-amber-500"
             }`}
           >
             {value}
@@ -311,31 +308,10 @@ export function DataTable() {
         )}
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        {/* <div className="flex-1 text-sm text-muted-foreground">
           Page{pagination.pageIndex + 1} of {userData?.totalPages || 1}
-        </div>
+        </div> */}
         <div className="flex items-center space-x-2">
-          <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
-            }}
-          >
-            <SelectTrigger className="h-8 w-[70px] text-color  border-[#037F69] cursor-pointer">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
-            </SelectTrigger>
-            <SelectContent side="top" className="text-color">
-              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem
-                  key={pageSize}
-                  value={`${pageSize}`}
-                  className="text-color  cursor-pointer"
-                >
-                  {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
           <Button
             variant="outline"
             size="sm"
