@@ -66,12 +66,11 @@ export function OrdersTable() {
       if (toDate) params.append("to", toDate.toISOString().split("T")[0]);
 
       const response = await axios.get(
-        `${API_URL}/export/pdf?${params.toString()}`,
-        {
-          responseType: "blob",
-        }
+        `${API_URL}/export/excel?${params.toString()}`,
+        { responseType: "blob" }
       );
 
+      // Create download link
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
@@ -82,8 +81,8 @@ export function OrdersTable() {
         selectedDate ? selectedDate.toISOString().split("T")[0] : "start",
         toDate ? toDate.toISOString().split("T")[0] : "end",
       ];
-      link.setAttribute("download", `${filenameParts.join("_")}.pdf`);
 
+      link.setAttribute("download", `${filenameParts.join("_")}.xlsx`);
       document.body.appendChild(link);
       link.click();
       link.remove();
