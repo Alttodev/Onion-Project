@@ -1,5 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, List, Home, ShoppingCart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -12,9 +12,28 @@ import {
 import { ScrollToTop } from "../ScrollTop";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useLocalStore } from "@/store/useLocalStore";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 
 export function CustomerLayout() {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  const navLinks = [
+    { name: "Home", to: "/home", icon: <Home className="w-4 h-4 mr-2 " /> },
+    {
+      name: "Orders",
+      to: "/orders",
+      icon: <ShoppingCart className="w-4 h-4 mr-2" />,
+    },
+  ];
   const { setToken, user } = useLocalStore();
 
   const handleLogout = () => {
@@ -53,27 +72,57 @@ export function CustomerLayout() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-6">
-                <nav className="md:flex invisible md:visible">
-                  <ul className="flex text-sm md:text-[16px]  items-center gap-4">
-                    <li>
-                      <Link
-                        to="/home"
-                        className="text-slate-700  font-bold transition-colors duration-200 relative group"
+              <div className="flex items-center gap-5">
+                <div className="md:hidden">
+                  <Sheet open={open} onOpenChange={setOpen}>
+                    <SheetTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="w-7 h-7 text-emerald-600"
                       >
-                        Home
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-600 transition-all duration-200 group-hover:w-full"></span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/orders"
-                        className="text-slate-700  font-bold transition-colors duration-200 relative group"
-                      >
-                        Orders
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-600 transition-all duration-200 group-hover:w-full"></span>
-                      </Link>
-                    </li>
+                        <List className="w-4 h-4" />
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent
+                      side="right"
+                      className="h-screen p-6 flex flex-col justify-start"
+                    >
+                      <SheetHeader>
+                        <SheetTitle>Menu</SheetTitle>
+                      </SheetHeader>
+                      <ul className="flex flex-col gap-4 mt-2">
+                        {navLinks.map((link) => (
+                          <li key={link.name}>
+                            <Link
+                              to={link.to}
+                              className="text-slate-700 flex gap-2 items-center font-bold transition-colors duration-200 hover:text-emerald-600"
+                              onClick={() => setOpen(false)}
+                            >
+                              {link.icon}
+                              {link.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </SheetContent>
+                  </Sheet>
+                </div>
+
+                {/* Desktop nav */}
+                <nav className="hidden md:flex">
+                  <ul className="flex items-center gap-4 text-sm md:text-[16px]">
+                    {navLinks.map((link) => (
+                      <li key={link.name}>
+                        <Link
+                          to={link.to}
+                          className="text-slate-700 font-bold transition-colors duration-200 relative group"
+                          onClick={() => setOpen(false)}
+                        >
+                          {link.name}
+                          <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-600 transition-all duration-200 group-hover:w-full"></span>
+                        </Link>
+                      </li>
+                    ))}
                   </ul>
                 </nav>
 

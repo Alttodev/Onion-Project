@@ -33,6 +33,7 @@ import { toastError } from "@/lib/toast";
 const columnHelper = createColumnHelper();
 
 export function OrdersTable() {
+  const API_URL = import.meta.env.VITE_APP_API_URL;
   const [selectedDate, setSelectedDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const { openModal } = useZustandPopup();
@@ -53,29 +54,41 @@ export function OrdersTable() {
 
   const handleExport = async () => {
     try {
-      if (!selectedDate || !toDate) {
-        toastError("Please select From and To dates before exporting");
+      if (!selectedDate && !toDate && !globalFilter) {
+        toastError("Please provide at least one filter to export");
         return;
       }
 
-      const from = selectedDate.toISOString().split("T")[0];
-      const to = toDate.toISOString().split("T")[0];
+      const params = new URLSearchParams();
+      if (globalFilter) params.append("name", globalFilter);
+      if (selectedDate)
+        params.append("from", selectedDate.toISOString().split("T")[0]);
+      if (toDate) params.append("to", toDate.toISOString().split("T")[0]);
 
       const response = await axios.get(
-        `http://localhost:3000/export/pdf?name=${globalFilter}&from=${from}&to=${to}`,
+        `${API_URL}/export/pdf?${params.toString()}`,
         {
           responseType: "blob",
         }
       );
+
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `orders_${from}_to_${to}.pdf`);
+
+      const filenameParts = [
+        "orders",
+        globalFilter || "all",
+        selectedDate ? selectedDate.toISOString().split("T")[0] : "start",
+        toDate ? toDate.toISOString().split("T")[0] : "end",
+      ];
+      link.setAttribute("download", `${filenameParts.join("_")}.pdf`);
+
       document.body.appendChild(link);
       link.click();
       link.remove();
     } catch (error) {
-      toastError(error);
+      toastError(error?.response?.data?.message || error.message);
     }
   };
 
@@ -202,7 +215,8 @@ export function OrdersTable() {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col-reverse md:flex-row justify-between items-stretch md:items-center py-4 mt-10 gap-3">
+      <div className="text-emerald-600 text-xl font-semibold">Orders</div>
+      <div className="flex flex-col-reverse xl:flex-row justify-between items-stretch md:items-center py-4 mt-5 md:mt-10 gap-3">
         <div className="flex flex-col sm:flex-row gap-3 w-full">
           <Input
             placeholder="Search..."
