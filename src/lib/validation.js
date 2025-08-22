@@ -42,67 +42,80 @@ export const resetPasswordSchema = z.object({
     ),
 });
 
-export const orderSchema = z.object({
-  username: z.string().nonempty("Customer is required"),
+export const orderSchema = z
+  .object({
+    username: z.string().nonempty("Customer is required"),
 
-  unit: z
-    .string()
-    .min(1, { message: "Unit is required" })
-    .refine(
-      (val) => {
-        const num = parseFloat(val);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: "Unit cannot be negative" }
+    unit: z
+      .string()
+      .min(1, { message: "Unit is required" })
+      .refine(
+        (val) => {
+          const num = parseFloat(val);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: "Unit cannot be negative" }
+      ),
+
+    amount: z
+      .string()
+      .min(1, { message: "Amount is required" })
+      .refine(
+        (val) => {
+          const num = parseFloat(val);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: "Amount cannot be negative" }
+      ),
+
+    received: z
+      .string()
+      .optional()
+      .refine(
+        (val) => {
+          if (val === undefined || val === "") return true;
+          const num = parseFloat(val);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: "Received Amount cannot be negative" }
+      ),
+
+    balance: z
+      .string()
+      .optional()
+      .refine(
+        (val) => {
+          if (val === undefined || val === "") return true;
+          const num = parseFloat(val);
+          return !isNaN(num) && num >= 0;
+        },
+        { message: "Balance Amount cannot be negative" }
+      ),
+
+    status: z.string().nonempty("Status is required"),
+
+    createdDate: z.preprocess(
+      (val) => (val === "" ? undefined : val),
+      z.coerce.date().optional()
     ),
-
-  amount: z
-    .string()
-    .min(1, { message: "Amount is required" })
-    .refine(
-      (val) => {
-        const num = parseFloat(val);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: "Amount cannot be negative" }
+    updatedDate: z.preprocess(
+      (val) => (val === "" ? undefined : val),
+      z.coerce.date().optional()
     ),
+    id: z.string().optional(),
+  })
+  .refine((data) => data.id || data.createdDate, {
+    message: "Date is required",
+    path: ["createdDate"],
+  })
+  .refine((data) => !data.id || data.updatedDate, {
+    message: "Date is required",
+    path: ["updatedDate"],
+  });
 
-  received: z
-    .string()
-    .optional()
-    .refine(
-      (val) => {
-        if (val === undefined || val === "") return true;
-        const num = parseFloat(val);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: "Received Amount cannot be negative" }
-    ),
 
-  balance: z
-    .string()
-    .optional()
-    .refine(
-      (val) => {
-        if (val === undefined || val === "") return true;
-        const num = parseFloat(val);
-        return !isNaN(num) && num >= 0;
-      },
-      { message: "Balance Amount cannot be negative" }
-    ),
+ 
 
-  status: z.string().nonempty("Status is required"),
-
-  createdDate: z.preprocess(
-    (val) => (val === "" ? undefined : val),
-    z.coerce.date().optional()
-  ),
-  updatedDate: z.preprocess(
-    (val) => (val === "" ? undefined : val),
-    z.coerce.date().optional()
-  ),
-  id: z.string().optional(),
-});
 
 export const customerSchema = z.object({
   username: z.string().min(1, { message: "UserName is required" }),
