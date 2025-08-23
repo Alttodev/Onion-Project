@@ -110,7 +110,7 @@ export function OrdersTable() {
       cell: (info) => info.row.index + 1,
     },
     columnHelper.accessor("username", {
-      header: "Customer",
+      header: "Customer Name",
       cell: (info) => info.getValue() || "-",
     }),
     columnHelper.accessor("unit", {
