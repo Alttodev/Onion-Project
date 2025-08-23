@@ -83,7 +83,7 @@ const CustomerOrderCreate = () => {
       toastError(error?.response?.data?.message || "Something went wrong");
     }
   };
-
+  const status = watch("status");
   const amount = watch("amount");
   const received = watch("received");
 
@@ -177,38 +177,6 @@ const CustomerOrderCreate = () => {
           />
         </div>
 
-        {id ? (
-          <div className="flex flex-col gap-1 mt-2">
-            <label className="text-[15px]">Completed Date</label>
-            <DatePicker
-              name="updatedDate"
-              label="Date"
-              control={control}
-              disabled={isSubmitting}
-            />
-            {errors?.updatedDate?.message && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors?.updatedDate?.message}
-              </p>
-            )}
-          </div>
-        ) : (
-          <div className="flex flex-col gap-1 mt-2">
-            <label className="text-[15px]">Purchased Date</label>
-            <DatePicker
-              name="createdDate"
-              label="Date"
-              control={control}
-              disabled={isSubmitting}
-            />
-            {errors?.createdDate?.message && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors?.createdDate?.message}
-              </p>
-            )}
-          </div>
-        )}
-
         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Status</label>
           <SelectInput
@@ -225,10 +193,41 @@ const CustomerOrderCreate = () => {
           )}
         </div>
 
+        <div className="flex flex-col gap-1 mt-2">
+          <label className="text-[15px]">Purchased Date</label>
+          <DatePicker
+            name="createdDate"
+            label="Date"
+            control={control}
+            disabled={isSubmitting}
+          />
+          {errors?.createdDate?.message && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors?.createdDate?.message}
+            </p>
+          )}
+        </div>
+        {status === "completed" ? (
+          <div className="flex flex-col gap-1 mt-2">
+            <label className="text-[15px]">Completed Date</label>
+            <DatePicker
+              name="updatedDate"
+              label="Date"
+              control={control}
+              disabled={isSubmitting}
+            />
+            {errors?.updatedDate?.message && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors?.updatedDate?.message}
+              </p>
+            )}
+          </div>
+        ) : null}
+
         <div className="flex justify-end mt-2">
           <Button
             type="submit"
-              disabled={isSubmitting}
+            disabled={isSubmitting}
             className="bg-emerald-600 hover:bg-emerald-600 text-white cursor-pointer"
           >
             {id ? "Update" : "Create"}

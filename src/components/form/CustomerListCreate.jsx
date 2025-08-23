@@ -61,6 +61,8 @@ const CustomerListForm = () => {
   const { data: customer } = useCustomerInfo(customerId);
   const customerName = useMemo(() => customer?.data, [customer]);
 
+  const status = watch("status");
+
   const onSubmit = async (value) => {
     const formData = {
       ...value,
@@ -130,7 +132,6 @@ const CustomerListForm = () => {
             <p className="text-red-500 text-sm">{errors.unit?.message}</p>
           )}
         </div>
-
         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Total Amount</label>
           <AmountInput
@@ -142,7 +143,6 @@ const CustomerListForm = () => {
             <p className="text-red-500 text-sm">{errors.amount?.message}</p>
           )}
         </div>
-
         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Received Amount</label>
           <AmountInput
@@ -151,7 +151,6 @@ const CustomerListForm = () => {
             disabled={isSubmitting}
           />
         </div>
-
         <div className="flex flex-col gap-1 mt-1">
           <label className="text-[15px]">Balance Amount</label>
           <AmountInput
@@ -160,40 +159,7 @@ const CustomerListForm = () => {
             disabled={isSubmitting}
           />
         </div>
-
-        {id ? (
-          <div className="flex flex-col gap-1 mt-2">
-            <label className="text-[15px]">Completed Date</label>
-            <DatePicker
-              name="updatedDate"
-              label="Date"
-              control={control}
-              disabled={isSubmitting}
-            />
-            {errors?.updatedDate?.message && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors?.updatedDate?.message}
-              </p>
-            )}
-          </div>
-        ) : (
-          <div className="flex flex-col gap-1 mt-2">
-            <label className="text-[15px]">Purchased Date</label>
-            <DatePicker
-              name="createdDate"
-              label="Date"
-              control={control}
-              disabled={isSubmitting}
-            />
-            {errors?.createdDate?.message && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors?.createdDate?.message}
-              </p>
-            )}
-          </div>
-        )}
-
-        <div className="flex flex-col gap-1 mt-2">
+         <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Status</label>
           <SelectInput
             name="status"
@@ -208,7 +174,38 @@ const CustomerListForm = () => {
             <p className="text-red-500 text-sm">{errors.status?.message}</p>
           )}
         </div>
+        <div className="flex flex-col gap-1 mt-2">
+          <label className="text-[15px]">Purchased Date</label>
+          <DatePicker
+            name="createdDate"
+            label="Date"
+            control={control}
+            disabled={isSubmitting}
+          />
+          {errors?.createdDate?.message && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors?.createdDate?.message}
+            </p>
+          )}
+        </div>
+        {status === "completed" ? (
+          <div className="flex flex-col gap-1 mt-2">
+            <label className="text-[15px]">Completed Date</label>
+            <DatePicker
+              name="updatedDate"
+              label="Date"
+              control={control}
+              disabled={isSubmitting}
+            />
+            {errors?.updatedDate?.message && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors?.updatedDate?.message}
+              </p>
+            )}
+          </div>
+        ) : null}
 
+       
         <div className="flex justify-end mt-2">
           <Button
             type="submit"

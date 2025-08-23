@@ -105,17 +105,13 @@ export const orderSchema = z
     id: z.string().optional(),
   })
   .refine((data) => data.id || data.createdDate, {
-    message: "Date is required",
+    message: "Purchased Date is required",
     path: ["createdDate"],
   })
-  .refine((data) => !data.id || data.updatedDate, {
-    message: "Date is required",
+  .refine((data) => data.id|| data.status !== "completed"  || data.updatedDate, {
+    message: "Completed Date is required",
     path: ["updatedDate"],
   });
-
-
- 
-
 
 export const customerSchema = z.object({
   username: z.string().min(1, { message: "UserName is required" }),
@@ -204,10 +200,10 @@ export const schema = z
     id: z.string().optional(),
   })
   .refine((data) => data.id || data.createdDate, {
-    message: "Date is required",
+    message: "Purchased Date is required",
     path: ["createdDate"],
   })
-  .refine((data) => !data.id || data.updatedDate, {
-    message: "Date is required",
+  .refine((data) => data.id|| data.status !== "completed" || data.updatedDate, {
+    message: "Completed Date is required",
     path: ["updatedDate"],
   });
