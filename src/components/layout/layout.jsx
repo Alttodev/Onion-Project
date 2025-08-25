@@ -10,8 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-import { toastError, toastSuccess } from "@/lib/toast";
-import { useLocalStore } from "@/store/useLocalStore";
+
 import { useState } from "react";
 import { Button } from "../ui/button";
 import {
@@ -22,6 +21,8 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import ScrollTop from "../ScrollTopFunction";
+import { useLocalStore } from "../../store/useLocalStore";
+import { toastError, toastSuccess } from "../../lib/toast";
 
 export function CustomerLayout() {
   const navigate = useNavigate();

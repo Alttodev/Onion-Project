@@ -2,7 +2,8 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import React from "react";
 import { Controller } from "react-hook-form";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
+
 
 function PhoneNumberInput({ name, control, placeholder, disabled, className }) {
   return (

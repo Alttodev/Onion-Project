@@ -2,18 +2,15 @@ import React, { Fragment, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TextInput from "../forminputs/TextInput";
-import { customerSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import DatePicker from "../forminputs/DatePicker";
-import { toastError, toastSuccess } from "@/lib/toast";
-import { useZustandPopup } from "@/hooks/zustand";
-import {
-  useCustomerCreate,
-  useCustomerInfo,
-  useCustomerUpdate,
-} from "@/hooks/customerhook";
+
 import PhoneNumberInput from "../forminputs/PhoneInput";
 import FormSkeleton from "../skeleton/FormSkeleton";
+import { useZustandPopup } from "../../hooks/zustand";
+import { customerSchema } from "../../lib/validation";
+import { useCustomerCreate, useCustomerInfo, useCustomerUpdate } from "../../hooks/customerhook";
+import { toastError, toastSuccess } from "../../lib/toast";
 
 const CustomerCreateForm = () => {
   const { closeModal, modalData } = useZustandPopup();

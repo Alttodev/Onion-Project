@@ -1,22 +1,17 @@
 import React, { Fragment, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { orderSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import SelectInput from "../forminputs/SelectInput";
 import DatePicker from "../forminputs/DatePicker";
-import { toastError, toastSuccess } from "@/lib/toast";
-import { useZustandPopup } from "@/hooks/zustand";
-import {
-  useCustomerName,
-  useCustomerOrderCreate,
-  useCustomerOrderInfo,
-  useCustomerOrderUpdate,
-} from "@/hooks/customerhook";
 import AmountInput from "../forminputs/AmountInput";
 import NumberInput from "../forminputs/NumberInput";
 import FormSkeleton from "../skeleton/FormSkeleton";
 import CustomerSelect from "../forminputs/CustomerSelect";
+import { useZustandPopup } from "../../hooks/zustand";
+import { orderSchema } from "../../lib/validation";
+import { useCustomerName, useCustomerOrderCreate, useCustomerOrderInfo, useCustomerOrderUpdate } from "../../hooks/customerhook";
+import { toastError, toastSuccess } from "../../lib/toast";
 
 const options = [
   { label: "Ordered", value: "ordered" },

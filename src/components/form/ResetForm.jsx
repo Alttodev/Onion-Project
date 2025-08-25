@@ -1,12 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { resetSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import TextInput from "../forminputs/TextInput";
 import { Link, useNavigate } from "react-router-dom";
-import { toastError, toastSuccess } from "@/lib/toast";
-import { useUserReset } from "@/hooks/customerhook";
+import { useUserReset } from "../../hooks/customerhook";
+import { resetSchema } from "../../lib/validation";
+import { toastError, toastSuccess } from "../../lib/toast";
+
 
 const ResetForm = () => {
   const navigate = useNavigate();

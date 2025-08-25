@@ -1,16 +1,15 @@
-import { AlertDialogModal } from "@/components/alertmodal/AlertModal";
-import CustomerTable  from "../components/CustomerTable";
-import { CustomerCreateDialog } from "@/components/modal/CutomerCreateModal";
-import { ScrollToTop } from "@/components/ScrollTopFunction";
+
 import React from "react";
+import CustomerTableFunction from "../components/CustomerTable";
+import { CustomerCreateDialog } from "../components/modal/CutomerCreateModal";
+import { AlertDialogModal } from "../components/alertmodal/AlertModal";
 
 function DashboardHome() {
   return (
     <>
-      <CustomerTable />
+      <CustomerTableFunction />
       <CustomerCreateDialog />
       <AlertDialogModal />
-      <ScrollToTop />
     </>
   );
 }

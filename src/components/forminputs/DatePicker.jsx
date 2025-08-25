@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
 import { Controller } from "react-hook-form";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
 import { ChevronDownIcon } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
 
 function DatePicker({ name, control, placeholder = "Select date", disabled }) {
   const [open, setOpen] = useState(false);

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { cn } from '@/lib/utils';
 import { Controller } from 'react-hook-form';
+import { cn } from '../../lib/utils';
 
 const PasswordInput = ({ name, control, placeholder, disabled, className }) => {
   const [showPassword, setShowPassword] = React.useState(false);

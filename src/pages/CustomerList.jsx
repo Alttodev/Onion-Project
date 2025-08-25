@@ -1,12 +1,13 @@
-import { AlertDialogModal } from "@/components/alertmodal/AlertModal";
-import DataTable from '../components/DataTable'
-import { CustomerDialog } from "@/components/modal/ListCreateModal";
+
 import React from "react";
+import DataTableFunction from "../components/DataTable";
+import { CustomerDialog } from "../components/modal/ListCreateModal";
+import { AlertDialogModal } from "../components/alertmodal/AlertModal";
 
 function CustomerList() {
   return (
     <div>
-      <DataTable />
+      <DataTableFunction />
       <CustomerDialog />
       <AlertDialogModal />
     </div>

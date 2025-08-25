@@ -20,15 +20,15 @@ import {
 } from "./ui/table";
 import { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
-import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { SquarePen, Trash, MapPin, Phone, Plus, Download } from "lucide-react";
-import { useCustomerInfo, useCustomerListData } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./SpinnerLoading";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useParams } from "react-router-dom";
 import { TableSkeleton } from "./skeleton/TableSkeleton";
+import { useZustandAlertModal, useZustandPopup } from "../hooks/zustand";
+import { useCustomerInfo, useCustomerListData } from "../hooks/customerhook";
 
 const columnHelper = createColumnHelper();
 

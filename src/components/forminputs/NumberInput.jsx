@@ -1,6 +1,7 @@
-import { Input } from "@/components/ui/input";
+
 import React from "react";
 import { Controller } from "react-hook-form";
+import { Input } from "../ui/input";
 
 function NumberInput({ name, control, placeholder, disabled }) {
   return (

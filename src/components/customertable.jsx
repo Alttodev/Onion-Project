@@ -19,13 +19,15 @@ import {
   TableRow,
 } from "./ui/table";
 import { useMemo, useState } from "react";
-import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
+
 import { Eye, Plus, SquarePen, Trash } from "lucide-react";
-import { useCustomerList } from "@/hooks/customerhook";
+
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./SpinnerLoading";
 import { Link } from "react-router-dom";
+import { useZustandAlertModal, useZustandPopup } from "../hooks/zustand";
+import { useCustomerList } from "../hooks/customerhook";
 
 const columnHelper = createColumnHelper();
 

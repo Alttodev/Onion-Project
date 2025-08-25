@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
-import { toastError, toastSuccess } from "@/lib/toast";
 import { PasswordInput } from "../forminputs/PasswordInput";
-import { resetPasswordSchema } from "@/lib/validation";
-import { useUserResetPassword } from "@/hooks/customerhook";
+import { useUserResetPassword } from "../../hooks/customerhook";
+import { resetPasswordSchema } from "../../lib/validation";
+import { toastError, toastSuccess } from "../../lib/toast";
+
 
 const ResetPasswordForm = () => {
   const navigate = useNavigate();

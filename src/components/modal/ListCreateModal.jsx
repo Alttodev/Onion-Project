@@ -1,6 +1,7 @@
+import { useZustandPopup } from "../../hooks/zustand";
 import CustomerListForm from "../form/CustomerListCreate";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { useZustandPopup } from "@/hooks/zustand";
+
 
 export function CustomerDialog() {
   const { isOpen, closeModal, modalData } = useZustandPopup();

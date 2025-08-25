@@ -1,4 +1,7 @@
-import { useZustandAlertModal } from "@/hooks/zustand";
+
+import { useCustomerDelete, useCustomerListDelete, useCustomerOrderDelete } from "../../hooks/customerhook";
+import { useZustandAlertModal } from "../../hooks/zustand";
+import { toastError, toastSuccess } from "../../lib/toast";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,12 +13,8 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 
-import { toastError, toastSuccess } from "@/lib/toast";
-import {
-  useCustomerDelete,
-  useCustomerListDelete,
-  useCustomerOrderDelete,
-} from "@/hooks/customerhook";
+
+
 
 export function AlertDialogModal() {
   const { closeAlert, isOpen, modalData, fromData } = useZustandAlertModal();

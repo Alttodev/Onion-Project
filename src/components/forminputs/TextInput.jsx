@@ -1,6 +1,6 @@
-import { Input } from "@/components/ui/input";
 import React from "react";
 import { Controller } from "react-hook-form";
+import { Input } from "../ui/input";
 
 function TextInput({ name, control, placeholder, type, disabled }) {
   return (

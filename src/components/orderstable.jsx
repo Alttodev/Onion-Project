@@ -20,15 +20,17 @@ import {
 } from "./ui/table";
 import { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
-import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
+
 import { SquarePen, Trash, Plus, Download, Eye } from "lucide-react";
-import { useCustomerName, useCustomerOrderData } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./SpinnerLoading";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { toastError } from "@/lib/toast";
+import { useCustomerName, useCustomerOrderData } from "../hooks/customerhook";
+import { toastError } from "../lib/toast";
+import { useZustandAlertModal, useZustandPopup } from "../hooks/zustand";
+
 
 const columnHelper = createColumnHelper();
 

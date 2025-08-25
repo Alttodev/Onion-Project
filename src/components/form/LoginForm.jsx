@@ -1,14 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import TextInput from "../forminputs/TextInput";
 import { PasswordInput } from "../forminputs/PasswordInput";
 import { Link, useNavigate } from "react-router-dom";
-import { toastError, toastSuccess } from "@/lib/toast";
-import { useUserLogin } from "@/hooks/customerhook";
-import { useLocalStore } from "@/store/useLocalStore";
+import { useUserLogin } from "../../hooks/customerhook";
+import { useLocalStore } from "../../store/useLocalStore";
+import { loginSchema } from "../../lib/validation";
+import { toastError, toastSuccess } from "../../lib/toast";
+
 
 const LoginForm = () => {
   const navigate = useNavigate();
