@@ -21,7 +21,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
-import ScrollToTop from "../ScrollTopFunction";
+import ScrollTop from "../ScrollTopFunction";
 
 export function CustomerLayout() {
   const navigate = useNavigate();
@@ -193,7 +193,7 @@ export function CustomerLayout() {
           </div>
         </footer>
       </div>
-      <ScrollToTop />
+      <ScrollTop />
     </div>
   );
 }
