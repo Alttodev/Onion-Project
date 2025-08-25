@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { ScrollToTop } from "../ScrollTop";
+
 import { toastError, toastSuccess } from "@/lib/toast";
 import { useLocalStore } from "@/store/useLocalStore";
 import { useState } from "react";
@@ -21,6 +21,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import ScrollToTop from "../ScrollTopFunction";
 
 export function CustomerLayout() {
   const navigate = useNavigate();

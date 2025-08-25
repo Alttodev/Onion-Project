@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { Button } from "./ui/button";
 
-export function ScrollToTop() {
+const ScrollTopFunction = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => {
@@ -37,4 +37,6 @@ export function ScrollToTop() {
       )}
     </>
   );
-}
+};
+
+export default ScrollTopFunction;

@@ -1,7 +1,7 @@
 import { AlertDialogModal } from "@/components/alertmodal/AlertModal";
 import { CustomerTable } from "@/components/customertable";
 import { CustomerCreateDialog } from "@/components/modal/CutomerCreateModal";
-import { ScrollToTop } from "@/components/scrolltop";
+import { ScrollToTop } from "@/components/ScrollTopFunction";
 import React from "react";
 
 function DashboardHome() {
@@ -9,7 +9,7 @@ function DashboardHome() {
     <>
       <CustomerTable />
       <CustomerCreateDialog />
-       <AlertDialogModal />
+      <AlertDialogModal />
       <ScrollToTop />
     </>
   );
