@@ -8,8 +8,8 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import {
   Table,
   TableBody,
@@ -17,19 +17,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../components/ui/table";
+} from "./ui/table";
 import { useMemo, useState } from "react";
 import { useZustandAlertModal, useZustandPopup } from "@/hooks/zustand";
 import { Eye, Plus, SquarePen, Trash } from "lucide-react";
 import { useCustomerList } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
-import LoadingSpinner from "./spinnerloading";
+import LoadingSpinner from "./SpinnerLoading";
 import { Link } from "react-router-dom";
 
 const columnHelper = createColumnHelper();
 
-export function CustomerTable() {
+const CustomerTableFunction = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const { openModal } = useZustandPopup();
   const { openAlert } = useZustandAlertModal();
@@ -146,7 +146,7 @@ export function CustomerTable() {
         <div className="flex justify-center items-center">
           <Button
             className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600 gap-1"
-           onClick={openModal}
+            onClick={openModal}
           >
             <Plus className="cursor-pointer text-white" />
             Create
@@ -237,3 +237,4 @@ export function CustomerTable() {
     </div>
   );
 }
+export default  CustomerTableFunction

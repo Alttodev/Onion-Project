@@ -25,14 +25,14 @@ import { SquarePen, Trash, Plus, Download, Eye } from "lucide-react";
 import { useCustomerName, useCustomerOrderData } from "@/hooks/customerhook";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
-import LoadingSpinner from "./spinnerloading";
+import LoadingSpinner from "./SpinnerLoading";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toastError } from "@/lib/toast";
 
 const columnHelper = createColumnHelper();
 
-export function OrdersTable() {
+const OrdersTableFunction = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL;
   const [selectedDate, setSelectedDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -336,4 +336,6 @@ export function OrdersTable() {
       </div>
     </div>
   );
-}
+};
+
+export default OrdersTableFunction;
