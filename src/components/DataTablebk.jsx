@@ -23,7 +23,7 @@ import { Badge } from "./ui/badge";
 import { SquarePen, Trash, MapPin, Phone, Plus, Download } from "lucide-react";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
-import LoadingSpinner from "./SpinnerLoading";
+import LoadingSpinner from "./SpinnerLoadingbk";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useParams } from "react-router-dom";
 import { TableSkeleton } from "./skeleton/TableSkeleton";
@@ -32,7 +32,7 @@ import { useCustomerInfo, useCustomerListData } from "../hooks/customerhook";
 
 const columnHelper = createColumnHelper();
 
-const DataTable=()=> {
+const DataTable = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const { openModal } = useZustandPopup();
   const { openAlert } = useZustandAlertModal();
@@ -334,6 +334,6 @@ const DataTable=()=> {
       </div>
     </div>
   );
-}
+};
 
-export default DataTable
+export default DataTable;
