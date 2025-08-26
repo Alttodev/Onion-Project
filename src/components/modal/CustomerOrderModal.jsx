@@ -1,6 +1,7 @@
-import { useZustandPopup } from "../../hooks/zustand";
-import CustomerOrderCreate from "../form/CustomerOrderCreate";
+import { useZustandPopup } from "@/hooks/zustand";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import CustomerOrderCreate from "../form/CustomerOrderCreate";
+
 
 
 export function CustomerOrderDialog() {

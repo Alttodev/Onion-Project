@@ -1,13 +1,13 @@
+import { AlertDialogModal } from "@/components/alertmodal/AlertModal";
+import { CustomerOrderDialog } from "@/components/modal/CustomerOrderModal";
+import OrdersTable from "@/components/OrdersTable";
 import React from "react";
 
-import { CustomerOrderDialog } from "../components/modal/CustomerOrderModal";
-import { AlertDialogModal } from "../components/alertmodal/AlertModal";
-import { OrderTable } from "../components/OrdersTable";
 
 function CustomerOrders() {
   return (
     <div>
-      <OrderTable />
+      <OrdersTable />
       <CustomerOrderDialog />
       <AlertDialogModal />
     </div>
