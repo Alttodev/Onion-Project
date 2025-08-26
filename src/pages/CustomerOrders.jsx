@@ -2,12 +2,12 @@ import React from "react";
 
 import { CustomerOrderDialog } from "../components/modal/CustomerOrderModal";
 import { AlertDialogModal } from "../components/alertmodal/AlertModal";
-import OrdersTable from "../components/OrdersTable";
+import OrderTable from "../components/OrdersTable";
 
 function CustomerOrders() {
   return (
     <div>
-      <OrdersTable />
+      <OrderTable />
       <CustomerOrderDialog />
       <AlertDialogModal />
     </div>
