@@ -1,5 +1,5 @@
 import { AlertDialogModal } from "@/components/alertmodal/AlertModal";
-import DataTableComponent from "@/components/DataTablebk";
+import DataTableComponent from "@/components/DataTable";
 import { CustomerDialog } from "@/components/modal/ListCreateModal";
 import React from "react";
 

@@ -7,6 +7,7 @@ import {
   createColumnHelper,
   getSortedRowModel,
 } from "@tanstack/react-table";
+
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
@@ -19,22 +20,20 @@ import {
 } from "./ui/table";
 import { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
-import { SquarePen, Trash, Plus, Download, Eye } from "lucide-react";
+import { SquarePen, Trash, MapPin, Phone, Plus, Download } from "lucide-react";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
-import LoadingSpinner from "./SpinnerLoadingbk";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { useCustomerName, useCustomerOrderData } from "../hooks/customerhook";
-import { toastError } from "../lib/toast";
+import LoadingSpinner from "./SpinnerLoading";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useParams } from "react-router-dom";
+import { TableSkeleton } from "./skeleton/TableSkeleton";
 import { useZustandAlertModal, useZustandPopup } from "../hooks/zustand";
+import { useCustomerInfo, useCustomerListData } from "../hooks/customerhook";
 
 const columnHelper = createColumnHelper();
 
-const OrdersTable = () => {
-  const API_URL = import.meta.env.VITE_APP_API_URL;
+const DataTable = () => {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
   const { openModal } = useZustandPopup();
   const { openAlert } = useZustandAlertModal();
   const [globalFilter, setGlobalFilter] = useState("");
@@ -43,75 +42,31 @@ const OrdersTable = () => {
     pageSize: 10,
   });
 
-  const { data: userData, isLoading: Loading } = useCustomerOrderData({
-    search: globalFilter,
-    from: selectedDate ? selectedDate.toISOString() : undefined,
-    to: toDate ? toDate.toISOString() : undefined,
-    page: pagination.pageIndex + 1,
-    limit: pagination.pageSize,
-  });
+  const params = useParams();
+  const customerId = params?.id;
 
-  const handleExport = async () => {
-    try {
-      if (!selectedDate && !toDate && !globalFilter) {
-        toastError("Please provide at least one filter to export");
-        return;
-      }
+  const { data: userData, isLoading: Loading } = useCustomerListData(
+    {
+      search: globalFilter,
+      date: selectedDate ? selectedDate.toISOString() : undefined,
+      page: pagination.pageIndex + 1,
+      limit: pagination.pageSize,
+    },
+    customerId
+  );
 
-      const params = new URLSearchParams();
-      if (globalFilter) params.append("name", globalFilter);
-      if (selectedDate)
-        params.append("from", selectedDate.toISOString().split("T")[0]);
-      if (toDate) params.append("to", toDate.toISOString().split("T")[0]);
+  const { data: customerInfo, isFetching: dataFetching } =
+    useCustomerInfo(customerId);
+  const customerInfoData = useMemo(() => customerInfo?.data, [customerInfo]);
 
-      const response = await axios.get(
-        `${API_URL}/export/excel?${params.toString()}`,
-        { responseType: "blob" }
-      );
+  const customerListData = useMemo(() => userData?.data, [userData]);
 
-      // Create download link
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-
-      const filenameParts = [
-        "orders",
-        globalFilter || "all",
-        selectedDate ? selectedDate.toISOString().split("T")[0] : "start",
-        toDate ? toDate.toISOString().split("T")[0] : "end",
-      ];
-
-      link.setAttribute("download", `${filenameParts.join("_")}.xlsx`);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (error) {
-      toastError(error?.response?.data?.message || error.message);
-    }
-  };
-
-  const customerOrderData = useMemo(() => userData?.data, [userData]);
-
-  const { data } = useCustomerName("username");
-
-  const mergedData = useMemo(() => {
-    if (!data?.data) return customerOrderData;
-
-    return customerOrderData?.map((order) => {
-      const match = data.data.find((c) => c._id === order.customerId);
-      return { ...order, username: match ? match.username : "-" };
-    });
-  }, [customerOrderData, data]);
   const columns = [
     {
       id: "serial",
       header: "Sl. No",
       cell: (info) => info.row.index + 1,
     },
-    columnHelper.accessor("username", {
-      header: "Customer Name",
-      cell: (info) => info.getValue() || "-",
-    }),
     columnHelper.accessor("unit", {
       header: "Kg",
       cell: (info) => info.getValue() || "-",
@@ -179,16 +134,13 @@ const OrdersTable = () => {
       header: "Actions",
       cell: (info) => (
         <div className="flex flex-row gap-2">
-          <Link to={`/list/${info.row.original.customerId}`}>
-            <Eye className="text-color w-5 h-5 cursor-pointer" />
-          </Link>
           <SquarePen
             onClick={() => openModal(info.row.original._id)}
             className="text-color w-4 h-4 cursor-pointer"
           />
           <Trash
             className="text-red-400 w-4 h-4 cursor-pointer"
-            onClick={() => openAlert(info.row.original._id, "order")}
+            onClick={() => openAlert(info.row.original._id, "list")}
           />
         </div>
       ),
@@ -196,7 +148,7 @@ const OrdersTable = () => {
   ];
 
   const table = useReactTable({
-    data: mergedData || [],
+    data: customerListData || [],
     columns,
     manualPagination: true,
     pageCount: userData?.totalPages ?? -1,
@@ -211,10 +163,64 @@ const OrdersTable = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  if (dataFetching) {
+    return <TableSkeleton />;
+  }
+
   return (
     <div className="w-full">
-      <div className="text-emerald-600 text-xl font-semibold">Orders</div>
-      <div className="flex flex-col-reverse xl:flex-row justify-between items-stretch md:items-center py-4 mt-5 md:mt-10 gap-3">
+      <div className="bg-white mb-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4">
+          <div className="flex items-start gap-4">
+            {/* Avatar */}
+            <Avatar className="h-16 w-16 border-2 border-[#037F69]">
+              <AvatarImage src="/placeholder-user.png" alt="User Avatar" />
+              <AvatarFallback className="bg-emerald-600 text-white text-[20px] font-semibold">
+                {customerInfoData?.username?.charAt(0).toUpperCase() || "-"}
+              </AvatarFallback>
+            </Avatar>
+
+            {/* User Info */}
+            <div className="flex flex-col gap-2">
+              {/* Username */}
+              <h2 className="text-xl font-semibold text-gray-900">
+                {customerInfoData?.username || "-"}
+              </h2>
+
+              {/* Address */}
+              <div className="flex items-center gap-2 text-gray-600">
+                <MapPin className="h-4 w-4 text-[#037F69]" />
+                <span className="text-sm">
+                  {customerInfoData?.address || "-"}
+                </span>
+              </div>
+
+              {/* Phone */}
+              <div className="flex items-center gap-2 text-gray-600">
+                <Phone className="h-4 w-4 text-[#037F69]" />
+                <a
+                  href={
+                    customerInfoData?.phone
+                      ? `tel:${customerInfoData.phone}`
+                      : "#"
+                  }
+                  className="text-sm hover:text-[#037F69] transition-colors"
+                >
+                  {customerInfoData?.phone || "-"}
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center sm:items-start">
+            <Badge className="bg-emerald-600 text-white px-3 py-1 rounded-lg shadow-sm">
+              Active Customer
+            </Badge>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col-reverse md:flex-row justify-between items-stretch md:items-center py-4 mt-10 gap-3">
         <div className="flex flex-col sm:flex-row gap-3 w-full">
           <Input
             placeholder="Search..."
@@ -223,27 +229,20 @@ const OrdersTable = () => {
             className="h-10 bg-white w-full sm:w-64"
           />
           <TableDatePicker
-            placeholder="From Date"
+            placeholder="Select Date"
             value={selectedDate}
             onChange={(date) => setSelectedDate(date)}
             className="h-10 bg-white w-full sm:w-64"
           />
-          <TableDatePicker
-            placeholder="To Date"
-            value={toDate}
-            onChange={(date) => setToDate(date)}
-            className="h-10 bg-white w-full sm:w-64"
-          />
         </div>
         <div className="flex gap-2 justify-center items-center">
-          <Button
+          {/* <Button
             className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600"
-            onClick={handleExport}
+            // onClick={openModal}
           >
             <Download className="cursor-pointer text-white" />
             Export
-          </Button>
-
+          </Button> */}
           <Button
             className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600 gap-1"
             onClick={openModal}
@@ -337,4 +336,4 @@ const OrdersTable = () => {
   );
 };
 
-export default OrdersTable;
+export default DataTable;
