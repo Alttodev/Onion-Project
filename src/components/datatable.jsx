@@ -23,7 +23,7 @@ import { Badge } from "./ui/badge";
 import { SquarePen, Trash, MapPin, Phone, Plus, Download } from "lucide-react";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
-import LoadingSpinner from "./spinnerloading";
+import LoadingSpinner from "./SpinnerLoading";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useParams } from "react-router-dom";
 import { TableSkeleton } from "./skeleton/TableSkeleton";

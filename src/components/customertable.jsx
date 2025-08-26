@@ -22,7 +22,7 @@ import { useMemo, useState } from "react";
 import { Eye, Plus, SquarePen, Trash } from "lucide-react";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
-import LoadingSpinner from "./spinnerloading";
+import LoadingSpinner from "./SpinnerLoading";
 import { Link } from "react-router-dom";
 import { useZustandAlertModal, useZustandPopup } from "../hooks/zustand";
 import { useCustomerList } from "../hooks/customerhook";

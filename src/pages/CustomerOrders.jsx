@@ -1,6 +1,6 @@
 import { AlertDialogModal } from "@/components/alertmodal/AlertModal";
 import { CustomerOrderDialog } from "@/components/modal/CustomerOrderModal";
-import OrdersTableComponent from "@/components/orderstable";
+import OrdersTableComponent from "@/components/OrdersTable";
 import React from "react";
 
 
