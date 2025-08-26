@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomerDialog } from "../components/modal/ListCreateModal";
 import { AlertDialogModal } from "../components/alertmodal/AlertModal";
-import CustomerDataTable from "../components/DataTable";
+import { CustomerDataTable } from "../components/DataTable";
 
 function CustomerList() {
   return (
