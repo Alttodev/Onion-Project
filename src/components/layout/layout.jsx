@@ -1,6 +1,7 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { User, LogOut, List, Home, ShoppingCart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import logo from '../../assets/logo.png'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -56,7 +57,7 @@ export function CustomerLayout() {
               <div className="w-22 md:w-30 h-22  md:h-30 ">
                 <Link to="/home">
                   <img
-                    src="/src/assets/logo.png"
+                    src={logo}
                     className="w-full h-full object-contain"
                   />
                 </Link>
