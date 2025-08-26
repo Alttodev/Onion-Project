@@ -26,7 +26,7 @@ import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./SpinnerLoading";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useParams } from "react-router-dom";
-import { TableSkeleton } from "./skeleton/TableSkeleton";
+import { TableSkeleton } from "./skeleton/TableSkeletonb";
 import { useZustandAlertModal, useZustandPopup } from "../hooks/zustand";
 import { useCustomerInfo, useCustomerListData } from "../hooks/customerhook";
 
