@@ -32,7 +32,7 @@ import { useZustandAlertModal, useZustandPopup } from "../hooks/zustand";
 
 const columnHelper = createColumnHelper();
 
-const OrdersTableFunction = () => {
+const OrdersTable = () => {
   const API_URL = import.meta.env.VITE_APP_API_URL;
   const [selectedDate, setSelectedDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -338,4 +338,4 @@ const OrdersTableFunction = () => {
   );
 };
 
-export default OrdersTableFunction;
+export default OrdersTable;

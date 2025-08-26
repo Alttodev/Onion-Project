@@ -32,7 +32,7 @@ import { useCustomerInfo, useCustomerListData } from "../hooks/customerhook";
 
 const columnHelper = createColumnHelper();
 
-const DataTableFunction=()=> {
+const DataTable=()=> {
   const [selectedDate, setSelectedDate] = useState(null);
   const { openModal } = useZustandPopup();
   const { openAlert } = useZustandAlertModal();
@@ -336,4 +336,4 @@ const DataTableFunction=()=> {
   );
 }
 
-export default DataTableFunction
+export default DataTable
