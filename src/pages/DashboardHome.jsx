@@ -2,13 +2,14 @@
 import React from "react";
 import { CustomerCreateDialog } from "../components/modal/CutomerCreateModal";
 import { AlertDialogModal } from "../components/alertmodal/AlertModal";
-import CustomerTableFunction from "../components/CustomerTable";
+import CustomerTable from "../components/CustomerTable";
+
 
 
 function DashboardHome() {
   return (
     <>
-      <CustomerTableFunction />
+      <CustomerTable />
       <CustomerCreateDialog />
       <AlertDialogModal />
     </>
