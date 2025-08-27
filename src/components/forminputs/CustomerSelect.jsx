@@ -1,7 +1,12 @@
 import { useState, useMemo } from "react";
 import { Controller } from "react-hook-form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const CustomerSelect = ({
   name,
@@ -26,7 +31,6 @@ const CustomerSelect = ({
       control={control}
       render={({ field }) => (
         <Select
-          className="text-gray-700"
           onValueChange={field.onChange}
           value={field.value || defaultValue}
           defaultValue={field.value || defaultValue}
@@ -44,12 +48,13 @@ const CustomerSelect = ({
                 className="w-full p-1 border rounded"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
               />
             </div>
 
-            {/* Render filtered items */}
             {filteredOptions.map((c) => (
-              <SelectItem className="cursor-pointer" key={c._id} value={c._id}>
+              <SelectItem key={c._id} value={c._id}>
                 {c.username}
               </SelectItem>
             ))}
