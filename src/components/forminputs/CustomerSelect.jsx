@@ -48,6 +48,7 @@ const CustomerSelect = ({
                 className="w-full p-1 border rounded"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onFocus={(e) => e.target.select()}
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
               />
