@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { User, LogOut, List, Home, ShoppingCart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import logo from '../../assets/logo.png'
+import logo from "../../assets/logo.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -56,10 +56,7 @@ export function CustomerLayout() {
             <div className="flex h-16 lg:h-18 items-center justify-between">
               <div className="w-22 md:w-30 h-22  md:h-30 ">
                 <Link to="/home">
-                  <img
-                    src={logo}
-                    className="w-full h-full object-contain"
-                  />
+                  <img src={logo} className="w-full h-full object-contain" />
                 </Link>
               </div>
 
@@ -87,7 +84,7 @@ export function CustomerLayout() {
                     </SheetTrigger>
                     <SheetContent
                       side="right"
-                      className="h-screen w-[220px] p-6 flex flex-col justify-start"
+                      className="h-screen w-[250px] p-6 flex flex-col justify-start"
                     >
                       <SheetHeader>
                         <SheetTitle>Menu</SheetTitle>
