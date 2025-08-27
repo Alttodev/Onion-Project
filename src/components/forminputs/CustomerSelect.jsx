@@ -1,4 +1,3 @@
-import { useState, useMemo } from "react";
 import { Controller } from "react-hook-form";
 import {
   Select,
@@ -16,15 +15,6 @@ const CustomerSelect = ({
   defaultValue,
   options,
 }) => {
-  const [search, setSearch] = useState("");
-
-  const filteredOptions = useMemo(() => {
-    if (!search) return options?.data || [];
-    return options?.data?.filter((c) =>
-      c.username.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search, options]);
-
   return (
     <Controller
       name={name}
@@ -40,21 +30,9 @@ const CustomerSelect = ({
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
 
+          {/* Scrollable dropdown */}
           <SelectContent className="max-h-60 overflow-y-auto">
-            <div className="p-2">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full p-1 border rounded"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onFocus={(e) => e.target.select()}
-                onClick={(e) => e.stopPropagation()}
-                onKeyDown={(e) => e.stopPropagation()}
-              />
-            </div>
-
-            {filteredOptions.map((c) => (
+            {options?.data?.map((c) => (
               <SelectItem key={c._id} value={c._id}>
                 {c.username}
               </SelectItem>
