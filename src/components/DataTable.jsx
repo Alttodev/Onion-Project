@@ -206,7 +206,9 @@ const DataTable = () => {
                   }
                   className="text-sm hover:text-[#037F69] transition-colors"
                 >
-                  {customerInfoData?.phone || "-"}
+                  {customerInfoData?.phone
+                    ? customerInfoData.phone.replace(/^(\+\d{2})(\d+)/, "$1 $2")
+                    : "-"}
                 </a>
               </div>
             </div>
