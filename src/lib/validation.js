@@ -114,7 +114,7 @@ export const orderSchema = z
   });
 
 export const customerSchema = z.object({
-  username: z.string().min(1, { message: "UserName is required" }),
+  username: z.string().min(1, { message: "Customer Name is required" }),
   date: z.preprocess(
     (val) => (val === "" ? undefined : val),
     z.coerce.date({ message: "Date is required" })
