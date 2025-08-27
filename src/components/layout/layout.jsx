@@ -87,7 +87,7 @@ export function CustomerLayout() {
                     </SheetTrigger>
                     <SheetContent
                       side="right"
-                      className="h-screen p-6 flex flex-col justify-start"
+                      className="h-screen w-[220px] p-6 flex flex-col justify-start"
                     >
                       <SheetHeader>
                         <SheetTitle>Menu</SheetTitle>
