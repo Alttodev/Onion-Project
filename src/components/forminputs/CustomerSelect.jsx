@@ -29,11 +29,9 @@ const CustomerSelect = ({
           <SelectTrigger className="w-full text-gray-700">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
-
-          {/* Scrollable dropdown */}
-          <SelectContent className="max-h-60 overflow-y-auto">
+          <SelectContent className="max-h-60 overflow-y-auto ">
             {options?.data?.map((c) => (
-              <SelectItem key={c._id} value={c._id}>
+              <SelectItem key={c._id} value={c._id} className="cursor-pointer">
                 {c.username}
               </SelectItem>
             ))}
