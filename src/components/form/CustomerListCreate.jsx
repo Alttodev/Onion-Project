@@ -6,14 +6,18 @@ import { Button } from "../ui/button";
 import SelectInput from "../forminputs/SelectInput";
 import DatePicker from "../forminputs/DatePicker";
 
-
 import AmountInput from "../forminputs/AmountInput";
 import NumberInput from "../forminputs/NumberInput";
 import { useParams } from "react-router-dom";
 import FormSkeleton from "../skeleton/FormSkeleton";
 import { useZustandPopup } from "../../hooks/zustand";
 import { schema } from "../../lib/validation";
-import { useCustomerInfo, useCustomerListCreate, useCustomerListInfo, useCustomerListUpdate } from "../../hooks/customerhook";
+import {
+  useCustomerInfo,
+  useCustomerListCreate,
+  useCustomerListInfo,
+  useCustomerListUpdate,
+} from "../../hooks/customerhook";
 import { toastError, toastSuccess } from "../../lib/toast";
 
 const options = [
@@ -87,16 +91,10 @@ const CustomerListForm = () => {
   const received = watch("received");
 
   useEffect(() => {
-    if (received && received !== "0") {
-      const amt = parseFloat(amount) || 0;
-      const rec = parseFloat(received) || 0;
-      const bal = amt - rec;
-      setValue("balance", bal.toString());
-
-      if (bal === 0) {
-        setValue("balance", "0");
-      }
-    }
+    const amt = parseFloat(amount) || 0;
+    const rec = parseFloat(received) || 0;
+    const bal = amt - rec;
+    setValue("balance", bal === 0 ? "0" : bal.toString());
   }, [amount, received, setValue]);
 
   useEffect(() => {
@@ -157,7 +155,7 @@ const CustomerListForm = () => {
             disabled={isSubmitting}
           />
         </div>
-         <div className="flex flex-col gap-1 mt-2">
+        <div className="flex flex-col gap-1 mt-2">
           <label className="text-[15px]">Status</label>
           <SelectInput
             name="status"
@@ -203,7 +201,6 @@ const CustomerListForm = () => {
           </div>
         ) : null}
 
-       
         <div className="flex justify-end mt-2">
           <Button
             type="submit"

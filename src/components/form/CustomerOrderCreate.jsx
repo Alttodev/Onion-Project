@@ -10,7 +10,12 @@ import FormSkeleton from "../skeleton/FormSkeleton";
 import CustomerSelect from "../forminputs/CustomerSelect";
 import { useZustandPopup } from "../../hooks/zustand";
 import { orderSchema } from "../../lib/validation";
-import { useCustomerName, useCustomerOrderCreate, useCustomerOrderInfo, useCustomerOrderUpdate } from "../../hooks/customerhook";
+import {
+  useCustomerName,
+  useCustomerOrderCreate,
+  useCustomerOrderInfo,
+  useCustomerOrderUpdate,
+} from "../../hooks/customerhook";
 import { toastError, toastSuccess } from "../../lib/toast";
 
 const options = [
@@ -83,16 +88,10 @@ const CustomerOrderCreate = () => {
   const received = watch("received");
 
   useEffect(() => {
-    if (received && received !== "0") {
-      const amt = parseFloat(amount) || 0;
-      const rec = parseFloat(received) || 0;
-      const bal = amt - rec;
-      setValue("balance", bal.toString());
-
-      if (bal === 0) {
-        setValue("balance", "0");
-      }
-    }
+    const amt = parseFloat(amount) || 0;
+    const rec = parseFloat(received) || 0;
+    const bal = amt - rec;
+    setValue("balance", bal === 0 ? "0" : bal.toString());
   }, [amount, received, setValue]);
 
   useEffect(() => {

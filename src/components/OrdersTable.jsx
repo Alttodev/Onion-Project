@@ -19,7 +19,7 @@ import {
 } from "./ui/table";
 import { useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
-import { SquarePen, Trash, Plus, Download, Eye } from "lucide-react";
+import { SquarePen, Trash, Plus, Eye, Upload } from "lucide-react";
 import moment from "moment";
 import TableDatePicker from "./forminputs/TableDatePicker";
 import LoadingSpinner from "./SpinnerLoading";
@@ -240,7 +240,7 @@ const OrdersTable = () => {
             className="w-auto  cursor-pointer bg-emerald-600 hover:bg-emerald-600"
             onClick={handleExport}
           >
-            <Download className="cursor-pointer text-white" />
+            <Upload className="cursor-pointer text-white" />
             Export
           </Button>
 
