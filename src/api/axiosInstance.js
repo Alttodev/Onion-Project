@@ -8,7 +8,8 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("onion-storage");
+    const tokenData = localStorage.getItem("onion-storage");
+    const token = tokenData ? JSON.parse(tokenData).state?.token : null;
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
